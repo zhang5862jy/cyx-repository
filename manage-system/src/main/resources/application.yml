@@ -53,8 +53,7 @@ logging:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   file:
-    path: ./logs
-    name: devlog.log
+    name: logs/develop.log
 
 knife4j:
   production: false
