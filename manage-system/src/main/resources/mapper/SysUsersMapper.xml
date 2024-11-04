@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soft.base.mapper.SysUsersMapper">
+
+    <resultMap id="BaseResultMap" type="com.soft.base.entity.SysUser">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="enabled" column="enabled" jdbcType="TINYINT"/>
+        <result property="accountNonLocked" column="account_non_locked" jdbcType="TINYINT"/>
+        <result property="credentialsNonExpired" column="credentials_non_expired" jdbcType="TINYINT"/>
+        <result property="accountNonExpired" column="account_non_expired" jdbcType="TINYINT"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="delFlag" column="del_flag" jdbcType="CHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="deptId" column="dept_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,username,password,
+        enabled,account_non_locked,credentials_non_expired,
+        account_non_expired,email,phone,
+        create_time,update_time,del_flag,
+        update_by,create_by,dept_id
+    </sql>
+
+<!--    <select id="getByUserName" parameterType="java.lang.String" resultType="java.lang.String">-->
+<!--        SELECT-->
+<!--        u.`password`-->
+<!--        FROM-->
+<!--        sysUser u-->
+<!--        WHERE-->
+<!--        u.del_flag = '1'-->
+<!--        AND u.enabled = 1-->
+<!--        AND u.account_non_locked = 1-->
+<!--        AND u.credentials_non_expired = 1-->
+<!--        AND u.account_non_expired = 1-->
+<!--        AND u.username = #{username}-->
+<!--    </select>-->
+
+    <select id="getAllUsers" resultType="java.util.HashMap">
+        SELECT
+        u.id,
+        u.username,
+        u.create_time AS "createTime",
+        u.create_by AS "createBy",
+        u.phone,
+        u.email,
+        u.nickname,
+        u.account_non_expired AS "accountNonExpired",
+        u.account_non_locked AS "accountNonLocked",
+        u.credentials_non_expired AS "credentialsNonExpired",
+        u.enabled,
+        u.dept_id AS "deptId"
+        FROM
+        `sys_user` u
+        WHERE
+        u.del_flag = '1'
+    </select>
+    <update id="editPassword">
+        UPDATE sys_user
+        SET `password` = #{password}
+        WHERE
+        username = #{username}
+    </update>
+    <select id="getAllUser" resultType="DeptUserVo">
+        SELECT
+        su.id,
+        su.nickname,
+        su.dept_id AS "deptId"
+        FROM
+        sys_user su
+        WHERE
+        su.del_flag = '1'
+        AND su.enabled = 1
+        AND su.account_non_locked = 1
+    </select>
+</mapper>

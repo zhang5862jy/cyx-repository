@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soft.base.mapper.SysDeptMapper">
+
+    <resultMap id="BaseResultMap" type="com.soft.base.entity.SysDept">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="sortOrder" column="sort_order" jdbcType="INTEGER"/>
+            <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="delFlag" column="del_flag" jdbcType="CHAR"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
+            <result property="level" column="level" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,sort_order,create_by,
+        create_time,update_by,update_time,
+        del_flag,code,name,
+        parent_id,level
+    </sql>
+    <select id="getLevel" parameterType="java.lang.Long" resultType="java.lang.String">
+        SELECT
+        cast( sd.`level` AS SIGNED ) + 1 AS "level"
+        FROM
+        `sys_dept` sd
+        WHERE
+        sd.del_flag = '1'
+        AND sd.id = #{parentId}
+        ORDER BY sd.sort_order
+    </select>
+    <select id="getAllDept" resultType="DeptTreeVo">
+        SELECT
+        sd.id,
+        sd.`name`,
+        sd.`code`,
+        sd.parent_id AS "parentId"
+        FROM
+        sys_dept sd
+        WHERE
+        sd.del_flag = '1'
+    </select>
+    <update id="deleteDeptBatch" parameterType="DeleteRequest">
+        UPDATE sys_dept
+        SET del_flag = '0'
+        WHERE
+        id IN
+        <foreach collection="request.ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+</mapper>
