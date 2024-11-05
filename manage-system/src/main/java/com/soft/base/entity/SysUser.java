@@ -20,7 +20,7 @@ public class SysUser implements Serializable {
     /**
      * 主键
      */
-    @TableId(value = "id")
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
@@ -127,6 +127,5 @@ public class SysUser implements Serializable {
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.accountNonExpired = true;
-        this.delFlag = "1";
     }
 }

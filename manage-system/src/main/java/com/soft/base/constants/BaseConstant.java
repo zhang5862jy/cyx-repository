@@ -51,4 +51,6 @@ public class BaseConstant {
      * 默认存储位置；minio
      */
     public final static String DEFAULT_STORAGE_LOCATION = "1";
+
+    public final static String MANAGER_ROLE_CODE = "ROLE_ADMIN";
 }

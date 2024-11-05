@@ -10,15 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.soft.base.constants.BaseConstant.MANAGER_ROLE_CODE;
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private PasswordEncoder passwordEncoder;
-    private AESUtil aesUtil;
-    private SysUsersMapper sysUsersMapper;
+    private final PasswordEncoder passwordEncoder;
+    private final AESUtil aesUtil;
+    private final SysUsersMapper sysUsersMapper;
 
     @Autowired
-    AuthServiceImpl(PasswordEncoder passwordEncoder,
+    public AuthServiceImpl(PasswordEncoder passwordEncoder,
                     AESUtil aesUtil,
                     SysUsersMapper sysUsersMapper) {
         this.passwordEncoder = passwordEncoder;
@@ -29,10 +31,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void register(SysUser sysUser) {
         try {
-            if (sysUsersMapper.selectCount(Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getUsername, sysUser.getUsername())) > 0) {
+            if (sysUsersMapper.exists(Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getUsername, sysUser.getUsername()))) {
                 throw new GlobelException("用户已存在");
             }
 
+            String username = sysUsersMapper.getManager(MANAGER_ROLE_CODE);
+            sysUser.setCreateBy(username);
+            sysUser.setUpdateBy(username);
             // 解密密码
             String decrypt = aesUtil.decrypt(sysUser.getPassword());
             // 使用BCrypt 算法加密密码

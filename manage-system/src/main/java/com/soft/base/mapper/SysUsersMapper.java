@@ -22,6 +22,8 @@ public interface SysUsersMapper extends BaseMapper<SysUser> {
                       @Param("password") String password);
 
     List<DeptUserVo> getAllUser();
+
+    String getManager(@Param("roleCode") String managerRoleCode);
 }
 
 

@@ -92,7 +92,7 @@ public class AuthController {
             authService.register(sysUser);
             return R.ok("注册成功", null);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return R.fail();
         }
     }
