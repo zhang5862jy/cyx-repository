@@ -2,14 +2,18 @@ package com.soft.base.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.soft.base.entity.SysDictType;
-import com.soft.base.request.SaveDictRequest;
+import com.soft.base.request.EditDictTypeRequest;
+import com.soft.base.request.SaveDictTypeRequest;
 import com.soft.base.service.SysDictTypeService;
 import com.soft.base.mapper.SysDictTypeMapper;
-import com.soft.base.vo.DictsVo;
+import com.soft.base.vo.DictTypeVo;
+import com.soft.base.vo.DictTypesVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.soft.base.constants.BaseConstant.DICT_TYPE_STATUS_ENABLE;
 
 /**
 * @author cyq
@@ -27,15 +31,38 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
     }
 
     @Override
-    public List<DictsVo> getdicts() {
-        return sysDictTypeMapper.getdicts();
+    public List<DictTypesVo> getdictTypes() {
+        return sysDictTypeMapper.getdictTypes();
     }
 
     @Override
-    public void saveDict(SaveDictRequest request) {
+    public void saveDictType(SaveDictTypeRequest request) {
+        request.setStatus(DICT_TYPE_STATUS_ENABLE);
         SysDictType sysDictType = new SysDictType();
         BeanUtils.copyProperties(request, sysDictType);
         sysDictTypeMapper.insert(sysDictType);
+    }
+
+    @Override
+    public void editDictType(EditDictTypeRequest request) {
+        SysDictType sysDictType = new SysDictType();
+        BeanUtils.copyProperties(request, sysDictType);
+        sysDictTypeMapper.updateById(sysDictType);
+    }
+
+    @Override
+    public DictTypeVo getDictType(Long id) {
+        return sysDictTypeMapper.getDictType(id);
+    }
+
+    @Override
+    public void deleteDictType(Long id) {
+        sysDictTypeMapper.deleteById(id);
+    }
+
+    @Override
+    public void deleteDictTypeBatch(List<Long> ids) {
+        sysDictTypeMapper.deleteDictTypeBatch(ids);
     }
 }
 

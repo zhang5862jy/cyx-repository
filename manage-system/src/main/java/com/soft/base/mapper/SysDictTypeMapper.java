@@ -2,7 +2,9 @@ package com.soft.base.mapper;
 
 import com.soft.base.entity.SysDictType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.soft.base.vo.DictsVo;
+import com.soft.base.vo.DictTypeVo;
+import com.soft.base.vo.DictTypesVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,7 +16,11 @@ import java.util.List;
 */
 public interface SysDictTypeMapper extends BaseMapper<SysDictType> {
 
-    List<DictsVo> getdicts();
+    List<DictTypesVo> getdictTypes();
+
+    DictTypeVo getDictType(@Param("id") Long id);
+
+    void deleteDictTypeBatch(@Param("ids") List<Long> ids);
 }
 
 

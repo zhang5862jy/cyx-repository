@@ -12,6 +12,7 @@ import com.soft.base.service.SysDeptService;
 import com.soft.base.mapper.SysDeptMapper;
 import com.soft.base.vo.DeptTreeVo;
 import com.soft.base.vo.DeptUserVo;
+import com.soft.base.vo.DeptVo;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,11 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept>
     @Override
     public void deleteDeptBatch(DeleteRequest request) {
         sysDeptMapper.deleteDeptBatch(request);
+    }
+
+    @Override
+    public DeptVo getDept(Long id) {
+        return sysDeptMapper.getDept(id);
     }
 
     /**

@@ -6,6 +6,7 @@ import com.soft.base.request.DeleteRequest;
 import com.soft.base.request.EditDeptRequest;
 import com.soft.base.request.SaveDeptRequest;
 import com.soft.base.vo.DeptTreeVo;
+import com.soft.base.vo.DeptVo;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface SysDeptService extends IService<SysDept> {
     void editDept(EditDeptRequest request);
 
     void deleteDeptBatch(DeleteRequest request);
+
+    DeptVo getDept(Long id);
 }

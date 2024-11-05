@@ -8,9 +8,9 @@ import lombok.Data;
  * @Description: TODO
  * @DateTime: 2024/11/4 16:01
  **/
-@Schema(description = "字典")
+@Schema(description = "字典类型")
 @Data
-public class DictsVo {
+public class DictTypesVo {
 
     @Schema(description = "主键")
     private Long id;

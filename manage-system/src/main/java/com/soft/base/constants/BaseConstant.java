@@ -52,5 +52,18 @@ public class BaseConstant {
      */
     public final static String DEFAULT_STORAGE_LOCATION = "1";
 
+    /**
+     * 默认管理员角色
+     */
     public final static String MANAGER_ROLE_CODE = "ROLE_ADMIN";
+
+    /**
+     * 字典类型；启用
+     */
+    public final static String DICT_TYPE_STATUS_ENABLE = "1";
+
+    /**
+     * 字典类型；禁用
+     */
+    public final static String DICT_TYPE_STATUS_FORBIDDEN = "0";
 }

@@ -9,18 +9,21 @@ import lombok.Data;
  * @DateTime: 2024/11/4 21:57
  **/
 
-@Schema(description = "添加字典")
+@Schema(description = "添加字典类型")
 @Data
-public class SaveDictRequest {
+public class SaveDictTypeRequest {
 
-    @Schema(description = "字典名称")
+    @Schema(description = "排序")
+    private Integer sortOrder;
+
+    @Schema(description = "字典类型名称")
     private String dictName;
 
     @Schema(description = "字典类型")
     private String dictType;
 
     @Schema(description = "状态", hidden = true)
-    private String status = "1";
+    private String status;
 
     @Schema(description = "备注")
     private String remark;

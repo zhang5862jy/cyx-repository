@@ -2,8 +2,10 @@ package com.soft.base.service;
 
 import com.soft.base.entity.SysDictType;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.soft.base.request.SaveDictRequest;
-import com.soft.base.vo.DictsVo;
+import com.soft.base.request.EditDictTypeRequest;
+import com.soft.base.request.SaveDictTypeRequest;
+import com.soft.base.vo.DictTypeVo;
+import com.soft.base.vo.DictTypesVo;
 
 import java.util.List;
 
@@ -14,7 +16,15 @@ import java.util.List;
 */
 public interface SysDictTypeService extends IService<SysDictType> {
 
-    List<DictsVo> getdicts();
+    List<DictTypesVo> getdictTypes();
 
-    void saveDict(SaveDictRequest request);
+    void saveDictType(SaveDictTypeRequest request);
+
+    void editDictType(EditDictTypeRequest request);
+
+    DictTypeVo getDictType(Long id);
+
+    void deleteDictType(Long id);
+
+    void deleteDictTypeBatch(List<Long> ids);
 }

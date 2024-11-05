@@ -25,15 +25,38 @@
         status,remark
     </sql>
 
-    <select id="getdicts" resultType="DictsVo">
+    <select id="getdictTypes" resultType="DictTypesVo">
         SELECT
         sdt.id,
         sdt.dict_name AS "dictName",
-        sdt.dict_type AS "dictType"
+        sdt.dict_type AS "dictType",
+        sdt.`status`
         FROM
         sys_dict_type sdt
         WHERE
         sdt.del_flag = '1'
-        AND sdt.`status` = '1'
     </select>
+    <select id="getDictType" parameterType="java.lang.Long" resultType="DictTypeVo">
+        SELECT
+        sdt.id,
+        sdt.dict_name AS "dict_name",
+        sdt.dict_type AS "dict_type",
+        sdt.sort_order AS "sort_order",
+        sdt.remark
+        FROM
+        sys_dict_type sdt
+        WHERE
+        sdt.del_flag = '1'
+        AND sdt.id = #{id}
+    </select>
+    <update id="deleteDictTypeBatch" parameterType="java.util.List">
+        UPDATE sys_dict_type
+        SET del_flag = '0'
+        WHERE
+        del_flag = '1'
+        AND id IN
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 </mapper>

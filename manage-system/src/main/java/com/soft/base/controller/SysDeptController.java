@@ -1,18 +1,17 @@
 package com.soft.base.controller;
 
-import com.soft.base.entity.SysDept;
 import com.soft.base.request.DeleteRequest;
 import com.soft.base.request.EditDeptRequest;
 import com.soft.base.request.SaveDeptRequest;
 import com.soft.base.resultapi.R;
 import com.soft.base.service.SysDeptService;
 import com.soft.base.vo.DeptTreeVo;
+import com.soft.base.vo.DeptVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -115,6 +114,21 @@ public class SysDeptController {
         try {
             sysDeptService.deleteDeptBatch(request);
             return R.ok();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return R.fail();
+        }
+    }
+
+    @GetMapping(value = "/{id}")
+    @Operation(summary = "获取部门（单）")
+    public R<DeptVo> getDept(@Schema(description = "主键") @PathVariable(value = "id") Long id) {
+        if (id == null) {
+            return R.fail("id不能为空");
+        }
+        try {
+            DeptVo deptVo = sysDeptService.getDept(id);
+            return R.ok(deptVo);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return R.fail();

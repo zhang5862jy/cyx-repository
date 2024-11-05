@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
@@ -57,24 +58,25 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         try {
             // 检查 Token
-            if (token != null && token.startsWith(TOKEN_PREFIX)) {
+            if (StringUtils.isNotBlank(token) && token.startsWith(TOKEN_PREFIX)) {
                 // 去除token前缀
                 jwt = token.substring(TOKEN_PREFIX_LENGTH);
-
-                // 验证token是否过期
-                if (jwtUtil.validateToken(jwt)) {
-                    ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, "token过期");
-                    return;
-                }
-                username = jwtUtil.extractUsername(jwt);
             }
 
             // 验证当前token是否存在于黑名单中
             Set<String> members = redisTemplate.opsForSet().members(TOKEN_BLACKLIST);
-            if (members != null && members.isEmpty() && members.contains(token)) {
-                ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, "token已进入黑名单");
+            if (members != null && !members.isEmpty() && members.contains(token)) {
+                ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, "token已加入黑名单");
                 return;
             }
+
+            // 验证token是否过期
+            if (jwtUtil.validateToken(jwt)) {
+                ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, "token过期");
+                return;
+            }
+
+            username = jwtUtil.extractUsername(jwt);
 
             // 如果用户名未被设置且 Spring Security 的上下文中没有认证信息
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
