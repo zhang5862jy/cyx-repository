@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soft.base.mapper.SysDictDataMapper">
+
+    <resultMap id="BaseResultMap" type="com.soft.base.entity.SysDictData">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="sortOrder" column="sort_order" jdbcType="INTEGER"/>
+            <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="delFlag" column="del_flag" jdbcType="CHAR"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="label" column="label" jdbcType="VARCHAR"/>
+            <result property="value" column="value" jdbcType="VARCHAR"/>
+            <result property="dictType" column="dict_type" jdbcType="VARCHAR"/>
+            <result property="cssClass" column="css_class" jdbcType="VARCHAR"/>
+            <result property="listClass" column="list_class" jdbcType="VARCHAR"/>
+            <result property="isDefault" column="is_default" jdbcType="CHAR"/>
+            <result property="status" column="status" jdbcType="CHAR"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,sort_order,create_by,
+        create_time,update_by,update_time,
+        del_flag,code,label,
+        value,dict_type,css_class,
+        list_class,is_default,status,
+        remark
+    </sql>
+</mapper>

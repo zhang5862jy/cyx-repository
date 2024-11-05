@@ -10,11 +10,11 @@ import lombok.Data;
 
 /**
  * 
- * @TableName sys_dict_type
+ * @TableName sys_dict_data
  */
-@TableName(value ="sys_dict_type")
+@TableName(value ="sys_dict_data")
 @Data
-public class SysDictType implements Serializable {
+public class SysDictData implements Serializable {
     /**
      * 主键
      */
@@ -60,16 +60,46 @@ public class SysDictType implements Serializable {
     private String delFlag;
 
     /**
-     * 字典名称
+     * 编码
      */
-    @TableField(value = "dict_name")
-    private String dictName;
+    @TableField(value = "code")
+    private String code;
+
+    /**
+     * 标签
+     */
+    @TableField(value = "label")
+    private String label;
+
+    /**
+     * 键值
+     */
+    @TableField(value = "value")
+    private String value;
 
     /**
      * 字典类型
      */
     @TableField(value = "dict_type")
     private String dictType;
+
+    /**
+     * 样式属性（其他样式扩展）
+     */
+    @TableField(value = "css_class")
+    private String cssClass;
+
+    /**
+     * 表格回显样式
+     */
+    @TableField(value = "list_class")
+    private String listClass;
+
+    /**
+     * 是否默认；1：是 0：否
+     */
+    @TableField(value = "is_default")
+    private String isDefault;
 
     /**
      * 状态；1：启用；0：停用

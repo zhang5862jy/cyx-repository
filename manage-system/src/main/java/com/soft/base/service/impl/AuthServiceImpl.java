@@ -29,7 +29,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void register(SysUser sysUser) {
+    public void register(SysUser sysUser) throws GlobelException {
         try {
             if (sysUsersMapper.exists(Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getUsername, sysUser.getUsername()))) {
                 throw new GlobelException("用户已存在");
