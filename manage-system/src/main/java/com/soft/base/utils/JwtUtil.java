@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtUtil {
@@ -28,15 +29,19 @@ public class JwtUtil {
     }
 
     // 生成 Token
-    public String generateToken(String username, User claims) {
+    public String generateToken(String username, Map<String,Object> claims) {
         return createToken(claims, username);
     }
 
+    public String generateToken(String username) {
+        return createToken(new HashMap<>(), username);
+    }
+
     // 创建 Token
-    private String createToken(User claims, String subject) {
+    private String createToken(Map<String,Object> map, String subject) {
         return Jwts.builder()
                 // 设置附加信息（用户信息）
-                .setClaims(claims == null ? new HashMap<>() : beanUtil.bean2map(claims))
+                .setClaims(map)
                 // 设置主题（用户名）
                 .setSubject(subject)
                 // 设置token生效时间

@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.client.WebClient.Builder;
 
 /**
  * @Author: 程益祥
- * @Description: TODO
+ * @Description: http请求配置
  * @DateTime: 2024/11/4 14:01
  **/
 

@@ -55,7 +55,7 @@ public class AuthController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername()
                     , aesUtil.decrypt(request.getPassword())));
             LoginVo loginVo = new LoginVo();
-            loginVo.setToken(TOKEN_PREFIX + jwtUtil.generateToken(request.getUsername(), null));
+            loginVo.setToken(TOKEN_PREFIX + jwtUtil.generateToken(request.getUsername()));
             loginVo.setUsername(request.getUsername());
             return R.ok(loginVo);
         } catch (BadCredentialsException
