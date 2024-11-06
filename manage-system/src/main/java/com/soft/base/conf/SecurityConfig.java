@@ -71,7 +71,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> {
                     auth
-                            .requestMatchers("/auth/**/ss").permitAll()
+                            .requestMatchers("/auth/**").permitAll()
                             // 接口都需要校验
                             .anyRequest().authenticated();
                 })
