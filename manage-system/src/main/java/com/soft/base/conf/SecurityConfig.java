@@ -20,6 +20,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,6 +29,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -69,16 +72,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // 禁用表单登录
+                .formLogin(AbstractHttpConfigurer::disable)
+                // 禁用csrf
+                .csrf(CsrfConfigurer::disable)
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authorizeHttpRequests(auth -> {
-                    auth
-                            .requestMatchers("/auth/**").permitAll()
-                            // 接口都需要校验
+                    auth.requestMatchers(jwtIgnoreProperty.toArray()).permitAll()
                             .anyRequest().authenticated();
                 })
-                //禁用HTTP响应标头
-                .headers((headersCustomizer) -> {
-                    headersCustomizer.cacheControl(cache -> cache.disable()).frameOptions(options -> options.sameOrigin());
-                })
+                .logout(item -> item.logoutUrl("/logout")
+                        .logoutSuccessHandler(logoutAfterSuccessHandler))
                 // 认证失败处理类
                 .exceptionHandling(exc ->
                                 exc
@@ -87,11 +91,6 @@ public class SecurityConfig {
                         // 用于处理已认证但没有权限访问资源的请求
                         //.accessDeniedHandler()
                 )
-                .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(csrf -> csrf.disable())
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .logout(item -> item.logoutUrl("/logout")
-                        .logoutSuccessHandler(logoutAfterSuccessHandler))
                 .addFilterBefore(getJwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -113,8 +112,8 @@ public class SecurityConfig {
         return new ProviderManager(daoAuthenticationProvider);
     }
 
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().requestMatchers(jwtIgnoreProperty.getUrls().toArray(new String[0]));
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/webjars/**", "/v3/**");
+    }
 }

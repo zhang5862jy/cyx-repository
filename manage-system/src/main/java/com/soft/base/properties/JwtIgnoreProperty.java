@@ -12,4 +12,12 @@ import java.util.List;
 public class JwtIgnoreProperty {
 
     List<String> urls;
+
+    public String[] toArray() {
+        String[] urls = new String[this.urls.size()];
+        for (int i = 0; i < this.urls.size(); i++) {
+            urls[i] = this.urls.get(i);
+        }
+        return urls;
+    }
 }

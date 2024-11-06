@@ -85,6 +85,4 @@ minio:
 permit:
   urls:
     - /auth/**
-    - /webjars/**
-    - /v3/**
     - /doc.html
