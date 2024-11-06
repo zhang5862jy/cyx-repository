@@ -11,5 +11,5 @@ import java.util.List;
 @ConfigurationProperties(prefix = "permit")
 public class JwtIgnoreProperty {
 
-    String[] urls;
+    List<String> urls;
 }
