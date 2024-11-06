@@ -4,15 +4,22 @@ import com.soft.base.filter.JwtRequestFilter;
 import com.soft.base.handle.AuthenticationHandler;
 import com.soft.base.handle.LogoutAfterSuccessHandler;
 import com.soft.base.properties.JwtIgnoreProperty;
+import com.soft.base.utils.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,25 +32,29 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtRequestFilter jwtRequestFilter;
-
     private final AuthenticationHandler authenticationHandler;
 
     private final LogoutAfterSuccessHandler logoutAfterSuccessHandler;
 
     private final UserDetailsService userDetailsService;
 
+    private final JwtUtil jwtUtil;
+
+    private final RedisTemplate<String,String> redisTemplate;
+
     private JwtIgnoreProperty jwtIgnoreProperty;
 
     @Autowired
-    public SecurityConfig(JwtRequestFilter jwtRequestFilter,
-                          AuthenticationHandler authenticationHandler,
+    public SecurityConfig(AuthenticationHandler authenticationHandler,
                           LogoutAfterSuccessHandler logoutAfterSuccessHandler,
-                          UserDetailsService userDetailsService) {
-        this.jwtRequestFilter = jwtRequestFilter;
+                          UserDetailsService userDetailsService,
+                          JwtUtil jwtUtil,
+                          RedisTemplate<String,String> redisTemplate) {
         this.authenticationHandler = authenticationHandler;
         this.logoutAfterSuccessHandler = logoutAfterSuccessHandler;
         this.userDetailsService = userDetailsService;
+        this.jwtUtil = jwtUtil;
+        this.redisTemplate = redisTemplate;
     }
 
     @Autowired
@@ -51,15 +62,17 @@ public class SecurityConfig {
         this.jwtIgnoreProperty = jwtIgnoreProperty;
     }
 
+    private JwtRequestFilter getJwtRequestFilter() {
+        return new JwtRequestFilter(jwtUtil,userDetailsService,redisTemplate);
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> {
                     auth
-                            // 需要放行的接口
-                            .requestMatchers(jwtIgnoreProperty.getUrls()).permitAll()
-                            .requestMatchers("/webjars/**", "/v3/**").permitAll()
-                            // 其它接口都需要校验
+                            .requestMatchers("/auth/**").permitAll()
+                            // 接口都需要校验
                             .anyRequest().authenticated();
                 })
                 //禁用HTTP响应标头
@@ -78,8 +91,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .logout(item -> item.logoutUrl("/logout")
-                        .logoutSuccessHandler(logoutAfterSuccessHandler));
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+                        .logoutSuccessHandler(logoutAfterSuccessHandler))
+                .addFilterBefore(getJwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -100,13 +113,8 @@ public class SecurityConfig {
         return new ProviderManager(daoAuthenticationProvider);
     }
 
-//    /**
-//     * AuthenticationManager 手动注入
-//     *
-//     * @param authenticationConfiguration 认证配置
-//     */
 //    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-//        return authenticationConfiguration.getAuthenticationManager();
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) -> web.ignoring().requestMatchers(jwtIgnoreProperty.getUrls().toArray(new String[0]));
 //    }
 }

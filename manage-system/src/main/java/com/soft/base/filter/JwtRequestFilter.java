@@ -31,7 +31,6 @@ import static com.soft.base.constants.TokenConstant.TOKEN_PREFIX_LENGTH;
 /**
  * JWT过滤器
  */
-@Component
 @Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
 
@@ -41,7 +40,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final RedisTemplate<String,String> redisTemplate;
 
-    @Autowired
     public JwtRequestFilter(JwtUtil jwtUtil,
                             UserDetailsService userDetailsService,
                             RedisTemplate<String,String> redisTemplate) {

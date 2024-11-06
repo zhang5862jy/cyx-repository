@@ -16,7 +16,7 @@ spring:
   datasource:
     username: root
     password: 123456
-    url: jdbc:mysql://192.168.1.111:3306/mysql_study?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.1.112:3306/mysql_study?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
@@ -26,7 +26,7 @@ spring:
       max-lifetime: 180000
   data:
     redis:
-      host: 192.168.1.111
+      host: 192.168.1.112
       port: 6379
       password: 123456
       database: 0
@@ -76,7 +76,7 @@ aes:
 
 #minio云存储
 minio:
-  url: http://192.168.1.111:9002
+  url: http://192.168.1.112:9002
   accessKey: admin
   secretKey: 123456789
   bucket: cyx
@@ -84,5 +84,7 @@ minio:
 #不鉴权url
 permit:
   urls:
-    - /doc.html
     - /auth/**
+    - /webjars/**
+    - /v3/**
+    - /doc.html
