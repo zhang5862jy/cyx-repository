@@ -7,5 +7,13 @@ package com.soft.base.constants;
  **/
 public class RedisConstant {
 
-    public final static String TOKEN_BLACKLIST = "cyx:token:blacklist";
+    /**
+     * 黑名单
+     */
+    public final static String TOKEN_BLACKLIST_KEY = "cyx:token:blacklist";
+
+    /**
+     * 邮箱验证码
+     */
+    public final static String EMAIL_CAPTCHA_KEY = "cyx:email:captcha:";
 }

@@ -2,8 +2,13 @@ server:
   port: 8080
   servlet:
     context-path: /cyx
+  tomcat:
+    connection-timeout: 10000ms
 
 spring:
+  mvc:
+    async:
+      request-timeout: 15000
   application:
     name: cyx
   servlet:
@@ -31,6 +36,20 @@ spring:
       password: 123456
       database: 0
       connect-timeout: 2000
+  mail:
+    host: smtp.qq.com
+    port: 587
+    #发送方邮箱
+    username: your-email.com
+    #授权码
+    password: auth-code
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    default-encoding: UTF-8
 
 #mybatis配置
 mybatis-plus:
@@ -86,3 +105,11 @@ permit:
   urls:
     - /auth/**
     - /doc.html
+
+#登录验证码
+manage-system:
+  captcha:
+    #主题
+    topic: 管理系统登录验证码
+    #验证码过期时间（秒）
+    expire-time: 60

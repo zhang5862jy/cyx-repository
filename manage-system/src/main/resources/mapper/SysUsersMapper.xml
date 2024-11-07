@@ -94,4 +94,17 @@
         su.create_by
         LIMIT 1
     </select>
+    <select id="getEmailByUsername" parameterType="java.lang.String" resultType="UserEmailDto">
+        SELECT
+        su.email,
+        su.account_non_expired AS "accountNonExpired",
+        su.account_non_locked AS "accountNonLocked",
+        su.credentials_non_expired AS "credentialsNonExpired",
+        su.enabled
+        FROM
+        sys_user su
+        WHERE
+        su.del_flag = '1'
+        AND su.username = #{username}
+    </select>
 </mapper>

@@ -66,4 +66,19 @@ public class BaseConstant {
      * 字典类型；禁用
      */
     public final static String DICT_TYPE_STATUS_FORBIDDEN = "0";
+
+    /**
+     * 登录方式：密码
+     */
+    public final static String LOGIN_METHOD_PASSWORD = "password";
+
+    /**
+     * 登录方式：邮箱
+     */
+    public final static String LOGIN_METHOD_EMAIL = "email";
+
+    /**
+     * 登录方式：邮箱验证码长度
+     */
+    public final static Integer LOGIN_CAPTCHAT_LENGTH = 6;
 }

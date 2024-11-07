@@ -2,9 +2,9 @@ package com.soft.base.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.soft.base.request.EditPasswordRequest;
+import com.soft.base.request.PageRequest;
 import com.soft.base.request.ResetPasswordRequest;
 import com.soft.base.resultapi.R;
-import com.soft.base.request.PageRequest;
 import com.soft.base.service.SysUsersService;
 import com.soft.base.utils.AESUtil;
 import com.soft.base.utils.SecurityUtil;
@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.soft.base.constants.RedisConstant.TOKEN_BLACKLIST;
 
 @RestController
 @RequestMapping(value = "/user")

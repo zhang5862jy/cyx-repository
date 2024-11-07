@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static com.soft.base.constants.RedisConstant.TOKEN_BLACKLIST;
+import static com.soft.base.constants.RedisConstant.TOKEN_BLACKLIST_KEY;
 
 /**
  * @Author: 程益祥
@@ -34,7 +34,7 @@ public class LogoutAfterSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String authorization = request.getHeader("Authorization");
-        redisTemplate.opsForSet().add(TOKEN_BLACKLIST,authorization);
+        redisTemplate.opsForSet().add(TOKEN_BLACKLIST_KEY,authorization);
         log.info("token already join blacklist...");
         ResponseUtil.writeErrMsg(response, HttpConstant.SUCCESS, "注销成功");
     }

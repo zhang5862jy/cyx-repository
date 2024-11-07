@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,13 +18,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Set;
 
-import static com.soft.base.constants.RedisConstant.TOKEN_BLACKLIST;
+import static com.soft.base.constants.RedisConstant.TOKEN_BLACKLIST_KEY;
 import static com.soft.base.constants.TokenConstant.TOKEN_PREFIX;
 import static com.soft.base.constants.TokenConstant.TOKEN_PREFIX_LENGTH;
 
@@ -67,7 +65,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 // 验证当前token是否存在于黑名单中
-                Set<String> members = redisTemplate.opsForSet().members(TOKEN_BLACKLIST);
+                Set<String> members = redisTemplate.opsForSet().members(TOKEN_BLACKLIST_KEY);
                 if (members != null && !members.isEmpty() && members.contains(token)) {
                     ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, "token已加入黑名单");
                     return;

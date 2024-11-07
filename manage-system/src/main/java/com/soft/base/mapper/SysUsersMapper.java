@@ -2,6 +2,7 @@ package com.soft.base.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.soft.base.dto.UserEmailDto;
 import com.soft.base.entity.SysUser;
 import com.soft.base.vo.DeptUserVo;
 import org.apache.ibatis.annotations.Param;
@@ -24,6 +25,8 @@ public interface SysUsersMapper extends BaseMapper<SysUser> {
     List<DeptUserVo> getAllUser();
 
     String getManager(@Param("roleCode") String managerRoleCode);
+
+    UserEmailDto getEmailByUsername(@Param("username") String username);
 }
 
 
