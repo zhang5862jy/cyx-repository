@@ -101,16 +101,4 @@ public class SysUserController {
             return R.fail();
         }
     }
-
-    @GetMapping(value = "/getCurUserInfo")
-    @Operation(summary = "获取当前登录用户信息")
-    public R<User> getCurUserInfo() {
-        try {
-            return R.ok(securityUtil.getUserInfo());
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return R.fail();
-        }
-    }
-
 }

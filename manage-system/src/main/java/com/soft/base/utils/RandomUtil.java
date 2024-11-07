@@ -11,12 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class RandomUtil {
 
-    private static final Integer[] NATURE_NUM = {1,2,3,4,5,6,7,8,9,0};
-
     public String generate(Integer length) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            sb.append(NATURE_NUM[(int)(Math.random() * 10)]);
+            double random = Math.random() * 10;
+            sb.append((int) random);
         }
         return sb.toString();
     }
