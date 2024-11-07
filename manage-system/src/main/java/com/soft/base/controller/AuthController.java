@@ -101,7 +101,7 @@ public class AuthController {
         }
         try {
             authService.sendCaptCha(username);
-            return R.ok("验证码获取成功，请等待...");
+            return R.ok("验证码获取成功，请留意您的邮箱");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return R.fail();

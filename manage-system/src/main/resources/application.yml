@@ -3,7 +3,7 @@ server:
   servlet:
     context-path: /cyx
   tomcat:
-    connection-timeout: 10000ms
+    connection-timeout: 10000
 
 spring:
   mvc:
