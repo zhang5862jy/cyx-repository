@@ -18,4 +18,10 @@ public class RegisterRequest {
     @Schema(description = "昵称")
     private String nickname;
 
+    @Schema(description = "邮箱")
+    private String email;
+
+    @Schema(description = "验证码")
+    private String captcha;
+
 }

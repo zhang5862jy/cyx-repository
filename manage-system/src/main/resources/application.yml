@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
   servlet:
     context-path: /cyx
   tomcat:
@@ -21,7 +21,7 @@ spring:
   datasource:
     username: root
     password: 123456
-    url: jdbc:mysql://192.168.1.112:3306/mysql_study?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.1.107:3306/mysql_study?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
@@ -31,7 +31,7 @@ spring:
       max-lifetime: 180000
   data:
     redis:
-      host: 192.168.1.112
+      host: 192.168.1.107
       port: 6379
       password: 123456
       database: 0
@@ -40,9 +40,9 @@ spring:
     host: smtp.qq.com
     port: 587
     #发送方邮箱
-    username: your-email.com
+    username: 1574641450@qq.com
     #授权码
-    password: auth-code
+    password: mhijyejtrxfaficj
     properties:
       mail:
         smtp:
@@ -50,6 +50,12 @@ spring:
           starttls:
             enable: true
     default-encoding: UTF-8
+  rabbitmq:
+    host: 192.168.1.107
+    port: 5672
+    username: root
+    password: 123456
+    virtual-host: /
 
 #mybatis配置
 mybatis-plus:
@@ -93,9 +99,9 @@ jwt:
 aes:
   secret-factor: T8MjuJQtXJ0rT8KLZQRnUw==
 
-#minio云存储
+#minio对象存储
 minio:
-  url: http://192.168.1.112:9002
+  url: http://192.168.1.107:9002
   accessKey: admin
   secretKey: 123456789
   bucket: cyx
@@ -105,6 +111,7 @@ permit:
   urls:
     - /auth/**
     - /doc.html
+    - /message/sendRegistCaptCha
 
 #登录验证码
 manage-system:
@@ -112,4 +119,9 @@ manage-system:
     #主题
     topic: 管理系统登录验证码
     #验证码过期时间（秒）
-    expire-time: 60
+    expire-time: 300
+
+
+#临时文件存储路径
+tmp:
+  path: E:/tmp

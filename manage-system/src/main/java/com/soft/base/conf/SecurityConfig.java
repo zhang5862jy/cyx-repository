@@ -5,6 +5,7 @@ import com.soft.base.handle.AuthenticationHandler;
 import com.soft.base.handle.LogoutAfterSuccessHandler;
 import com.soft.base.properties.JwtIgnoreProperty;
 import com.soft.base.utils.JwtUtil;
+import com.soft.base.utils.UniversalUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -46,6 +47,8 @@ public class SecurityConfig {
 
     private final RedisTemplate<String,String> redisTemplate;
 
+    private final UniversalUtil universalUtil;
+
     private JwtIgnoreProperty jwtIgnoreProperty;
 
     @Autowired
@@ -53,12 +56,14 @@ public class SecurityConfig {
                           LogoutAfterSuccessHandler logoutAfterSuccessHandler,
                           UserDetailsService userDetailsService,
                           JwtUtil jwtUtil,
-                          RedisTemplate<String,String> redisTemplate) {
+                          RedisTemplate<String,String> redisTemplate,
+                          UniversalUtil universalUtil) {
         this.authenticationHandler = authenticationHandler;
         this.logoutAfterSuccessHandler = logoutAfterSuccessHandler;
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
         this.redisTemplate = redisTemplate;
+        this.universalUtil = universalUtil;
     }
 
     @Autowired
@@ -79,7 +84,7 @@ public class SecurityConfig {
                 .csrf(CsrfConfigurer::disable)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(jwtIgnoreProperty.toArray()).permitAll()
+                    auth.requestMatchers(universalUtil.toArray(jwtIgnoreProperty.getUrls(), String[].class)).permitAll()
                             .anyRequest().authenticated();
                 })
                 .logout(item -> item.logoutUrl("/logout")

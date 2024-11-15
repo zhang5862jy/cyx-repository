@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
+import static com.soft.base.enums.ResultEnum.AUTHLICATION_FAIL;
+
 @Slf4j
 public class ResponseUtil {
 
@@ -28,7 +30,7 @@ public class ResponseUtil {
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
         try (PrintWriter writer = response.getWriter()) {
-            String jsonResponse = JSONUtil.toJsonStr(R.fail(resultCode, msg));
+            String jsonResponse = JSONUtil.toJsonStr(R.fail(AUTHLICATION_FAIL.getCode(), AUTHLICATION_FAIL.getMessage()));
             writer.print(jsonResponse);
             writer.flush(); // 确保将响应内容写入到输出流
         } catch (IOException e) {

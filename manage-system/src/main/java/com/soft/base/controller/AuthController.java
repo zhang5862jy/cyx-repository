@@ -16,12 +16,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.regex.Pattern;
 
+import static com.soft.base.constants.RedisConstant.EMAIL_CAPTCHA_KEY;
+import static com.soft.base.constants.RegexConstant.EMAIL;
 import static com.soft.base.constants.RegexConstant.USERNAME_PATTERN;
 import static com.soft.base.constants.TokenConstant.TOKEN_PREFIX;
 
@@ -33,9 +36,13 @@ public class AuthController {
 
     private final AuthService authService;
 
+    private final RedisTemplate<String,String> redisTemplate;
+
     @Autowired
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService,
+                          RedisTemplate<String,String> redisTemplate) {
         this.authService = authService;
+        this.redisTemplate = redisTemplate;
     }
 
     @PostMapping("/login")
@@ -79,12 +86,26 @@ public class AuthController {
         if (StringUtils.isBlank(request.getPassword())) {
             return R.fail("密码不能为空");
         }
+        if (StringUtils.isBlank(request.getEmail())) {
+            return R.fail("邮箱不能为空");
+        }
+        if (!Pattern.matches(EMAIL, request.getEmail())) {
+            return R.fail("非法邮箱");
+        }
+        if (StringUtils.isBlank(request.getCaptcha())) {
+            return R.fail("验证码不能为空");
+        }
 
         try {
+            String captchaCache = redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + request.getEmail());
+            if (!request.getCaptcha().equals(captchaCache)) {
+                return R.fail("请不要随意更改您的邮箱");
+            }
             SysUser sysUser = new SysUser();
             sysUser.setUsername(request.getUsername());
             sysUser.setPassword(request.getPassword());
             sysUser.setNickname(request.getNickname());
+            sysUser.setEmail(request.getEmail());
             authService.register(sysUser);
             return R.ok("注册成功", null);
         } catch (Exception e) {
@@ -93,18 +114,18 @@ public class AuthController {
         }
     }
 
-    @GetMapping(value = "/sendCaptCha")
-    @Operation(summary = "获取验证码")
-    public R sendCaptCha(@Schema(description = "用户名") @RequestParam(value = "username", required = false) String username) {
-        if (StringUtils.isBlank(username)) {
-            return R.fail("用户名不能为空");
-        }
-        try {
-            authService.sendCaptCha(username);
-            return R.ok("验证码获取成功，请留意您的邮箱");
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return R.fail();
-        }
-    }
+//    @GetMapping(value = "/sendCaptCha")
+//    @Operation(summary = "获取验证码", hidden = true)
+//    public R sendCaptCha(@Schema(description = "用户名") @RequestParam(value = "username", required = false) String username) {
+//        if (StringUtils.isBlank(username)) {
+//            return R.fail("用户名不能为空");
+//        }
+//        try {
+//            authService.sendCaptCha(username);
+//            return R.ok("验证码获取成功，请留意您的邮箱");
+//        } catch (Exception e) {
+//            log.error(e.getMessage(), e);
+//            return R.fail();
+//        }
+//    }
 }
