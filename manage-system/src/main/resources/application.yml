@@ -112,6 +112,7 @@ permit:
     - /auth/**
     - /doc.html
     - /message/sendRegistCaptCha
+    - /message/sendLoginCaptcha
 
 #登录验证码
 manage-system:

@@ -2,6 +2,7 @@ package com.soft.base.controller;
 
 import com.soft.base.exception.RepeatSendCaptChaException;
 import com.soft.base.resultapi.R;
+import com.soft.base.service.SysUsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.regex.Pattern;
 
-import static com.soft.base.constants.RabbitmqConstant.DIRECT_EXCHANGE;
-import static com.soft.base.constants.RabbitmqConstant.DIRECT_ROUTEKEY_ONE;
+import static com.soft.base.constants.RabbitmqConstant.*;
 import static com.soft.base.constants.RedisConstant.EMAIL_CAPTCHA_KEY;
 import static com.soft.base.constants.RegexConstant.EMAIL;
 
@@ -37,16 +37,20 @@ public class MessageController {
 
     private final RedisTemplate<String,String> redisTemplate;
 
+    private final SysUsersService sysUsersService;
+
     @Autowired
     public MessageController(RabbitTemplate rabbitTemplate,
-                             RedisTemplate<String,String> redisTemplate) {
+                             RedisTemplate<String,String> redisTemplate,
+                             SysUsersService sysUsersService) {
         this.rabbitTemplate = rabbitTemplate;
         this.redisTemplate = redisTemplate;
+        this.sysUsersService = sysUsersService;
     }
 
-    @GetMapping(value = "/sendRegistCaptCha")
+    @GetMapping(value = "/sendRegistCaptcha")
     @Operation(summary = "发送注册验证码")
-    public R sendRegistCaptCha(@RequestParam(value = "email", required = false) String email) {
+    public R sendRegistCaptcha(@RequestParam(value = "email", required = false) String email) {
         if (StringUtils.isBlank(email)) {
             return R.fail("邮箱不能为空");
         }
@@ -57,7 +61,26 @@ public class MessageController {
             if (StringUtils.isNotBlank(redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + email))) {
                 throw new RepeatSendCaptChaException("请勿重复发送验证码");
             }
-            rabbitTemplate.convertAndSend(DIRECT_EXCHANGE, DIRECT_ROUTEKEY_ONE, email);
+            rabbitTemplate.convertAndSend(TOPIC_EXCHANGE, TOPIC_ROUTE_KEY_REGIST, email);
+            return R.ok("验证码已发送，请留意您的邮箱");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return R.fail();
+        }
+    }
+
+    @GetMapping(value = "/sendLoginCaptcha")
+    @Operation(summary = "发送登录验证码")
+    public R sendLoginCaptcha(@RequestParam(value = "username", required = false) String username) {
+        if (StringUtils.isBlank(username)) {
+            return R.fail("用户名不能为空");
+        }
+        try {
+            if (StringUtils.isNotBlank(redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + username))) {
+                throw new RepeatSendCaptChaException("请勿重复发送验证码");
+            }
+            String email = sysUsersService.getEmail(username);
+            rabbitTemplate.convertAndSend(TOPIC_EXCHANGE, TOPIC_ROUTE_KEY_REGIST, email);
             return R.ok("验证码已发送，请留意您的邮箱");
         } catch (Exception e) {
             log.error(e.getMessage(), e);

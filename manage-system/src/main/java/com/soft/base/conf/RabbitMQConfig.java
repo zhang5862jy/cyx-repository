@@ -1,10 +1,6 @@
 package com.soft.base.conf;
 
-import com.soft.base.constants.RabbitmqConstant;
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.listener.DirectMessageListenerContainer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,7 +15,7 @@ import static com.soft.base.constants.RabbitmqConstant.*;
 @Configuration
 public class RabbitMQConfig {
 
-    @Bean(name = "directQueueOne")
+    @Bean(name = "directQueue")
     public Queue directQueueOne() {
         return new Queue(DIRECT_QUEUE_ONE, false, false, false);
     }
@@ -35,5 +31,36 @@ public class RabbitMQConfig {
                 .bind(directQueueOne())
                 .to(directExchange())
                 .with(DIRECT_ROUTEKEY_ONE);
+    }
+
+    @Bean(name = "topicQueueRegist")
+    public Queue topicQueueRegist() {
+        return new Queue(TOPIC_QUEUE_SEND_REGIST_CAPTCHA, false, false, false);
+    }
+
+    @Bean(name = "topicQueueLogin")
+    public Queue topicQueueLogin() {
+        return new Queue(TOPIC_QUEUE_SEND_LOGIN_CAPTCHA, false, false, false);
+    }
+
+    @Bean(name = "topicExchange")
+    public TopicExchange topicExchange() {
+        return new TopicExchange(TOPIC_EXCHANGE, false, false);
+    }
+
+    @Bean(name = "topicBindingLogin")
+    public Binding topicBindingLogin() {
+        return BindingBuilder
+                .bind(topicQueueLogin())
+                .to(topicExchange())
+                .with(TOPIC_ROUTE_KEY_LOGIN);
+    }
+
+    @Bean(name = "topicBindingRegist")
+    public Binding topicBindingRegist() {
+        return BindingBuilder
+                .bind(topicQueueRegist())
+                .to(topicExchange())
+                .with(TOPIC_ROUTE_KEY_REGIST);
     }
 }

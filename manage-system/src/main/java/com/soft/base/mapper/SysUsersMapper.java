@@ -27,6 +27,8 @@ public interface SysUsersMapper extends BaseMapper<SysUser> {
     String getManager(@Param("roleCode") String managerRoleCode);
 
     UserEmailDto getEmailByUsername(@Param("username") String username);
+
+    String getEmail(@Param("username") String username);
 }
 
 

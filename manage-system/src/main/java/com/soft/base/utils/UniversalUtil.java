@@ -1,5 +1,6 @@
 package com.soft.base.utils;
 
+import com.soft.base.exception.NotArrayException;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Array;
@@ -35,7 +36,11 @@ public class UniversalUtil {
      * @return
      * @param <T>
      */
-    public <T> T toArray(List list, java.lang.Class<T> valueType) {
+    public <T> T toArray(List list, java.lang.Class<T> valueType) throws NotArrayException {
+        if (!valueType.isArray()) {
+            throw new NotArrayException("valueType必须是数组类型");
+        }
+        @SuppressWarnings("unchecked")
         T array = (T) Array.newInstance(valueType.getComponentType(), list.size());
         for (int i = 0; i < list.size(); i++) {
             Array.set(array, i, list.get(i));

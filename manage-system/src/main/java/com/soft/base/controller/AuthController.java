@@ -99,7 +99,7 @@ public class AuthController {
         try {
             String captchaCache = redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + request.getEmail());
             if (!request.getCaptcha().equals(captchaCache)) {
-                return R.fail("请不要随意更改您的邮箱");
+                return R.fail("验证码错误，请检查您的邮箱是否更改或者验证码是否过期");
             }
             SysUser sysUser = new SysUser();
             sysUser.setUsername(request.getUsername());
@@ -107,25 +107,11 @@ public class AuthController {
             sysUser.setNickname(request.getNickname());
             sysUser.setEmail(request.getEmail());
             authService.register(sysUser);
+            redisTemplate.delete(EMAIL_CAPTCHA_KEY + request.getEmail());
             return R.ok("注册成功", null);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return R.fail();
         }
     }
-
-//    @GetMapping(value = "/sendCaptCha")
-//    @Operation(summary = "获取验证码", hidden = true)
-//    public R sendCaptCha(@Schema(description = "用户名") @RequestParam(value = "username", required = false) String username) {
-//        if (StringUtils.isBlank(username)) {
-//            return R.fail("用户名不能为空");
-//        }
-//        try {
-//            authService.sendCaptCha(username);
-//            return R.ok("验证码获取成功，请留意您的邮箱");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return R.fail();
-//        }
-//    }
 }

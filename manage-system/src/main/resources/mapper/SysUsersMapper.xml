@@ -107,4 +107,13 @@
         su.del_flag = '1'
         AND su.username = #{username}
     </select>
+    <select id="getEmail" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT
+        su.email
+        FROM
+        sys_user su
+        WHERE
+        su.del_flag = '1'
+        AND su.username = #{username}
+    </select>
 </mapper>

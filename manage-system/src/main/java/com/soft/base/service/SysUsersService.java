@@ -19,4 +19,6 @@ public interface SysUsersService extends IService<SysUser> {
     void editPassword(String targetPass) throws Exception;
 
     void resetPassword(ResetPasswordRequest request) throws Exception;
+
+    String getEmail(String username);
 }

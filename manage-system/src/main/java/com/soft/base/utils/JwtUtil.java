@@ -3,9 +3,7 @@ package com.soft.base.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -20,13 +18,6 @@ public class JwtUtil {
 
     @Value(value = "${jwt.expire}")
     private Long expirationTime;
-
-    private final BeanUtil beanUtil;
-
-    @Autowired
-    public JwtUtil(BeanUtil beanUtil) {
-        this.beanUtil = beanUtil;
-    }
 
     // 生成 Token
     public String generateToken(String username, Map<String,Object> claims) {

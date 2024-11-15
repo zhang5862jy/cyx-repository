@@ -60,6 +60,11 @@ public class SysUsersServiceImpl extends ServiceImpl<SysUsersMapper, SysUser> im
         String encode = passwordEncoder.encode(aesUtil.decrypt(request.getPassword()));
         sysUsersMapper.editPassword(request.getUsername(), encode);
     }
+
+    @Override
+    public String getEmail(String username) {
+        return sysUsersMapper.getEmail(username);
+    }
 }
 
 

@@ -7,6 +7,7 @@ package com.soft.base.constants;
  **/
 public class RabbitmqConstant {
 
+    /****************************************直接交换机******************************************/
     /**
      * 直接交换机队列
      */
@@ -18,9 +19,28 @@ public class RabbitmqConstant {
     public final static String DIRECT_EXCHANGE = "cyx-direct-exchange";
 
     /**
-     * 直接交换机
+     * 直接交换机路由
      */
     public final static String DIRECT_ROUTEKEY_ONE = "cyx-direct-route-key";
+
+    /*****************************************主题交换机*****************************************/
+
+    /**
+     * 主题交换机队列
+     */
+    public final static String TOPIC_QUEUE_SEND_REGIST_CAPTCHA = "cyx-topic-queue-regist";
+    public final static String TOPIC_QUEUE_SEND_LOGIN_CAPTCHA = "cyx-topic-queue-login";
+
+    /**
+     * 主题交换机
+     */
+    public final static String TOPIC_EXCHANGE = "cyx-topic-exchange";
+
+    /**
+     * 主题交换机路由
+     */
+    public final static String TOPIC_ROUTE_KEY_REGIST = "cyx.topic.regist";
+    public final static String TOPIC_ROUTE_KEY_LOGIN = "cyx.topic.login";
 
 
 }
