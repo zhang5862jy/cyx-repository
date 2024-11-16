@@ -1,6 +1,7 @@
 package com.soft.base.controller;
 
 import com.soft.base.exception.RepeatSendCaptChaException;
+import com.soft.base.rabbitmq.producer.CaptchaProducer;
 import com.soft.base.resultapi.R;
 import com.soft.base.service.SysUsersService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,17 +34,17 @@ import static com.soft.base.constants.RegexConstant.EMAIL;
 @Tag(name = "消息队列")
 public class MessageController {
 
-    private final RabbitTemplate rabbitTemplate;
+    private final CaptchaProducer captchaProducer;
 
     private final RedisTemplate<String,String> redisTemplate;
 
     private final SysUsersService sysUsersService;
 
     @Autowired
-    public MessageController(RabbitTemplate rabbitTemplate,
+    public MessageController(CaptchaProducer captchaProducer,
                              RedisTemplate<String,String> redisTemplate,
                              SysUsersService sysUsersService) {
-        this.rabbitTemplate = rabbitTemplate;
+        this.captchaProducer = captchaProducer;
         this.redisTemplate = redisTemplate;
         this.sysUsersService = sysUsersService;
     }
@@ -61,7 +62,7 @@ public class MessageController {
             if (StringUtils.isNotBlank(redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + email))) {
                 throw new RepeatSendCaptChaException("请勿重复发送验证码");
             }
-            rabbitTemplate.convertAndSend(TOPIC_EXCHANGE, TOPIC_ROUTE_KEY_REGIST, email);
+            captchaProducer.sendRegistCaptcha(email);
             return R.ok("验证码已发送，请留意您的邮箱");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -83,7 +84,7 @@ public class MessageController {
             if (!flag) {
                 return R.fail("用户不存在");
             }
-            rabbitTemplate.convertAndSend(TOPIC_EXCHANGE, TOPIC_ROUTE_KEY_LOGIN, username);
+            captchaProducer.sendRegistCaptcha(username);
             return R.ok("验证码已发送，请留意您的邮箱");
         } catch (Exception e) {
             log.error(e.getMessage(), e);

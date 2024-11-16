@@ -115,5 +115,6 @@
         WHERE
         su.del_flag = '1'
         AND su.username = #{username}
+        OR su.email = #{username}
     </select>
 </mapper>
