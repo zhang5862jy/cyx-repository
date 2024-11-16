@@ -79,8 +79,11 @@ public class MessageController {
             if (StringUtils.isNotBlank(redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + username))) {
                 throw new RepeatSendCaptChaException("请勿重复发送验证码");
             }
-            String email = sysUsersService.getEmail(username);
-            rabbitTemplate.convertAndSend(TOPIC_EXCHANGE, TOPIC_ROUTE_KEY_REGIST, email);
+            boolean flag = sysUsersService.checkUsernameExist(username);
+            if (!flag) {
+                return R.fail("用户不存在");
+            }
+            rabbitTemplate.convertAndSend(TOPIC_EXCHANGE, TOPIC_ROUTE_KEY_LOGIN, username);
             return R.ok("验证码已发送，请留意您的邮箱");
         } catch (Exception e) {
             log.error(e.getMessage(), e);

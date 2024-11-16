@@ -1,5 +1,6 @@
 package com.soft.base.rabbitmq.listener;
 
+import com.rabbitmq.client.Channel;
 import com.soft.base.utils.UniversalUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -13,6 +14,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import static com.soft.base.constants.BaseConstant.LOGIN_CAPTCHAT_LENGTH;
@@ -53,8 +55,9 @@ public class SendRegistCaptchaListener {
         this.javaMailSender = javaMailSender;
     }
 
-    @RabbitListener(queues = TOPIC_QUEUE_SEND_REGIST_CAPTCHA)
-    public void onMessage(Message message) {
+    @RabbitListener(queues = TOPIC_QUEUE_SEND_REGIST_CAPTCHA, ackMode = "MANUAL")
+    public void onMessage(Message message, Channel channel) {
+        long deliveryTag = message.getMessageProperties().getDeliveryTag();
         try {
             log.info("start consume message...");
             String email = new String(message.getBody());
@@ -69,7 +72,14 @@ public class SendRegistCaptchaListener {
             helper.setSubject(topic);
             helper.setText(captchainfo, true);
             javaMailSender.send(mimeMessage);
-        } catch (MessagingException e) {
+            channel.basicAck(deliveryTag, false);
+        } catch (MessagingException | IOException e) {
+            log.error(e.getMessage(), e);
+            try {
+                channel.basicReject(deliveryTag, false);
+            } catch (IOException ex) {
+                log.error(ex.getMessage(), e);
+            }
             throw new RuntimeException(e);
         }
     }

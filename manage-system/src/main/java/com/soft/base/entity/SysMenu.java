@@ -6,138 +6,104 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**
- * 菜单权限表
+ * 菜单信息表
  * @TableName sys_menu
  */
 @TableName(value ="sys_menu")
 @Data
 public class SysMenu implements Serializable {
     /**
-     * 菜单ID
+     * 菜单唯一标识符，主键
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 菜单名称
-     */
-    @TableField(value = "menu_name")
-    private String menuName;
-
-    /**
-     * 父菜单ID
+     * 父菜单ID，顶级菜单的父ID通常为0
      */
     @TableField(value = "parent_id")
     private Long parentId;
 
     /**
-     * 显示顺序
+     * 菜单名称
      */
-    @TableField(value = "sort_order")
-    private Integer sortOrder;
+    @TableField(value = "name")
+    private String name;
 
     /**
-     * 路由地址
+     * 前端路由路径
      */
     @TableField(value = "path")
     private String path;
 
     /**
-     * 组件路径
+     * 前端组件路径
      */
     @TableField(value = "component")
     private String component;
 
     /**
-     * 路由参数
-     */
-    @TableField(value = "query")
-    private String query;
-
-    /**
-     * 路由名称
-     */
-    @TableField(value = "route_name")
-    private String routeName;
-
-    /**
-     * 是否为外链（0是 1否）
-     */
-    @TableField(value = "is_frame")
-    private Integer isFrame;
-
-    /**
-     * 是否缓存（0缓存 1不缓存）
-     */
-    @TableField(value = "is_cache")
-    private Integer isCache;
-
-    /**
-     * 菜单类型（M目录 C菜单 F按钮）
-     */
-    @TableField(value = "menu_type")
-    private String menuType;
-
-    /**
-     * 菜单状态（0显示 1隐藏）
-     */
-    @TableField(value = "visible")
-    private String visible;
-
-    /**
-     * 菜单状态（0正常 1停用）
-     */
-    @TableField(value = "status")
-    private String status;
-
-    /**
-     * 权限标识
-     */
-    @TableField(value = "perms")
-    private String perms;
-
-    /**
-     * 菜单图标
+     * 菜单图标（如字体图标类名）
      */
     @TableField(value = "icon")
     private String icon;
 
     /**
-     * 创建者
+     * 菜单类型：0-目录，1-菜单，2-按钮
      */
-    @TableField(value = "create_by")
-    private String createBy;
+    @TableField(value = "type")
+    private String type;
+
+    /**
+     * 排序号，数字越小，排序越靠前
+     */
+    @TableField(value = "order_num")
+    private Integer orderNum;
+
+    /**
+     * 菜单状态：0-禁用，1-启用
+     */
+    @TableField(value = "status")
+    private Integer status;
+
+    /**
+     * 是否显示：0-隐藏，1-显示
+     */
+    @TableField(value = "visible")
+    private Integer visible;
 
     /**
      * 创建时间
      */
     @TableField(value = "create_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
-
-    /**
-     * 更新者
-     */
-    @TableField(value = "update_by")
-    private String updateBy;
 
     /**
      * 更新时间
      */
     @TableField(value = "update_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
 
     /**
-     * 备注
+     * 备注信息
      */
     @TableField(value = "remark")
     private String remark;
+
+    /**
+     * 创建人
+     */
+    @TableField(value = "create_by")
+    private String createBy;
+
+    /**
+     * 修改人
+     */
+    @TableField(value = "update_by")
+    private String updateBy;
 
     /**
      * 逻辑删除；1：存在；0：删除

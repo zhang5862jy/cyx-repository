@@ -6,39 +6,49 @@
 
     <resultMap id="BaseResultMap" type="com.soft.base.entity.SysMenu">
             <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
             <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
-            <result property="sortOrder" column="sort_order" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="path" column="path" jdbcType="VARCHAR"/>
             <result property="component" column="component" jdbcType="VARCHAR"/>
-            <result property="query" column="query" jdbcType="VARCHAR"/>
-            <result property="routeName" column="route_name" jdbcType="VARCHAR"/>
-            <result property="isFrame" column="is_frame" jdbcType="INTEGER"/>
-            <result property="isCache" column="is_cache" jdbcType="INTEGER"/>
-            <result property="menuType" column="menu_type" jdbcType="CHAR"/>
-            <result property="visible" column="visible" jdbcType="CHAR"/>
-            <result property="status" column="status" jdbcType="CHAR"/>
-            <result property="perms" column="perms" jdbcType="VARCHAR"/>
             <result property="icon" column="icon" jdbcType="VARCHAR"/>
-            <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="CHAR"/>
+            <result property="orderNum" column="order_num" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="visible" column="visible" jdbcType="TINYINT"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
             <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
             <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+            <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
             <result property="delFlag" column="del_flag" jdbcType="CHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,menu_name,parent_id,
-        sort_order,path,component,
-        query,route_name,is_frame,
-        is_cache,menu_type,visible,
-        status,perms,icon,
-        create_by,create_time,update_by,
-        update_time,remark,del_flag
+        id,parent_id,name,
+        path,component,icon,
+        type,order_num,
+        status,visible,create_time,
+        update_time,remark,create_by,
+        update_by,del_flag
     </sql>
 
-    <select id="getMenus" resultType="MenusVo">
-
+    <select id="getMenus" parameterType="java.util.List" resultType="MenusVo">
+        SELECT
+        sm.id,
+        sm.`name` AS "title",
+        sm.icon,
+        sm.path,
+        sm.parent_id AS "parentId"
+        FROM
+        sys_menu sm
+        JOIN sys_role_menu srm ON sm.id = srm.menu_id
+        AND sm.del_flag = '1'
+        JOIN sys_role sr ON srm.role_id = sr.id
+        AND sr.del_flag = '1'
+        WHERE
+        sr.`code` IN
+        <foreach collection="userRole" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 </mapper>

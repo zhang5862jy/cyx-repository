@@ -24,12 +24,12 @@ public class RabbitmqConstant {
     public final static String DIRECT_ROUTEKEY_ONE = "cyx-direct-route-key";
 
     /*****************************************主题交换机*****************************************/
-
     /**
      * 主题交换机队列
      */
     public final static String TOPIC_QUEUE_SEND_REGIST_CAPTCHA = "cyx-topic-queue-regist";
     public final static String TOPIC_QUEUE_SEND_LOGIN_CAPTCHA = "cyx-topic-queue-login";
+    public final static String TOPIC_QUEUE_SEND_DEAD = "cyx-topic-queue-dead";
 
     /**
      * 主题交换机
@@ -41,6 +41,7 @@ public class RabbitmqConstant {
      */
     public final static String TOPIC_ROUTE_KEY_REGIST = "cyx.topic.regist";
     public final static String TOPIC_ROUTE_KEY_LOGIN = "cyx.topic.login";
+    public final static String TOPIC_ROUTE_KEY_DEAD = "cyx.topic.dead";
 
 
 }

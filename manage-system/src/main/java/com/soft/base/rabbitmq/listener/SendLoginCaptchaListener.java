@@ -1,5 +1,7 @@
 package com.soft.base.rabbitmq.listener;
 
+import com.rabbitmq.client.Channel;
+import com.soft.base.service.SysUsersService;
 import com.soft.base.utils.UniversalUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -13,9 +15,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import static com.soft.base.constants.BaseConstant.LOGIN_CAPTCHAT_LENGTH;
+import static com.soft.base.constants.RabbitmqConstant.TOPIC_QUEUE_SEND_LOGIN_CAPTCHA;
 import static com.soft.base.constants.RabbitmqConstant.TOPIC_QUEUE_SEND_REGIST_CAPTCHA;
 import static com.soft.base.constants.RedisConstant.EMAIL_CAPTCHA_KEY;
 
@@ -33,6 +37,8 @@ public class SendLoginCaptchaListener {
 
     private final UniversalUtil universalUtil;
 
+    private final SysUsersService sysUsersService;
+
     private final JavaMailSender javaMailSender;
 
     @Value(value = "${spring.mail.username}")
@@ -47,20 +53,25 @@ public class SendLoginCaptchaListener {
     @Autowired
     public SendLoginCaptchaListener(RedisTemplate<String,String> redisTemplate,
                                     UniversalUtil universalUtil,
-                                    JavaMailSender javaMailSender) {
+                                    JavaMailSender javaMailSender,
+                                    SysUsersService sysUsersService) {
         this.redisTemplate = redisTemplate;
         this.universalUtil = universalUtil;
         this.javaMailSender = javaMailSender;
+        this.sysUsersService = sysUsersService;
     }
 
-    @RabbitListener(queues = TOPIC_QUEUE_SEND_REGIST_CAPTCHA)
-    public void onMessage(Message message) {
+    @RabbitListener(queues = TOPIC_QUEUE_SEND_LOGIN_CAPTCHA, ackMode = "MANUAL")
+    public void onMessage(Message message, Channel channel) {
+        long deliveryTag = message.getMessageProperties().getDeliveryTag();
         try {
             log.info("start consume message...");
-            String email = new String(message.getBody());
+            String username = new String(message.getBody());
+
+            String email = sysUsersService.getEmail(username);
             String captChat = universalUtil.generate(LOGIN_CAPTCHAT_LENGTH);
             String captchainfo = "<!DOCTYPE html> <html lang='zh-CN'> <head> <meta charset='UTF-8'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>验证码邮件</title> </head> <body> <p>尊敬的用户您好！</p> <p>您的验证码是：<strong>" + captChat + "</strong>，请您在1分钟内完成验证。</p> <p>如果该验证码不是您本人申请的，请忽略此邮件。</p> <p>感谢您的使用！</p> <p>此邮件由系统自动发送，请勿回复。</p> </body> </html>";
-            redisTemplate.opsForValue().set(EMAIL_CAPTCHA_KEY + email, captChat, expireTime, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(EMAIL_CAPTCHA_KEY + username, captChat, expireTime, TimeUnit.SECONDS);
 
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -69,7 +80,15 @@ public class SendLoginCaptchaListener {
             helper.setSubject(topic);
             helper.setText(captchainfo, true);
             javaMailSender.send(mimeMessage);
-        } catch (MessagingException e) {
+            channel.basicAck(deliveryTag, false);
+        } catch (MessagingException | IOException e) {
+            log.error(e.getMessage(), e);
+            try {
+                channel.basicReject(deliveryTag, false);
+            } catch (IOException ex) {
+                log.error(ex.getMessage(), e);
+            }
+
             throw new RuntimeException(e);
         }
     }

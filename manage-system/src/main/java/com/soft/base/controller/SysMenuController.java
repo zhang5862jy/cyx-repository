@@ -1,16 +1,19 @@
 package com.soft.base.controller;
 
+import com.soft.base.request.EditMenuRequest;
+import com.soft.base.request.SaveMenuRequest;
 import com.soft.base.resultapi.R;
 import com.soft.base.service.SysMenuService;
 import com.soft.base.vo.MenusVo;
 import com.soft.base.vo.PageVo;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author: 程益祥
@@ -33,10 +36,38 @@ public class SysMenuController {
 
 
     @GetMapping(value = "/getMenus")
-    public R<PageVo<MenusVo>> getMenus() {
+    @Operation(summary = "获取菜单")
+    public R<List<MenusVo>> getMenus() {
         try {
-            PageVo<MenusVo> pageVo = sysMenuService.getMenus();
+            List<MenusVo> pageVo = sysMenuService.getMenus();
             return R.ok(pageVo);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return R.fail();
+        }
+    }
+
+    @PostMapping
+    @Operation(summary = "添加菜单")
+    public R saveMenu(@RequestBody SaveMenuRequest request) {
+        try {
+            sysMenuService.saveMenu(request);
+            return R.ok();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return R.fail();
+        }
+    }
+
+    @PutMapping
+    @Operation(summary = "编辑菜单")
+    public R editMenu(@RequestBody EditMenuRequest request) {
+        if (request.getId() == null) {
+            return R.fail("id不能不能为空");
+        }
+        try {
+            sysMenuService.editMenu(request);
+            return R.ok();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return R.fail();

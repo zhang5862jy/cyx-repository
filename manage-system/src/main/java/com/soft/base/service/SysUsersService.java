@@ -21,4 +21,6 @@ public interface SysUsersService extends IService<SysUser> {
     void resetPassword(ResetPasswordRequest request) throws Exception;
 
     String getEmail(String username);
+
+    boolean checkUsernameExist(String username);
 }

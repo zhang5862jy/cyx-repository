@@ -43,6 +43,11 @@ public class RabbitMQConfig {
         return new Queue(TOPIC_QUEUE_SEND_LOGIN_CAPTCHA, false, false, false);
     }
 
+    @Bean(name = "topicQueueDead")
+    public Queue topicQueueDead() {
+        return new Queue(TOPIC_QUEUE_SEND_DEAD, false, false, false);
+    }
+
     @Bean(name = "topicExchange")
     public TopicExchange topicExchange() {
         return new TopicExchange(TOPIC_EXCHANGE, false, false);
@@ -62,5 +67,13 @@ public class RabbitMQConfig {
                 .bind(topicQueueRegist())
                 .to(topicExchange())
                 .with(TOPIC_ROUTE_KEY_REGIST);
+    }
+
+    @Bean(name = "topicBindingDead")
+    public Binding topicBindingDead() {
+        return BindingBuilder
+                .bind(topicQueueDead())
+                .to(topicExchange())
+                .with(TOPIC_ROUTE_KEY_DEAD);
     }
 }
