@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.soft.base.dto.FileDetailDto;
 import com.soft.base.entity.SysFile;
 import com.soft.base.exception.GlobelException;
+import com.soft.base.resultapi.R;
 import com.soft.base.service.SysFileService;
 import com.soft.base.mapper.SysFileMapper;
 import com.soft.base.utils.MinioUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,7 +42,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile>
         try {
             String fileKey = minioUtil.fileKeyGen();
             String originalFilename = multipartFile.getOriginalFilename();
-            String fileSuffix = originalFilename.substring(originalFilename.indexOf(FILE_POINT_SUFFIX));
+            String fileSuffix = originalFilename.substring(originalFilename.lastIndexOf(FILE_POINT_SUFFIX));
             Long fileSize = multipartFile.getSize();
             String objectKey = minioUtil.upload(multipartFile.getInputStream(), fileKey, fileSuffix, fileSize);
             SysFile sysFile = new SysFile();
@@ -49,6 +51,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile>
             sysFile.setLocaltion(DEFAULT_STORAGE_LOCATION);
             sysFile.setObjectKey(objectKey);
             sysFile.setOriginalName(originalFilename);
+            sysFile.setFileSize(fileSize);
             sysFileMapper.insert(sysFile);
         } catch (Exception e) {
             throw new GlobelException(e.getMessage());

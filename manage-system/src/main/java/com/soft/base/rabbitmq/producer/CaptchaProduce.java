@@ -13,12 +13,12 @@ import static com.soft.base.constants.RabbitmqConstant.*;
  **/
 
 @Component
-public class CaptchaProducer {
+public class CaptchaProduce {
 
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public CaptchaProducer(RabbitTemplate rabbitTemplate) {
+    public CaptchaProduce(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 

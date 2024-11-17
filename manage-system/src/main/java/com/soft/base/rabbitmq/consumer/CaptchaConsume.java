@@ -62,7 +62,7 @@ public class CaptchaConsume {
     }
 
     @RabbitListener(queues = TOPIC_QUEUE_SEND_LOGIN_CAPTCHA, ackMode = "MANUAL")
-    public void sendLoginCaptchaConsume(Message message, Channel channel) {
+    public void sendLoginCaptcha(Message message, Channel channel) {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         try {
             log.info("start consume message...");
@@ -72,7 +72,7 @@ public class CaptchaConsume {
             String captChat = universalUtil.generate(LOGIN_CAPTCHAT_LENGTH);
             redisTemplate.opsForValue().set(EMAIL_CAPTCHA_KEY + username, captChat, expireTime, TimeUnit.SECONDS);
 
-            sendEmail(email);
+            sendEmail(email, captChat);
             channel.basicAck(deliveryTag, false);
         } catch (MessagingException | IOException e) {
             log.error(e.getMessage(), e);
@@ -87,7 +87,7 @@ public class CaptchaConsume {
     }
 
     @RabbitListener(queues = TOPIC_QUEUE_SEND_REGIST_CAPTCHA, ackMode = "MANUAL")
-    public void sendRegistCaptchaConsume(Message message, Channel channel) {
+    public void sendRegistCaptcha(Message message, Channel channel) {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         try {
             log.info("start consume message...");
@@ -95,7 +95,7 @@ public class CaptchaConsume {
             String captChat = universalUtil.generate(LOGIN_CAPTCHAT_LENGTH);
             redisTemplate.opsForValue().set(EMAIL_CAPTCHA_KEY + email, captChat, expireTime, TimeUnit.SECONDS);
 
-            sendEmail(email);
+            sendEmail(email, captChat);
             channel.basicAck(deliveryTag, false);
         } catch (MessagingException | IOException e) {
             log.error(e.getMessage(), e);
@@ -111,9 +111,10 @@ public class CaptchaConsume {
     /**
      * 发送邮件
      * @param email
+     * @param captChat
      * @throws MessagingException
      */
-    private void sendEmail(String email) throws MessagingException{
+    private void sendEmail(String email, String captChat) throws MessagingException{
         String captchaInfo = "<!DOCTYPE html> <html lang='zh-CN'> <head> <meta charset='UTF-8'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>验证码邮件</title> </head> <body> <p>尊敬的用户您好！</p> <p>您的验证码是：<strong>" + captChat + "</strong>，请您在1分钟内完成验证。</p> <p>如果该验证码不是您本人申请的，请忽略此邮件。</p> <p>感谢您的使用！</p> <p>此邮件由系统自动发送，请勿回复。</p> </body> </html>";
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);

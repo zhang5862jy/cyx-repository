@@ -15,7 +15,7 @@ import static com.soft.base.constants.RabbitmqConstant.*;
 @Configuration
 public class RabbitMQConfig {
 
-    @Bean(name = "directQueue")
+    @Bean(name = "directQueueOne")
     public Queue directQueueOne() {
         return new Queue(DIRECT_QUEUE_ONE, false, false, false);
     }

@@ -5,7 +5,7 @@ import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
 @Data
-@Schema(description = "注册用户")
+@Schema(description = "登录请求参数")
 @Alias(value = "LoginRequest")
 public class LoginRequest {
 

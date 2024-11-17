@@ -16,6 +16,7 @@
             <result property="localtion" column="localtion" jdbcType="CHAR"/>
             <result property="objectKey" column="object_key" jdbcType="VARCHAR"/>
             <result property="fileSuffix" column="file_suffix" jdbcType="VARCHAR"/>
+            <result property="fileSize" column="file_size" jdbcType="BIGINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -27,7 +28,8 @@
     <select id="getFileDetailById" parameterType="java.lang.Long" resultType="FileDetailDto">
         SELECT
         sf.object_key AS "objectKey",
-        sf.original_name AS "originalName"
+        sf.original_name AS "originalName",
+        sf.file_size AS "fileSize"
         FROM
         sys_file sf
         WHERE

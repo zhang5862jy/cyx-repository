@@ -7,6 +7,7 @@ import com.soft.base.service.SysMenuService;
 import com.soft.base.vo.MenusVo;
 import com.soft.base.vo.PageVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,20 @@ public class SysMenuController {
         }
         try {
             sysMenuService.editMenu(request);
+            return R.ok();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return R.fail();
+        }
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @Operation(summary = "删除菜单")
+    public R deleteMenu(@Schema(description = "主键") @PathVariable(value = "id") Long id) {
+        if (id == null) {
+            return R.fail("主键不能为空");
+        }
+        try {
             return R.ok();
         } catch (Exception e) {
             log.error(e.getMessage(), e);

@@ -83,6 +83,12 @@ public class SysFile implements Serializable {
     @TableField(value = "file_suffix")
     private String fileSuffix;
 
+    /**
+     * 文件大小；单位：B
+     */
+    @TableField(value = "file_size")
+    private Long fileSize;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }
