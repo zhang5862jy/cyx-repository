@@ -117,4 +117,11 @@
         AND su.username = #{username}
         OR su.email = #{username}
     </select>
+    <insert id="setRoleForUser" parameterType="java.util.List">
+        INSERT INTO sys_user_role ( role_id, user_id )
+        VALUES
+        <foreach collection="userRoles" item="item" open="" separator=",">
+            (#{item.roleId},#{item.userId})
+        </foreach>
+    </insert>
 </mapper>

@@ -3,10 +3,12 @@ package com.soft.base.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.soft.base.dto.UserRoleDto;
 import com.soft.base.entity.SysUser;
 import com.soft.base.mapper.SysUsersMapper;
 import com.soft.base.request.PageRequest;
 import com.soft.base.request.ResetPasswordRequest;
+import com.soft.base.request.SetRoleForUserRequest;
 import com.soft.base.service.SysUsersService;
 import com.soft.base.utils.AESUtil;
 import com.soft.base.utils.SecurityUtil;
@@ -14,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
 * @author cyq
@@ -70,6 +74,21 @@ public class SysUsersServiceImpl extends ServiceImpl<SysUsersMapper, SysUser> im
     @Override
     public boolean checkUsernameExist(String username) {
         return sysUsersMapper.exists(Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getUsername, username).or().eq(SysUser::getEmail, username));
+    }
+
+    @Override
+    public void setRoleForUser(SetRoleForUserRequest request) {
+        List<UserRoleDto> userRoles = request
+                .getUserId()
+                .stream()
+                .map(item -> {
+                    UserRoleDto userRoleDto = new UserRoleDto();
+                    userRoleDto.setRoleId(request.getRoleId());
+                    userRoleDto.setUserId(item);
+                    return userRoleDto;
+                })
+                .collect(Collectors.toList());
+        sysUsersMapper.setRoleForUser(userRoles);
     }
 }
 

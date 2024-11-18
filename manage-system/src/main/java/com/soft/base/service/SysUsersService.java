@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.soft.base.entity.SysUser;
 import com.soft.base.request.PageRequest;
 import com.soft.base.request.ResetPasswordRequest;
+import com.soft.base.request.SetRoleForUserRequest;
 
 import java.util.Map;
 
@@ -23,4 +24,6 @@ public interface SysUsersService extends IService<SysUser> {
     String getEmail(String username);
 
     boolean checkUsernameExist(String username);
+
+    void setRoleForUser(SetRoleForUserRequest request);
 }

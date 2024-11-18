@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.soft.base.request.EditPasswordRequest;
 import com.soft.base.request.PageRequest;
 import com.soft.base.request.ResetPasswordRequest;
+import com.soft.base.request.SetRoleForUserRequest;
 import com.soft.base.resultapi.R;
 import com.soft.base.service.SysUsersService;
 import com.soft.base.utils.AESUtil;
@@ -95,6 +96,24 @@ public class SysUserController {
         }
         try {
             sysUsersService.resetPassword(request);
+            return R.ok();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return R.fail();
+        }
+    }
+
+    @PostMapping(value = "/setRoleForUser")
+    @Operation(summary = "用户赋角色")
+    public R setRoleForUser(@RequestBody SetRoleForUserRequest request) {
+        if (request.getRoleId() == null) {
+            return R.fail("角色id不能为空");
+        }
+        if (request.getUserId() == null || request.getUserId().isEmpty()) {
+            return R.fail("用户id不能为空");
+        }
+        try {
+            sysUsersService.setRoleForUser(request);
             return R.ok();
         } catch (Exception e) {
             log.error(e.getMessage(), e);

@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.soft.base.entity.SysRole;
-import com.soft.base.entity.SysUserRole;
 import com.soft.base.request.GetRolesRequest;
-import com.soft.base.request.SetRoleForUserRequest;
 import com.soft.base.service.SysRoleService;
 import com.soft.base.mapper.SysRoleMapper;
 import com.soft.base.vo.PageVo;
@@ -15,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
 * @author cyq
