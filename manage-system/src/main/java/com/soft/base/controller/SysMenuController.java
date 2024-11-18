@@ -7,6 +7,8 @@ import com.soft.base.service.SysMenuService;
 import com.soft.base.vo.MenusVo;
 import com.soft.base.vo.PageVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -77,7 +79,8 @@ public class SysMenuController {
 
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除菜单")
-    public R deleteMenu(@Schema(description = "主键") @PathVariable(value = "id") Long id) {
+    @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
+    public R deleteMenu(@PathVariable(value = "id") Long id) {
         if (id == null) {
             return R.fail("主键不能为空");
         }

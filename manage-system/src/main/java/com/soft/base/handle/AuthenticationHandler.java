@@ -1,6 +1,7 @@
 package com.soft.base.handle;
 
 import com.soft.base.constants.HttpConstant;
+import com.soft.base.resultapi.R;
 import com.soft.base.utils.ResponseUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+import static com.soft.base.enums.ResultEnum.AUTHLICATION_FAIL;
+
 /**
  * 认证失败处理器
  */
@@ -19,6 +22,6 @@ public class AuthenticationHandler implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         int code = HttpConstant.UNAUTHORIZED;
-        ResponseUtil.writeErrMsg(response, code, "认证失败，无法访问系统资源");
+        ResponseUtil.writeErrMsg(response, code, R.fail(AUTHLICATION_FAIL.getCode(), "认证失败，无法访问系统资源"));
     }
 }

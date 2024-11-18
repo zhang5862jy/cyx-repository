@@ -2,6 +2,7 @@ package com.soft.base.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 /**
  * @Author: 程益祥
@@ -10,6 +11,7 @@ import lombok.Data;
  **/
 @Schema(description = "编辑字典类型")
 @Data
+@Alias(value = "EditDictTypeRequest")
 public class EditDictTypeRequest {
 
     @Schema(description = "主键")

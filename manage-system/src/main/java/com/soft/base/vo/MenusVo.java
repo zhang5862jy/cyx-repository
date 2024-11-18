@@ -2,6 +2,7 @@ package com.soft.base.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  **/
 @Data
 @Schema(description = "获取菜单响应参数")
+@Alias(value = "MenusVo")
 public class MenusVo {
 
     @Schema(description = "菜单唯一标识")

@@ -2,6 +2,7 @@ package com.soft.base.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 /**
  * @Author: 程益祥
@@ -11,6 +12,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "添加菜单请求参数")
+@Alias(value = "SaveMenuRequest")
 public class SaveMenuRequest {
 
     @Schema(description = "父级id，若为根节点则不传")

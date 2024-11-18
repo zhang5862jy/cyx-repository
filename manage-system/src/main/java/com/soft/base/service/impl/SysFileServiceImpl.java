@@ -48,7 +48,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile>
             SysFile sysFile = new SysFile();
             sysFile.setFileKey(fileKey);
             sysFile.setFileSuffix(fileSuffix);
-            sysFile.setLocaltion(DEFAULT_STORAGE_LOCATION);
+            sysFile.setLocation(DEFAULT_STORAGE_LOCATION);
             sysFile.setObjectKey(objectKey);
             sysFile.setOriginalName(originalFilename);
             sysFile.setFileSize(fileSize);

@@ -2,6 +2,7 @@ package com.soft.base.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 /**
  * @Author: 程益祥
@@ -11,6 +12,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "发送消息请求参数")
+@Alias(value = "SendMessageRequest")
 public class SendMessageRequest {
 
     @Schema(description = "邮箱")

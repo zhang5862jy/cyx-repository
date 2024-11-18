@@ -5,6 +5,8 @@ import com.soft.base.rabbitmq.producer.CaptchaProduce;
 import com.soft.base.resultapi.R;
 import com.soft.base.service.SysUsersService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -49,6 +51,7 @@ public class MessageController {
 
     @GetMapping(value = "/sendRegistCaptcha")
     @Operation(summary = "发送注册验证码")
+    @Parameter(name = "email", description = "邮箱地址", required = true, in = ParameterIn.QUERY)
     public R sendRegistCaptcha(@RequestParam(value = "email", required = false) String email) {
         if (StringUtils.isBlank(email)) {
             return R.fail("邮箱不能为空");
@@ -70,6 +73,7 @@ public class MessageController {
 
     @GetMapping(value = "/sendLoginCaptcha")
     @Operation(summary = "发送登录验证码")
+    @Parameter(name = "username", description = "用户名", required = true, in = ParameterIn.QUERY)
     public R sendLoginCaptcha(@RequestParam(value = "username", required = false) String username) {
         if (StringUtils.isBlank(username)) {
             return R.fail("用户名不能为空");

@@ -7,6 +7,8 @@ import com.soft.base.service.SysRoleService;
 import com.soft.base.vo.PageVo;
 import com.soft.base.vo.SysRoleVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -79,7 +81,8 @@ public class SysRoleController {
 
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除角色")
-    public R deleteRole(@Schema(description = "主键")@PathVariable(value = "id") Long id) {
+    @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
+    public R deleteRole(@PathVariable(value = "id") Long id) {
         if (id == null) {
             return R.fail("主键不能为空");
         }
@@ -113,7 +116,8 @@ public class SysRoleController {
 
     @GetMapping(value = "/{id}")
     @Operation(summary = "获取角色（单）")
-    public R<SysRoleVo> getRole(@Schema(description = "主键")@PathVariable(value = "id") Long id) {
+    @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
+    public R<SysRoleVo> getRole(@PathVariable(value = "id") Long id) {
         if (id == null) {
             return R.fail("主键不能为空");
         }
@@ -140,7 +144,8 @@ public class SysRoleController {
 
     @GetMapping(value = "/enableRole/{id}")
     @Operation(summary = "启用")
-    public R enableRole(@Schema(description = "主键") @PathVariable(value = "id") Long id) {
+    @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
+    public R enableRole(@PathVariable(value = "id") Long id) {
         if (id == null) {
             return R.fail("主键不能为空");
         }
@@ -155,7 +160,8 @@ public class SysRoleController {
 
     @GetMapping(value = "/forbiddenRole/{id}")
     @Operation(summary = "禁用")
-    public R forbiddenRole(@Schema(description = "主键")@PathVariable(value = "id") Long id) {
+    @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
+    public R forbiddenRole(@PathVariable(value = "id") Long id) {
         if (id == null) {
             return R.fail("主键不能为空");
         }
@@ -170,7 +176,8 @@ public class SysRoleController {
 
     @GetMapping(value = "/setDefaultRole/{id}")
     @Operation(summary = "设置默认角色")
-    public R setDefaultRole(@Schema(description = "主键")@PathVariable(value = "id") Long id) {
+    @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
+    public R setDefaultRole(@PathVariable(value = "id") Long id) {
         if (id == null) {
             return R.fail("主键不能为空");
         }

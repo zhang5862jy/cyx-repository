@@ -1,6 +1,7 @@
 package com.soft.base.filter;
 
 import com.soft.base.constants.HttpConstant;
+import com.soft.base.resultapi.R;
 import com.soft.base.utils.JwtUtil;
 import com.soft.base.utils.ResponseUtil;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -26,6 +27,7 @@ import java.util.Set;
 import static com.soft.base.constants.RedisConstant.TOKEN_BLACKLIST_KEY;
 import static com.soft.base.constants.TokenConstant.TOKEN_PREFIX;
 import static com.soft.base.constants.TokenConstant.TOKEN_PREFIX_LENGTH;
+import static com.soft.base.enums.ResultEnum.AUTHLICATION_FAIL;
 
 /**
  * JWT过滤器
@@ -67,13 +69,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 // 验证当前token是否存在于黑名单中
                 Set<String> members = redisTemplate.opsForSet().members(TOKEN_BLACKLIST_KEY);
                 if (members != null && !members.isEmpty() && members.contains(token)) {
-                    ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, "token已加入黑名单");
+                    ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, R.fail(AUTHLICATION_FAIL.getCode(), AUTHLICATION_FAIL.getMessage()));
                     return;
                 }
 
                 // 验证token是否过期
                 if (jwtUtil.validateToken(jwt)) {
-                    ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, "token过期");
+                    ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, R.fail(AUTHLICATION_FAIL.getCode(), AUTHLICATION_FAIL.getMessage()));
                     return;
                 }
 
@@ -84,13 +86,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(user, token, user.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                log.info("context already setted...");
+                log.info("context already set...");
             }
             // token有效或者没有token时，放行
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e) {
             log.error(e.getMessage(), e);
-            ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, "token过期");
+            ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, R.fail(AUTHLICATION_FAIL.getCode(), AUTHLICATION_FAIL.getMessage()));
         } finally {
             // 清除安全上下文
             SecurityContextHolder.clearContext();

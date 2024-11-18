@@ -2,6 +2,7 @@ package com.soft.base.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 /**
  * @Author: 程益祥
@@ -10,6 +11,7 @@ import lombok.Data;
  **/
 @Schema(description = "部门")
 @Data
+@Alias(value = "DeptVo")
 public class DeptVo {
 
     @Schema(description = "主键")

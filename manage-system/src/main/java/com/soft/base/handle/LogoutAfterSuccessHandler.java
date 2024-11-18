@@ -1,6 +1,7 @@
 package com.soft.base.handle;
 
 import com.soft.base.constants.HttpConstant;
+import com.soft.base.resultapi.R;
 import com.soft.base.utils.ResponseUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 import static com.soft.base.constants.RedisConstant.TOKEN_BLACKLIST_KEY;
+import static com.soft.base.enums.ResultEnum.AUTHLICATION_FAIL;
+import static com.soft.base.enums.ResultEnum.SUCCESS;
 
 /**
  * @Author: 程益祥
@@ -36,6 +39,6 @@ public class LogoutAfterSuccessHandler implements LogoutSuccessHandler {
         String authorization = request.getHeader("Authorization");
         redisTemplate.opsForSet().add(TOKEN_BLACKLIST_KEY,authorization);
         log.info("token already join blacklist...");
-        ResponseUtil.writeErrMsg(response, HttpConstant.SUCCESS, "注销成功");
+        ResponseUtil.writeErrMsg(response, HttpConstant.SUCCESS, R.ok(SUCCESS.getCode(), "注销成功"));
     }
 }

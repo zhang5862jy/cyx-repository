@@ -8,6 +8,8 @@ import com.soft.base.service.SysDictTypeService;
 import com.soft.base.vo.DictTypeVo;
 import com.soft.base.vo.DictTypesVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -82,7 +84,8 @@ public class SysDictTypeController {
 
     @GetMapping(value = "/{id}")
     @Operation(summary = "获取字典类型（单）")
-    public R<DictTypeVo> getDictType(@Schema(description = "主键") @PathVariable(value = "id") Long id) {
+    @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
+    public R<DictTypeVo> getDictType(@PathVariable(value = "id") Long id) {
         if (id == null) {
             return R.fail("id不能为空");
         }
@@ -97,7 +100,8 @@ public class SysDictTypeController {
 
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除字典类型")
-    public R deleteDictType(@Schema(description = "主键") @PathVariable(value = "id") Long id) {
+    @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
+    public R deleteDictType(@PathVariable(value = "id") Long id) {
         if (id == null) {
             return R.fail("id不能为空");
         }

@@ -33,14 +33,29 @@ public class BaseConstant {
     public final static String LEFT_SLASH = "/";
 
     /**
+     * 全通配符
+     */
+    public final static String ALL_WILDCARD_CHARACTER = "**";
+
+    /**
+     * 转义符
+     */
+    public final static String ESCAPE_CHARACTER = "\\";
+
+    /**
+     * 空白符
+     */
+    public final static String BLANK_CHARACTER = "";
+
+    /**
      * 分片大小
      */
-    public final static Long BURST_SIZE = 5l * 1024 * 1024;
+    public final static Long BURST_SIZE = 5L * 1024 * 1024;
 
     /**
      * 不分片
      */
-    public final static Long BURST_FALSE = -1l;
+    public final static Long BURST_FALSE = -1L;
 
     /**
      * 文件后缀的点

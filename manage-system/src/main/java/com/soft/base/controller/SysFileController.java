@@ -5,6 +5,8 @@ import com.soft.base.resultapi.R;
 import com.soft.base.service.SysFileService;
 import com.soft.base.utils.MinioUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +49,8 @@ public class SysFileController {
 
     @PostMapping
     @Operation(summary = "上传文件")
-    public R uploadFile(@RequestPart(value = "multipartFile") MultipartFile multipartFile) {
+    @Parameter(name = "multipartFile", description = "文件流", required = true, in = ParameterIn.QUERY)
+    public R uploadFile(@RequestPart(value = "multipartFile", required = false) MultipartFile multipartFile) {
         if (multipartFile == null) {
             return R.fail("文件不能为空");
         }
@@ -62,6 +65,7 @@ public class SysFileController {
 
     @GetMapping (value = "/downloadFile")
     @Operation(summary = "下载文件")
+    @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.QUERY)
     public ResponseEntity downloadFile(@RequestParam(value = "id", required = false) Long id,
                                        HttpServletResponse response) {
         if (id == null) {

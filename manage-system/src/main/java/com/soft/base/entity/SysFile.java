@@ -68,8 +68,8 @@ public class SysFile implements Serializable {
     /**
      * 存储地址；1：minio；2：磁盘
      */
-    @TableField(value = "localtion")
-    private String localtion;
+    @TableField(value = "location")
+    private String location;
 
     /**
      * 文件路径

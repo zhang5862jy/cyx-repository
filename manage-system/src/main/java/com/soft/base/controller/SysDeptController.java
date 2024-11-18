@@ -8,6 +8,8 @@ import com.soft.base.service.SysDeptService;
 import com.soft.base.vo.DeptTreeVo;
 import com.soft.base.vo.DeptVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -92,7 +94,8 @@ public class SysDeptController {
 
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除部门")
-    public R deleteDept(@Schema(description = "主键") @PathVariable(value = "id") Long id) {
+    @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
+    public R deleteDept(@PathVariable(value = "id") Long id) {
         if (id == null) {
             return R.fail("id不能为空");
         }
@@ -122,7 +125,8 @@ public class SysDeptController {
 
     @GetMapping(value = "/{id}")
     @Operation(summary = "获取部门（单）")
-    public R<DeptVo> getDept(@Schema(description = "主键") @PathVariable(value = "id") Long id) {
+    @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
+    public R<DeptVo> getDept(@PathVariable(value = "id") Long id) {
         if (id == null) {
             return R.fail("id不能为空");
         }
