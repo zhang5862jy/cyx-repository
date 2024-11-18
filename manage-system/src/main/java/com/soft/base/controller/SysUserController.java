@@ -1,14 +1,13 @@
 package com.soft.base.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.soft.base.request.EditPasswordRequest;
-import com.soft.base.request.PageRequest;
-import com.soft.base.request.ResetPasswordRequest;
-import com.soft.base.request.SetRoleForUserRequest;
+import com.soft.base.request.*;
 import com.soft.base.resultapi.R;
 import com.soft.base.service.SysUsersService;
 import com.soft.base.utils.AESUtil;
 import com.soft.base.utils.SecurityUtil;
+import com.soft.base.vo.AllUserVo;
+import com.soft.base.vo.PageVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -49,15 +48,11 @@ public class SysUserController {
 
     @PostMapping(value = "/getAllUsers")
     @Operation(summary = "获取所有用户")
-    public R<Map<String,Object>> getAllUsers(@RequestBody PageRequest request) {
+    public R<PageVo<AllUserVo>> getAllUsers(@RequestBody PageRequest request) {
         Map<String,Object> resultMap = new HashMap<>();
         try {
-            Page<Map<String,Object>> mapPage = sysUsersService.getAllUsers(request);
-            List<String> userRole = securityUtil.getUserRole();
-            resultMap.put("userRole", userRole);
-            resultMap.put("data", mapPage.getRecords());
-            resultMap.put("total", mapPage.getTotal());
-            return R.ok(resultMap);
+            PageVo<AllUserVo> allUsers = sysUsersService.getAllUsers(request);
+            return R.ok(allUsers);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return R.fail();
@@ -103,21 +98,69 @@ public class SysUserController {
         }
     }
 
-    @PostMapping(value = "/setRoleForUser")
-    @Operation(summary = "用户赋角色")
-    public R setRoleForUser(@RequestBody SetRoleForUserRequest request) {
-        if (request.getRoleId() == null) {
-            return R.fail("角色id不能为空");
+    @PostMapping
+    @Operation(summary = "添加用户")
+    public R saveUser(@RequestBody SaveUserRequest request) {
+        if (StringUtils.isBlank(request.getUsername())) {
+            return R.fail("用户名不能为空");
         }
-        if (request.getUserId() == null || request.getUserId().isEmpty()) {
-            return R.fail("用户id不能为空");
+        if (StringUtils.isBlank(request.getPassword())) {
+            return R.fail("密码不能为空");
+        }
+        if (request.getDeptId() == null) {
+            return R.fail("部门不能为空");
+        }
+        if (StringUtils.isBlank(request.getEmail())) {
+            return R.fail("邮箱不能为空");
         }
         try {
-            sysUsersService.setRoleForUser(request);
+            sysUsersService.saveUser(request);
             return R.ok();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return R.fail();
         }
     }
+
+    @PutMapping
+    @Operation(summary = "编辑用户")
+    public R editUser(@RequestBody EditUserRequest request) {
+        if (request.getId() == null) {
+            return R.fail("id不能为空");
+        }
+        if (StringUtils.isBlank(request.getUsername())) {
+            return R.fail("用户名不能为空");
+        }
+        if (request.getDeptId() == null) {
+            return R.fail("部门不能为空");
+        }
+        if (StringUtils.isBlank(request.getEmail())) {
+            return R.fail("邮箱不能为空");
+        }
+        try {
+            sysUsersService.editUser(request);
+            return R.ok();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return R.fail();
+        }
+    }
+
+//    @PostMapping(value = "/setRoleForUser")
+//    @Operation(summary = "用户赋予角色")
+//    public R setRoleForUser(@RequestBody SetRoleForUserRequest request) {
+//        if (request.getRoleId() == null) {
+//            return R.fail("角色id不能为空");
+//        }
+//        if (request.getUserId() == null) {
+//            return R.fail("用户id不能为空");
+//        }
+//        try {
+//            sysUsersService.setRoleForUser(request);
+//            return R.ok();
+//        } catch (Exception e) {
+//            log.error(e.getMessage(), e);
+//            return R.fail();
+//        }
+//    }
 }

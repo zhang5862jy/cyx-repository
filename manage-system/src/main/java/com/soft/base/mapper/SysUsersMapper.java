@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.soft.base.dto.UserEmailDto;
 import com.soft.base.dto.UserRoleDto;
 import com.soft.base.entity.SysUser;
+import com.soft.base.vo.AllUserVo;
 import com.soft.base.vo.DeptUserVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,7 +19,7 @@ import java.util.Map;
 * @Entity com.soft.entity.Users
 */
 public interface SysUsersMapper extends BaseMapper<SysUser> {
-    Page<Map<String,Object>> getAllUsers(@Param("page") Page<Map<String,Object>> page);
+    Page<AllUserVo> getAllUsers(@Param("page") Page<AllUserVo> page);
 
     void editPassword(@Param("username") String username,
                       @Param("password") String password);
@@ -31,7 +32,7 @@ public interface SysUsersMapper extends BaseMapper<SysUser> {
 
     String getEmail(@Param("username") String username);
 
-    void setRoleForUser(@Param("userRoles") List<UserRoleDto> userRoles);
+    void setRoleForUser(@Param("userRoleDto") UserRoleDto userRoleDto);
 }
 
 

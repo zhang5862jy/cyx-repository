@@ -6,19 +6,18 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.soft.base.dto.UserRoleDto;
 import com.soft.base.entity.SysUser;
 import com.soft.base.mapper.SysUsersMapper;
-import com.soft.base.request.PageRequest;
-import com.soft.base.request.ResetPasswordRequest;
-import com.soft.base.request.SetRoleForUserRequest;
+import com.soft.base.request.*;
 import com.soft.base.service.SysUsersService;
 import com.soft.base.utils.AESUtil;
 import com.soft.base.utils.SecurityUtil;
+import com.soft.base.vo.AllUserVo;
+import com.soft.base.vo.PageVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
 * @author cyq
@@ -48,9 +47,13 @@ public class SysUsersServiceImpl extends ServiceImpl<SysUsersMapper, SysUser> im
     }
 
     @Override
-    public Page<Map<String,Object>> getAllUsers(PageRequest request) {
-        Page<Map<String,Object>> page = new Page<>(request.getPageNum(), request.getPageSize());
-        return sysUsersMapper.getAllUsers(page);
+    public PageVo<AllUserVo> getAllUsers(PageRequest request) {
+        Page<AllUserVo> page = new Page<>(request.getPageNum(), request.getPageSize());
+        Page<AllUserVo> allUsers = sysUsersMapper.getAllUsers(page);
+        PageVo<AllUserVo> pageVo = new PageVo<>();
+        pageVo.setResult(allUsers.getRecords());
+        pageVo.setTotal(allUsers.getTotal());
+        return pageVo;
     }
 
     @Override
@@ -78,17 +81,26 @@ public class SysUsersServiceImpl extends ServiceImpl<SysUsersMapper, SysUser> im
 
     @Override
     public void setRoleForUser(SetRoleForUserRequest request) {
-        List<UserRoleDto> userRoles = request
-                .getUserId()
-                .stream()
-                .map(item -> {
-                    UserRoleDto userRoleDto = new UserRoleDto();
-                    userRoleDto.setRoleId(request.getRoleId());
-                    userRoleDto.setUserId(item);
-                    return userRoleDto;
-                })
-                .collect(Collectors.toList());
-        sysUsersMapper.setRoleForUser(userRoles);
+        UserRoleDto userRoleDto = new UserRoleDto();
+        userRoleDto.setRoleId(request.getRoleId());
+        userRoleDto.setUserId(request.getUserId());
+        sysUsersMapper.setRoleForUser(userRoleDto);
+    }
+
+    @Override
+    public void saveUser(SaveUserRequest request) throws Exception{
+        request.setPassword(passwordEncoder.encode(aesUtil.decrypt(request.getPassword())));
+        SysUser sysUser = new SysUser();
+        BeanUtils.copyProperties(request, sysUser);
+        sysUser.setDefault();
+        sysUsersMapper.insert(sysUser);
+    }
+
+    @Override
+    public void editUser(EditUserRequest request) {
+        SysUser sysUser = new SysUser();
+        BeanUtils.copyProperties(request, sysUser);
+        sysUsersMapper.updateById(sysUser);
     }
 }
 

@@ -18,7 +18,7 @@ import java.util.List;
 public class SetRoleForUserRequest {
 
     @Schema(description = "用户id")
-    private List<Long> userId;
+    private Long userId;
 
     @Schema(description = "角色id")
     private Long roleId;

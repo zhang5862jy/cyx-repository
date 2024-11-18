@@ -3,9 +3,9 @@ package com.soft.base.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.soft.base.entity.SysUser;
-import com.soft.base.request.PageRequest;
-import com.soft.base.request.ResetPasswordRequest;
-import com.soft.base.request.SetRoleForUserRequest;
+import com.soft.base.request.*;
+import com.soft.base.vo.AllUserVo;
+import com.soft.base.vo.PageVo;
 
 import java.util.Map;
 
@@ -15,7 +15,7 @@ import java.util.Map;
 * @createDate 2024-09-30 15:49:52
 */
 public interface SysUsersService extends IService<SysUser> {
-    Page<Map<String,Object>> getAllUsers(PageRequest request);
+    PageVo<AllUserVo> getAllUsers(PageRequest request);
 
     void editPassword(String targetPass) throws Exception;
 
@@ -26,4 +26,8 @@ public interface SysUsersService extends IService<SysUser> {
     boolean checkUsernameExist(String username);
 
     void setRoleForUser(SetRoleForUserRequest request);
+
+    void saveUser(SaveUserRequest request) throws Exception;
+
+    void editUser(EditUserRequest request);
 }
