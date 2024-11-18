@@ -44,18 +44,13 @@
 <!--        AND u.username = #{username}-->
 <!--    </select>-->
 
-    <select id="getAllUsers" resultType="java.util.HashMap">
+    <select id="getAllUsers" resultType="AllUserVo">
         SELECT
         u.id,
         u.username,
-        u.create_time AS "createTime",
-        u.create_by AS "createBy",
         u.phone,
         u.email,
         u.nickname,
-        u.account_non_expired AS "accountNonExpired",
-        u.account_non_locked AS "accountNonLocked",
-        u.credentials_non_expired AS "credentialsNonExpired",
         u.enabled,
         u.dept_id AS "deptId"
         FROM

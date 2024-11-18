@@ -49,7 +49,6 @@ public class SysUserController {
     @PostMapping(value = "/getAllUsers")
     @Operation(summary = "获取所有用户")
     public R<PageVo<AllUserVo>> getAllUsers(@RequestBody PageRequest request) {
-        Map<String,Object> resultMap = new HashMap<>();
         try {
             PageVo<AllUserVo> allUsers = sysUsersService.getAllUsers(request);
             return R.ok(allUsers);

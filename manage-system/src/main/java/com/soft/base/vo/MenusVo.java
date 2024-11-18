@@ -21,7 +21,7 @@ public class MenusVo {
     private Long id;
 
     @Schema(description = "菜单名称")
-    private String name;
+    private String title;
 
     @Schema(description = "菜单图标")
     private String icon;
