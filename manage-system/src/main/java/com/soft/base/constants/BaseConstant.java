@@ -28,6 +28,11 @@ public class BaseConstant {
     public final static Integer ENABLED_FALSE = 0;
 
     /**
+     * 邮箱文本路径
+     */
+    public final static String EMAIL_CONTENT_PATH = "template/emailcontent.txt";
+
+    /**
      * 左下划线
      */
     public final static String LEFT_SLASH = "/";
