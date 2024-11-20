@@ -89,7 +89,6 @@ public class SysUser implements Serializable {
      * 逻辑删除；1：存在；0：不存在
      */
     @TableField(value = "del_flag", fill = FieldFill.INSERT)
-    @TableLogic
     private String delFlag;
 
     /**

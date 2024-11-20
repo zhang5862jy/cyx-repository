@@ -69,7 +69,7 @@ public class SysFileController {
     public ResponseEntity downloadFile(@RequestParam(value = "id", required = false) Long id,
                                        HttpServletResponse response) {
         if (id == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(R.fail("id不能为空"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(R.fail("主键不能为空"));
         }
         OutputStream os;
         InputStream is = null;
@@ -104,6 +104,22 @@ public class SysFileController {
                     log.error(e.getMessage(), e);
                 }
             }
+        }
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @Operation(summary = "删除文件")
+    @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
+    public R deleteFile(@PathVariable(value = "id") Long id) {
+        if (id == null) {
+            return R.fail("主键不能为空");
+        }
+        try {
+            sysFileService.deleteFile(id);
+            return R.ok();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return R.fail();
         }
     }
 }

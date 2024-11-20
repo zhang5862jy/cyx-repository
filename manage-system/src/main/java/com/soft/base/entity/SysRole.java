@@ -57,7 +57,6 @@ public class SysRole implements Serializable {
      * 逻辑删除；1：存在；0：删除
      */
     @TableField(value = "del_flag", fill = FieldFill.INSERT)
-    @TableLogic
     private String delFlag;
 
     /**

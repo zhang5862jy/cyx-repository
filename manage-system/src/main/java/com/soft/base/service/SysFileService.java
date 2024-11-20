@@ -18,4 +18,6 @@ public interface SysFileService extends IService<SysFile> {
     void uploadFile(MultipartFile multipartFile) throws GlobelException;
 
     FileDetailDto getFileDetailById(Long id);
+
+    void deleteFile(Long id);
 }

@@ -62,6 +62,11 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile>
     public FileDetailDto getFileDetailById(Long id) {
         return sysFileMapper.getFileDetailById(id);
     }
+
+    @Override
+    public void deleteFile(Long id) {
+        sysFileMapper.deleteById(id);
+    }
 }
 
 
