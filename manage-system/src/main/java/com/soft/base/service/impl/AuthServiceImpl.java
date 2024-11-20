@@ -26,6 +26,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.IllegalBlockSizeException;
 import java.util.concurrent.TimeUnit;
 
 import static com.soft.base.constants.BaseConstant.*;
@@ -133,7 +134,7 @@ public class AuthServiceImpl implements AuthService {
 
             UserEmailDto userEmailDto = sysUsersMapper.getEmailByUsername(username);
 
-            String captChat = universalUtil.generate(LOGIN_CAPTCHAT_LENGTH);
+            String captChat = universalUtil.generate(LOGIN_CAPTCHA_LENGTH);
 
             String captchainfo = "<!DOCTYPE html> <html lang='zh-CN'> <head> <meta charset='UTF-8'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>验证码邮件</title> </head> <body> <p>尊敬的用户您好！</p> <p>您的验证码是：<strong>" + captChat + "</strong>，请您在1分钟内完成验证。</p> <p>如果该验证码不是您本人申请的，请忽略此邮件。</p> <p>感谢您的使用！</p> <p>此邮件由系统自动发送，请勿回复。</p> </body> </html>";
             redisTemplate.opsForValue().set(EMAIL_CAPTCHA_KEY + username, captChat, expireTime, TimeUnit.SECONDS);

@@ -7,6 +7,8 @@ import com.soft.base.mapper.SysRoleMapper;
 import com.soft.base.mapper.SysUsersMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +28,7 @@ import static com.soft.base.constants.BaseConstant.*;
 */
 @Service
 @Slf4j
+@CacheConfig(cacheNames = "users")
 public class UsersDetailServiceImpl implements UserDetailsService{
 
     private final SysUsersMapper sysUsersMapper;
@@ -39,6 +42,7 @@ public class UsersDetailServiceImpl implements UserDetailsService{
     }
 
     @Override
+    @Cacheable(key = "#username")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser sysUser = sysUsersMapper.selectOne(Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getUsername, username).or().eq(SysUser::getEmail, username));
         if (sysUser == null) {

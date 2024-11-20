@@ -2,6 +2,13 @@ package com.soft.base.service;
 
 import com.soft.base.entity.SysDictData;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.soft.base.request.DeleteRequest;
+import com.soft.base.request.DictDatasRequest;
+import com.soft.base.request.EditDictDataRequest;
+import com.soft.base.request.SaveDictDataRequest;
+import com.soft.base.vo.DictDataVo;
+import com.soft.base.vo.DictDatasVo;
+import com.soft.base.vo.PageVo;
 
 /**
 * @author cyq
@@ -10,4 +17,15 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SysDictDataService extends IService<SysDictData> {
 
+    PageVo<DictDatasVo> getDictDatas(DictDatasRequest request);
+
+    DictDataVo getDictData(Long id);
+
+    void saveDictData(SaveDictDataRequest request);
+
+    void editDictData(EditDictDataRequest request);
+
+    void deleteDictData(Long id);
+
+    void deleteDictDataBatch(DeleteRequest request);
 }

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import static com.soft.base.constants.BaseConstant.LOGIN_CAPTCHAT_LENGTH;
+import static com.soft.base.constants.BaseConstant.LOGIN_CAPTCHA_LENGTH;
 import static com.soft.base.constants.RabbitmqConstant.TOPIC_QUEUE_SEND_LOGIN_CAPTCHA;
 import static com.soft.base.constants.RabbitmqConstant.TOPIC_QUEUE_SEND_REGIST_CAPTCHA;
 import static com.soft.base.constants.RedisConstant.EMAIL_CAPTCHA_KEY;
@@ -69,7 +69,7 @@ public class CaptchaConsume {
             String username = new String(message.getBody());
 
             String email = sysUsersService.getEmail(username);
-            String captChat = universalUtil.generate(LOGIN_CAPTCHAT_LENGTH);
+            String captChat = universalUtil.generate(LOGIN_CAPTCHA_LENGTH);
             redisTemplate.opsForValue().set(EMAIL_CAPTCHA_KEY + username, captChat, expireTime, TimeUnit.SECONDS);
 
             sendEmail(email, captChat);
@@ -92,7 +92,7 @@ public class CaptchaConsume {
         try {
             log.info("start consume message...");
             String email = new String(message.getBody());
-            String captChat = universalUtil.generate(LOGIN_CAPTCHAT_LENGTH);
+            String captChat = universalUtil.generate(LOGIN_CAPTCHA_LENGTH);
             redisTemplate.opsForValue().set(EMAIL_CAPTCHA_KEY + email, captChat, expireTime, TimeUnit.SECONDS);
 
             sendEmail(email, captChat);

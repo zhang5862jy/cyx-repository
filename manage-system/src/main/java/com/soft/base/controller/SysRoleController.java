@@ -1,5 +1,6 @@
 package com.soft.base.controller;
 
+import com.soft.base.dto.FixRolesDto;
 import com.soft.base.entity.SysRole;
 import com.soft.base.request.*;
 import com.soft.base.resultapi.R;
@@ -9,7 +10,6 @@ import com.soft.base.vo.SysRoleVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -17,9 +17,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
 
-import static com.soft.base.constants.BaseConstant.DEF_STATUS;
+import static com.soft.base.constants.BaseConstant.*;
 import static com.soft.base.constants.RegexConstant.ROLE_CODE_HEADER;
 
 @RestController
@@ -106,7 +108,27 @@ public class SysRoleController {
             return R.fail("主键不能为空");
         }
         try {
-            sysRoleService.deleteRoleBatch(request.getIds());
+            List<FixRolesDto> fixRolesFlag = sysRoleService.fixRolesFlag(request.getIds());
+            if (!fixRolesFlag.isEmpty()) {
+                StringBuilder message = new StringBuilder();
+                message.append(LEFT_SQUARE_BRACKET);
+                Iterator<FixRolesDto> iterator = fixRolesFlag.iterator();
+                while (iterator.hasNext()) {
+                    FixRolesDto next = iterator.next();
+                    if (next.getFixRole().equals(FIX_ROLE_FLAG)
+                            || next.getIsDefault().equals(DEFAULT_ROLE_FLAG)) {
+                        message.append(next.getName());
+                    }
+                    if (iterator.hasNext()) {
+                        message.append(",");
+                    }
+                }
+                message.append(RIGHT_SQUARE_BRACKET);
+                message.append("不可被删除");
+                return R.fail(message.toString());
+            }
+
+            sysRoleService.deleteRoleBatch(request);
             return R.ok("删除成功", null);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -183,6 +205,42 @@ public class SysRoleController {
         }
         try {
             sysRoleService.setDefaultRole(id);
+            return R.ok();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return R.fail();
+        }
+    }
+
+    @PostMapping(value = "/setMenus")
+    @Operation(summary = "赋予菜单")
+    public R setMenus(@RequestBody SetMenusRequest request) {
+        if (request.getRoleId() == null) {
+            return R.fail("角色主键不能为空");
+        }
+        if (request.getMenuIds() == null || request.getMenuIds().isEmpty()) {
+            return R.fail("菜单主键不能为空");
+        }
+        try {
+            sysRoleService.setMenus(request);
+            return R.ok();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return R.fail();
+        }
+    }
+
+    @PostMapping(value = "/setPermissions")
+    @Operation(summary = "赋予权限")
+    public R setPermissions(@RequestBody SetPermissionsRequest request) {
+        if (request.getRoleId() == null) {
+            return R.fail("角色主键不能为空");
+        }
+        if (request.getPermissionIds() == null || request.getPermissionIds().isEmpty()) {
+            return R.fail("权限主键不能为空");
+        }
+        try {
+            sysRoleService.setPermissions(request);
             return R.ok();
         } catch (Exception e) {
             log.error(e.getMessage(), e);

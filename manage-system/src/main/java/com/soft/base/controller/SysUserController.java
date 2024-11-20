@@ -1,6 +1,5 @@
 package com.soft.base.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.soft.base.request.*;
 import com.soft.base.resultapi.R;
 import com.soft.base.service.SysUsersService;
@@ -13,13 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -74,7 +68,8 @@ public class SysUserController {
             if (!passwordEncoder.matches(originalDecrypt, password)) {
                 return R.fail("原密码不正确");
             }
-            sysUsersService.editPassword(request.getTargetPass());
+            String username = securityUtil.getUserInfo().getUsername();
+            sysUsersService.editPassword(request.getTargetPass(), username);
             return R.ok("修改成功", null);
         } catch (Exception e) {
             log.error(e.getMessage(), e);

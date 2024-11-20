@@ -25,7 +25,7 @@ import java.util.List;
  **/
 
 @RestController
-@RequestMapping(value = "/sysMenu")
+@RequestMapping(value = "/menu")
 @Tag(name = "菜单")
 @Slf4j
 public class SysMenuController {
@@ -66,7 +66,7 @@ public class SysMenuController {
     @Operation(summary = "编辑菜单")
     public R editMenu(@RequestBody EditMenuRequest request) {
         if (request.getId() == null) {
-            return R.fail("id不能不能为空");
+            return R.fail("主键不能不能为空");
         }
         try {
             sysMenuService.editMenu(request);

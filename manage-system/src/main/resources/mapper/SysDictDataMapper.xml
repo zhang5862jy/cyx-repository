@@ -31,4 +31,44 @@
         list_class,is_default,status,
         remark
     </sql>
+    <select id="getDictDatas" parameterType="DictDatasRequest" resultType="DictDatasVo">
+        SELECT
+        sdd.id,
+        sdd.`code`,
+        sdd.label,
+        sdd.`value`,
+        sdd.is_default AS "isDefault",
+        sdd.`status`
+        FROM
+        sys_dict_data sdd
+        WHERE
+        sdd.del_flag = '1'
+        AND sdd.dict_type = #{request.dictType}
+    </select>
+    <select id="getDictData" parameterType="java.lang.Long" resultType="DictDataVo">
+        SELECT
+        sdd.id,
+        sdd.`code`,
+        sdd.label,
+        sdd.`value`,
+        sdd.is_default AS "is_default",
+        sdd.`status`,
+        sdd.css_class AS "css_class",
+        sdd.dict_type AS "dict_type",
+        sdd.list_class AS "list_class",
+        sdd.remark,
+        sdd.sort_order AS "sort_order"
+        FROM
+        sys_dict_data sdd
+        WHERE
+        sdd.del_flag = '1'
+        AND sdd.id = #{id}
+    </select>
+    <update id="deleteDictDataBatch" parameterType="DeleteRequest">
+        UPDATE sys_dict_data sdd
+        SET del_flag = '0'
+        WHERE
+        del_flag = '1'
+        AND sdd.id = #{request.id}
+    </update>
 </mapper>

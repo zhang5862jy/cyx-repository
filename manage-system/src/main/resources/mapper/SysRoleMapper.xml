@@ -34,7 +34,7 @@
         WHERE
         fix_role = 0
         AND id IN
-        <foreach collection="ids" item="item" open="(" separator="," close=")">
+        <foreach collection="request.ids" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
     </update>
@@ -124,4 +124,52 @@
         sr.del_flag = '1'
         AND sur.user_id = #{userId}
     </select>
+    <select id="fixRolesFlag" parameterType="java.util.List" resultType="FixRolesDto">
+        SELECT
+        sr.`name`,
+        sr.fix_role AS "fixRole",
+        sr.is_default AS "isDefault"
+        FROM
+        sys_role sr
+        WHERE
+        sr.del_flag = '1'
+        AND sr.id IN
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <insert id="setMenus" parameterType="SetMenusRequest">
+        INSERT INTO sys_role_menu ( role_id, menu_id )
+        <foreach collection="request.menuIds" item="item" open="VALUES" separator="," close="">
+            (#{request.roleId},#{item})
+        </foreach>
+    </insert>
+    <delete id="deleteRoleMenus" parameterType="SetMenusRequest">
+        DELETE
+        FROM
+        sys_role_menu
+        WHERE
+        role_id = #{request.roleId}
+        AND menu_id IN
+        <foreach collection="request.menuIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteRolePermissions" parameterType="SetPermissionsRequest">
+        DELETE
+        FROM
+        sys_role_permission
+        WHERE
+        role_id = #{request.roleId}
+        AND permission_id IN
+        <foreach collection="request.permissionIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <insert id="setPermissions" parameterType="SetPermissionsRequest">
+        INSERT INTO sys_role_permission ( role_id, permission_id )
+        <foreach collection="request.permissionIds" item="item" open="VALUES" separator="," close="">
+            (#{request.roleId,#{item}})
+        </foreach>
+    </insert>
 </mapper>

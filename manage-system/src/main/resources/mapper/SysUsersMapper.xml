@@ -112,7 +112,4 @@
         AND su.username = #{username}
         OR su.email = #{username}
     </select>
-    <insert id="setRoleForUser" parameterType="UserRoleDto">
-        INSERT INTO sys_user_role (role_id, user_id)VALUE(#{userRoleDto.roleId},#{userRoleDto.userId})
-    </insert>
 </mapper>

@@ -10,8 +10,8 @@ import org.apache.ibatis.type.Alias;
 public class PageRequest {
 
     @Schema(description = "当前页码", example = "1")
-    private Long pageNum = 1l;
+    private Long pageNum = 1L;
 
     @Schema(description = "页面大小", example = "10")
-    private Long pageSize = 10l;
+    private Long pageSize = 10L;
 }

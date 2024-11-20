@@ -95,5 +95,25 @@ public class BaseConstant {
     /**
      * 登录方式：邮箱验证码长度
      */
-    public final static Integer LOGIN_CAPTCHAT_LENGTH = 6;
+    public final static Integer LOGIN_CAPTCHA_LENGTH = 6;
+
+    /**
+     * 固定角色标识
+     */
+    public final static Integer FIX_ROLE_FLAG = 1;
+
+    /**
+     * 默认角色标识
+     */
+    public final static Integer DEFAULT_ROLE_FLAG = 1;
+
+    /**
+     * 左方括弧
+     */
+    public final static String LEFT_SQUARE_BRACKET = "[";
+
+    /**
+     * 右方括弧
+     */
+    public final static String RIGHT_SQUARE_BRACKET = "]";
 }

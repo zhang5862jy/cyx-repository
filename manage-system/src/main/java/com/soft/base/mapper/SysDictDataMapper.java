@@ -1,7 +1,15 @@
 package com.soft.base.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.soft.base.entity.SysDictData;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.soft.base.request.DeleteRequest;
+import com.soft.base.request.DictDatasRequest;
+import com.soft.base.request.PermissionsRequest;
+import com.soft.base.vo.DictDataVo;
+import com.soft.base.vo.DictDatasVo;
+import com.soft.base.vo.PermissionsVo;
+import org.apache.ibatis.annotations.Param;
 
 /**
 * @author cyq
@@ -11,6 +19,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface SysDictDataMapper extends BaseMapper<SysDictData> {
 
+    IPage<DictDatasVo> getDictDatas(IPage<DictDatasVo> page, @Param("request") DictDatasRequest request);
+
+    DictDataVo getDictData(@Param("id") Long id);
+
+    void deleteDictDataBatch(@Param("request") DeleteRequest request);
 }
 
 

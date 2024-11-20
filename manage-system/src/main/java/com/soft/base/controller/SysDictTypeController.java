@@ -25,7 +25,7 @@ import java.util.List;
  * @DateTime: 2024/11/4 15:57
  **/
 @RestController
-@RequestMapping(value = "/sysDictType")
+@RequestMapping(value = "/dictType")
 @Tag(name = "字典类型")
 @Slf4j
 public class SysDictTypeController {
@@ -71,7 +71,7 @@ public class SysDictTypeController {
     @Operation(summary = "编辑字典类型")
     public R editDictType(@RequestBody EditDictTypeRequest request) {
         if (request.getId() == null) {
-            return R.fail("id不能为空");
+            return R.fail("主键不能为空");
         }
         try {
             sysDictTypeService.editDictType(request);
@@ -87,7 +87,7 @@ public class SysDictTypeController {
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
     public R<DictTypeVo> getDictType(@PathVariable(value = "id") Long id) {
         if (id == null) {
-            return R.fail("id不能为空");
+            return R.fail("主键不能为空");
         }
         try {
             DictTypeVo dictTypeVo = sysDictTypeService.getDictType(id);
@@ -103,7 +103,7 @@ public class SysDictTypeController {
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
     public R deleteDictType(@PathVariable(value = "id") Long id) {
         if (id == null) {
-            return R.fail("id不能为空");
+            return R.fail("主键不能为空");
         }
         try {
             sysDictTypeService.deleteDictType(id);
@@ -118,7 +118,7 @@ public class SysDictTypeController {
     @Operation(summary = "批量删除字典类型")
     public R deleteDictTypeBatch(@RequestBody DeleteRequest request) {
         if (request.getIds() == null || request.getIds().isEmpty()) {
-            return R.fail("ids不能为空");
+            return R.fail("主键集合不能为空");
         }
         try {
             sysDictTypeService.deleteDictTypeBatch(request.getIds());

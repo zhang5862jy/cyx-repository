@@ -3,25 +3,20 @@ package com.soft.base.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.soft.base.entity.SysMenu;
 import com.soft.base.exception.GlobelException;
+import com.soft.base.mapper.SysMenuMapper;
 import com.soft.base.request.EditMenuRequest;
 import com.soft.base.request.SaveMenuRequest;
 import com.soft.base.service.SysMenuService;
-import com.soft.base.mapper.SysMenuMapper;
 import com.soft.base.utils.SecurityUtil;
-import com.soft.base.vo.DeptTreeVo;
-import com.soft.base.vo.DeptUserVo;
 import com.soft.base.vo.MenusVo;
-import com.soft.base.vo.PageVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
 * @author cyq

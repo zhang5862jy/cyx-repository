@@ -1,9 +1,12 @@
 package com.soft.base.service;
 
+import com.soft.base.dto.FixRolesDto;
 import com.soft.base.entity.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.soft.base.request.DeleteRequest;
 import com.soft.base.request.GetRolesRequest;
-import com.soft.base.request.SetRoleForUserRequest;
+import com.soft.base.request.SetMenusRequest;
+import com.soft.base.request.SetPermissionsRequest;
 import com.soft.base.vo.PageVo;
 import com.soft.base.vo.SysRoleVo;
 
@@ -18,7 +21,7 @@ public interface SysRoleService extends IService<SysRole> {
 
     Boolean existCode(String code);
 
-    void deleteRoleBatch(List<Long> ids);
+    void deleteRoleBatch(DeleteRequest request);
 
     Boolean fixRoleFlag(Long id);
 
@@ -31,4 +34,10 @@ public interface SysRoleService extends IService<SysRole> {
     void forbiddenRole(Long id);
 
     void setDefaultRole(Long id);
+
+    List<FixRolesDto> fixRolesFlag(List<Long> ids);
+
+    void setMenus(SetMenusRequest request);
+
+    void setPermissions(SetPermissionsRequest request);
 }
