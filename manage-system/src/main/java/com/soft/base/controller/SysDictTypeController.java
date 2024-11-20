@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,6 +50,7 @@ public class SysDictTypeController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_dict_type_add')")
     @PostMapping
     @Operation(summary = "添加字典类型")
     public R saveDictType(@RequestBody SaveDictTypeRequest request) {
@@ -67,6 +69,7 @@ public class SysDictTypeController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_dict_type_edit')")
     @PutMapping
     @Operation(summary = "编辑字典类型")
     public R editDictType(@RequestBody EditDictTypeRequest request) {
@@ -98,6 +101,7 @@ public class SysDictTypeController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_dict_type_del')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除字典类型")
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
@@ -114,6 +118,7 @@ public class SysDictTypeController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_dict_type_del')")
     @DeleteMapping(value = "/deleteDictTypeBatch")
     @Operation(summary = "批量删除字典类型")
     public R deleteDictTypeBatch(@RequestBody DeleteRequest request) {

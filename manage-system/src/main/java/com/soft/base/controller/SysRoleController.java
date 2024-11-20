@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;
@@ -37,6 +38,7 @@ public class SysRoleController {
         this.sysRoleService = sysRoleService;
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_role_add')")
     @PostMapping
     @Operation(summary = "新增角色")
     public R saveRole(@RequestBody SaveRoleRequest request) {
@@ -64,6 +66,7 @@ public class SysRoleController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_role_edit')")
     @PutMapping
     @Operation(summary = "编辑角色")
     public R editRole(@RequestBody EditRoleRequest request) {
@@ -81,6 +84,7 @@ public class SysRoleController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_role_del')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除角色")
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
@@ -101,6 +105,7 @@ public class SysRoleController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_role_del')")
     @DeleteMapping(value = "/deleteRoleBatch")
     @Operation(summary = "批量删除角色")
     public R deleteRoleBatch(@RequestBody DeleteRequest request) {
@@ -164,6 +169,7 @@ public class SysRoleController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_role_enable')")
     @GetMapping(value = "/enableRole/{id}")
     @Operation(summary = "启用")
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
@@ -180,6 +186,7 @@ public class SysRoleController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_role_fbn')")
     @GetMapping(value = "/forbiddenRole/{id}")
     @Operation(summary = "禁用")
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
@@ -196,6 +203,7 @@ public class SysRoleController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_role_set_def')")
     @GetMapping(value = "/setDefaultRole/{id}")
     @Operation(summary = "设置默认角色")
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
@@ -212,6 +220,7 @@ public class SysRoleController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_role_set_menu')")
     @PostMapping(value = "/setMenus")
     @Operation(summary = "赋予菜单")
     public R setMenus(@RequestBody SetMenusRequest request) {
@@ -230,6 +239,7 @@ public class SysRoleController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_role_set_per')")
     @PostMapping(value = "/setPermissions")
     @Operation(summary = "赋予权限")
     public R setPermissions(@RequestBody SetPermissionsRequest request) {

@@ -80,6 +80,7 @@ public class SysUserController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_user_reset')")
     @PutMapping(value = "/resetPassword")
     @Operation(summary = "重置密码")
     public R resetPassword(@RequestBody ResetPasswordRequest request) {
@@ -95,6 +96,7 @@ public class SysUserController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_user_add')")
     @PostMapping
     @Operation(summary = "添加用户")
     public R saveUser(@RequestBody SaveUserRequest request) {
@@ -119,6 +121,7 @@ public class SysUserController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_user_edit')")
     @PutMapping
     @Operation(summary = "编辑用户")
     public R editUser(@RequestBody EditUserRequest request) {
@@ -142,22 +145,4 @@ public class SysUserController {
             return R.fail();
         }
     }
-
-//    @PostMapping(value = "/setRoleForUser")
-//    @Operation(summary = "用户赋予角色")
-//    public R setRoleForUser(@RequestBody SetRoleForUserRequest request) {
-//        if (request.getRoleId() == null) {
-//            return R.fail("角色id不能为空");
-//        }
-//        if (request.getUserId() == null) {
-//            return R.fail("用户id不能为空");
-//        }
-//        try {
-//            sysUsersService.setRoleForUser(request);
-//            return R.ok();
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return R.fail();
-//        }
-//    }
 }

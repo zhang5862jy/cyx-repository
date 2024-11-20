@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,6 +51,7 @@ public class SysDeptController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_menu_del')")
     @PostMapping
     @Operation(summary = "添加部门")
     public R saveDept(@RequestBody SaveDeptRequest request) {
@@ -77,6 +79,7 @@ public class SysDeptController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_dept_edit')")
     @PutMapping
     @Operation(summary = "编辑部门")
     public R editDept(@RequestBody EditDeptRequest request) {
@@ -92,6 +95,7 @@ public class SysDeptController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_dept_del')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除部门")
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
@@ -108,6 +112,7 @@ public class SysDeptController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_dept_del')")
     @DeleteMapping(value = "/deleteRoleBatch")
     @Operation(summary = "批量删除部门")
     public R deleteRoleBatch(@RequestBody DeleteRequest request) {

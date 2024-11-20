@@ -64,6 +64,7 @@ public class SysMenuController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_menu_edit')")
     @PutMapping
     @Operation(summary = "编辑菜单")
     public R editMenu(@RequestBody EditMenuRequest request) {
@@ -79,6 +80,7 @@ public class SysMenuController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_menu_del')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除菜单")
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)

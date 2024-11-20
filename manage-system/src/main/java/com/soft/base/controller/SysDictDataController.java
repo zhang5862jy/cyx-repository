@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -67,6 +68,7 @@ public class SysDictDataController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_dict_data_add')")
     @PostMapping
     @Operation(summary = "添加字典数据")
     public R saveDictData(@RequestBody SaveDictDataRequest request) {
@@ -82,6 +84,7 @@ public class SysDictDataController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_dict_data_edit')")
     @PutMapping
     @Operation(summary = "编辑字典数据")
     public R editDictData(@RequestBody EditDictDataRequest request) {
@@ -100,6 +103,7 @@ public class SysDictDataController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_dict_data_del')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除字典数据")
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
@@ -116,6 +120,7 @@ public class SysDictDataController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_dict_data_del')")
     @DeleteMapping(value = "/deleteDictDataBatch")
     @Operation(summary = "批量删除字典数据")
     public R deleteDictDataBatch(@RequestBody DeleteRequest request) {
