@@ -42,7 +42,7 @@ public class SysUserController {
         this.securityUtil = securityUtil;
         this.passwordEncoder = passwordEncoder;
     }
-    
+
     @PostMapping(value = "/getAllUsers")
     @Operation(summary = "获取所有用户")
     public R<PageVo<AllUserVo>> getAllUsers(@RequestBody PageRequest request) {

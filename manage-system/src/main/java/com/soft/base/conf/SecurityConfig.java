@@ -93,7 +93,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(universalUtil.toArray(jwtIgnoreProperty.getUrls(), String[].class)).permitAll()
                             .anyRequest().authenticated();
-                }).exceptionHandling(item -> {
+                })
+                // 权限不足处理类
+                .exceptionHandling(item -> {
                     item.accessDeniedHandler(customAccessDeniedHandler);
                 })
                 .logout(item -> item.logoutUrl("/logout")
