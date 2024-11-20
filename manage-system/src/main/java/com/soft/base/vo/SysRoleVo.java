@@ -1,11 +1,8 @@
 package com.soft.base.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
-
-import java.time.LocalDateTime;
 
 @Data
 @Schema(description = "角色")
@@ -17,20 +14,6 @@ public class SysRoleVo {
 
     @Schema(description = "排序字段")
     private Integer sortOrder;
-
-    @Schema(description = "创建人")
-    private String createBy;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Schema(description = "创建时间")
-    private String createTime;
-
-    @Schema(description = "修改人")
-    private String updateBy;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Schema(description = "修改时间")
-    private LocalDateTime updateTime;
 
     @Schema(description = "角色编码")
     private String code;
