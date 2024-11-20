@@ -36,4 +36,17 @@
         sf.del_flag = '1'
         AND sf.id = #{id}
     </select>
+    <select id="getFiles" parameterType="FilesRequest" resultType="FilesVo">
+        SELECT
+        sf.id,
+        sf.location,
+        sf.file_size AS "fileSize",
+        sf.original_name AS "originalName",
+        sf.create_time AS "createTime",
+        sf.create_by AS "createBy"
+        FROM
+        sys_file sf
+        WHERE
+        sf.del_flag = '1'
+    </select>
 </mapper>

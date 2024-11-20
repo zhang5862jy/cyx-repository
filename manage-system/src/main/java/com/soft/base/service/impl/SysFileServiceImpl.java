@@ -1,13 +1,18 @@
 package com.soft.base.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.soft.base.dto.FileDetailDto;
 import com.soft.base.entity.SysFile;
 import com.soft.base.exception.GlobelException;
+import com.soft.base.request.FilesRequest;
 import com.soft.base.resultapi.R;
 import com.soft.base.service.SysFileService;
 import com.soft.base.mapper.SysFileMapper;
 import com.soft.base.utils.MinioUtil;
+import com.soft.base.vo.FilesVo;
+import com.soft.base.vo.PageVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +71,16 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile>
     @Override
     public void deleteFile(Long id) {
         sysFileMapper.deleteById(id);
+    }
+
+    @Override
+    public PageVo<FilesVo> getFiles(FilesRequest request) {
+        IPage<FilesVo> page = new Page<>(request.getPageNum(), request.getPageSize());
+        page = sysFileMapper.getFiles(page, request);
+        PageVo<FilesVo> pageVo = new PageVo<>();
+        pageVo.setTotal(page.getTotal());
+        pageVo.setResult(page.getRecords());
+        return pageVo;
     }
 }
 

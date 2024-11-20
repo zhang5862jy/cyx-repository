@@ -1,9 +1,12 @@
 package com.soft.base.controller;
 
 import com.soft.base.dto.FileDetailDto;
+import com.soft.base.request.FilesRequest;
 import com.soft.base.resultapi.R;
 import com.soft.base.service.SysFileService;
 import com.soft.base.utils.MinioUtil;
+import com.soft.base.vo.FilesVo;
+import com.soft.base.vo.PageVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -117,6 +120,18 @@ public class SysFileController {
         try {
             sysFileService.deleteFile(id);
             return R.ok();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return R.fail();
+        }
+    }
+
+    @PostMapping(value = "/getFiles")
+    @Operation(summary = "获取文件（复）")
+    public R<PageVo<FilesVo>> getFiles(@RequestBody FilesRequest request) {
+        try {
+            PageVo<FilesVo> pageVo = sysFileService.getFiles(request);
+            return R.ok(pageVo);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return R.fail();

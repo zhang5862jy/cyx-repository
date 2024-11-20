@@ -4,6 +4,9 @@ import com.soft.base.dto.FileDetailDto;
 import com.soft.base.entity.SysFile;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.soft.base.exception.GlobelException;
+import com.soft.base.request.FilesRequest;
+import com.soft.base.vo.FilesVo;
+import com.soft.base.vo.PageVo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
@@ -20,4 +23,6 @@ public interface SysFileService extends IService<SysFile> {
     FileDetailDto getFileDetailById(Long id);
 
     void deleteFile(Long id);
+
+    PageVo<FilesVo> getFiles(FilesRequest request);
 }
