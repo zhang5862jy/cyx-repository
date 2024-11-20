@@ -18,7 +18,7 @@ public class FilesVo {
     @Schema(description = "主键")
     private Long id;
 
-    @Schema(description = "逻辑删除；1：存在；0：删除")
+    @Schema(description = "存储地址；1：minio；2：磁盘")
     private String location;
 
     @Schema(description = "文件大小")
