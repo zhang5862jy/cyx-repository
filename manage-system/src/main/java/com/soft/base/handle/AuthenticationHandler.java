@@ -22,6 +22,6 @@ public class AuthenticationHandler implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         int code = HttpConstant.UNAUTHORIZED;
-        ResponseUtil.writeErrMsg(response, code, R.fail(AUTHLICATION_FAIL.getCode(), "认证失败，无法访问系统资源"));
+        ResponseUtil.writeErrMsg(response, code, R.fail(AUTHLICATION_FAIL.getCode(), AUTHLICATION_FAIL.getMessage()));
     }
 }

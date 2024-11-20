@@ -3,8 +3,10 @@ package com.soft.base.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.soft.base.entity.SysUser;
 import com.soft.base.exception.ServiceException;
+import com.soft.base.mapper.SysPermissionMapper;
 import com.soft.base.mapper.SysRoleMapper;
 import com.soft.base.mapper.SysUsersMapper;
+import com.soft.base.service.SysPermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -33,12 +35,12 @@ public class UsersDetailServiceImpl implements UserDetailsService{
 
     private final SysUsersMapper sysUsersMapper;
 
-    private final SysRoleMapper sysRoleMapper;
+    private final SysPermissionService sysPermissionService;
 
     @Autowired
-    public UsersDetailServiceImpl(SysUsersMapper sysUsersMapper, SysRoleMapper sysRoleMapper) {
+    public UsersDetailServiceImpl(SysUsersMapper sysUsersMapper, SysPermissionService sysPermissionService) {
         this.sysUsersMapper = sysUsersMapper;
-        this.sysRoleMapper = sysRoleMapper;
+        this.sysPermissionService = sysPermissionService;
     }
 
     @Override
@@ -48,8 +50,8 @@ public class UsersDetailServiceImpl implements UserDetailsService{
         if (sysUser == null) {
             throw new UsernameNotFoundException("用户名或密码错误");
         }
-        // 角色集合
-        List<String> roleCodes = sysRoleMapper.getRoleCodeByUserId(sysUser.getId());
+        // 权限集合
+        List<String> permissions = sysPermissionService.getPermissionsByUserId(sysUser.getId());
 
         return new User(
                 sysUser.getUsername(),
@@ -58,7 +60,7 @@ public class UsersDetailServiceImpl implements UserDetailsService{
                 sysUser.getAccountNonExpired(),
                 sysUser.getCredentialsNonExpired(),
                 sysUser.getAccountNonLocked(),
-                roleCodes.stream()
+                permissions.stream()
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList()));
     }

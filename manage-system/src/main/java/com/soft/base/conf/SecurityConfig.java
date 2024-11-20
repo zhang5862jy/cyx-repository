@@ -2,6 +2,7 @@ package com.soft.base.conf;
 
 import com.soft.base.filter.JwtRequestFilter;
 import com.soft.base.handle.AuthenticationHandler;
+import com.soft.base.handle.CustomAccessDeniedHandler;
 import com.soft.base.handle.LogoutAfterSuccessHandler;
 import com.soft.base.properties.JwtIgnoreProperty;
 import com.soft.base.utils.JwtUtil;
@@ -19,6 +20,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -35,11 +37,14 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final AuthenticationHandler authenticationHandler;
 
     private final LogoutAfterSuccessHandler logoutAfterSuccessHandler;
+
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     private final UserDetailsService userDetailsService;
 
@@ -57,13 +62,15 @@ public class SecurityConfig {
                           UserDetailsService userDetailsService,
                           JwtUtil jwtUtil,
                           RedisTemplate<String,String> redisTemplate,
-                          UniversalUtil universalUtil) {
+                          UniversalUtil universalUtil,
+                          CustomAccessDeniedHandler customAccessDeniedHandler) {
         this.authenticationHandler = authenticationHandler;
         this.logoutAfterSuccessHandler = logoutAfterSuccessHandler;
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
         this.redisTemplate = redisTemplate;
         this.universalUtil = universalUtil;
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
     }
 
     @Autowired
@@ -86,6 +93,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(universalUtil.toArray(jwtIgnoreProperty.getUrls(), String[].class)).permitAll()
                             .anyRequest().authenticated();
+                }).exceptionHandling(item -> {
+                    item.accessDeniedHandler(customAccessDeniedHandler);
                 })
                 .logout(item -> item.logoutUrl("/logout")
                         .logoutSuccessHandler(logoutAfterSuccessHandler))

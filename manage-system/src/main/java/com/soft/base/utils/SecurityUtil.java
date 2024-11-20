@@ -29,15 +29,14 @@ public class SecurityUtil {
      * 从上下文获取用户角色
      * @return
      */
-    public List<String> getUserRole() {
-        return ((User) SecurityContextHolder
+    public List<String> getPermission() {
+        return SecurityContextHolder
                 .getContext()
                 .getAuthentication()
-                .getPrincipal())
                 .getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+                .toList();
 
     }
 }

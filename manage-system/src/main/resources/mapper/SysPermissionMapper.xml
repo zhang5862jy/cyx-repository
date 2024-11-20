@@ -37,4 +37,17 @@
         WHERE
         sp.del_flag = '1'
     </select>
+    <select id="getPermissionsByUserId" parameterType="java.lang.Long" resultType="java.lang.String">
+        SELECT
+        sp.`code`
+        FROM
+        sys_permission sp
+        JOIN sys_role_permission srp ON sp.id = srp.permission_id
+        JOIN sys_role sr ON srp.role_id = sr.id
+        JOIN sys_user_role sur ON sur.role_id = sr.id
+        WHERE
+        sp.del_flag = '1'
+        AND sr.del_flag = '1'
+        AND sur.user_id = #{id}
+    </select>
 </mapper>

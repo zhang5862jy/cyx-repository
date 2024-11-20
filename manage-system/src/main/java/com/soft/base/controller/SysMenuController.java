@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,6 +51,7 @@ public class SysMenuController {
         }
     }
 
+    @PreAuthorize(value = "@cps.hasPermission('sys_menu_add')")
     @PostMapping
     @Operation(summary = "添加菜单")
     public R saveMenu(@RequestBody SaveMenuRequest request) {

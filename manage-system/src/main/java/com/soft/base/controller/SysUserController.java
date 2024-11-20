@@ -12,8 +12,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -39,7 +42,7 @@ public class SysUserController {
         this.securityUtil = securityUtil;
         this.passwordEncoder = passwordEncoder;
     }
-
+    
     @PostMapping(value = "/getAllUsers")
     @Operation(summary = "获取所有用户")
     public R<PageVo<AllUserVo>> getAllUsers(@RequestBody PageRequest request) {

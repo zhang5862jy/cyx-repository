@@ -121,4 +121,9 @@ public class BaseConstant {
      * 右方括弧
      */
     public final static String RIGHT_SQUARE_BRACKET = "]";
+
+    /**
+     * 权限-启用
+     */
+    public final static String PERMISSION_ENABLE = "1";
 }

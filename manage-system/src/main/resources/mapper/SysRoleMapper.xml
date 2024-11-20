@@ -165,7 +165,7 @@
     <insert id="setPermissions" parameterType="SetPermissionsRequest">
         INSERT INTO sys_role_permission ( role_id, permission_id )
         <foreach collection="request.permissionIds" item="item" open="VALUES" separator="," close="">
-            (#{request.roleId,#{item}})
+            (#{request.roleId},#{item})
         </foreach>
     </insert>
 </mapper>

@@ -15,7 +15,7 @@ import java.util.List;
 */
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
-    List<MenusVo> getMenus(@Param("userRole") List<String> userRole);
+    List<MenusVo> getMenus(@Param("username") String username);
 }
 
 

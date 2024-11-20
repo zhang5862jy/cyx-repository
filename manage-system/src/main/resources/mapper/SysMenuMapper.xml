@@ -45,10 +45,15 @@
         AND sm.del_flag = '1'
         JOIN sys_role sr ON srm.role_id = sr.id
         AND sr.del_flag = '1'
+        JOIN sys_user_role sur ON sur.role_id = sr.id
         WHERE
-        sr.`code` IN
-        <foreach collection="userRole" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
+        sur.user_id = (
+        SELECT
+        su.id
+        FROM
+        sys_user
+        WHERE
+        su.del_flag = '1'
+        AND su.username = #{username})
     </select>
 </mapper>

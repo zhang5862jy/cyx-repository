@@ -7,6 +7,8 @@ import com.soft.base.request.PermissionsRequest;
 import com.soft.base.vo.PermissionsVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
 * @author cyq
 * @description 针对表【sys_permission】的数据库操作Mapper
@@ -18,6 +20,7 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
     IPage<PermissionsVo> getPermissions(IPage<PermissionsVo> page,
                                         @Param("request") PermissionsRequest request);
 
+    List<String> getPermissionsByUserId(@Param("id") Long id);
 }
 
 
