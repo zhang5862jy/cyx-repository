@@ -28,6 +28,7 @@ import static com.soft.base.constants.RedisConstant.TOKEN_BLACKLIST_KEY;
 import static com.soft.base.constants.TokenConstant.TOKEN_PREFIX;
 import static com.soft.base.constants.TokenConstant.TOKEN_PREFIX_LENGTH;
 import static com.soft.base.enums.ResultEnum.AUTHLICATION_FAIL;
+import static com.soft.base.enums.ResultEnum.BLACKLIST_TOKEN;
 
 /**
  * JWT过滤器
@@ -69,7 +70,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 // 验证当前token是否存在于黑名单中
                 Set<String> members = redisTemplate.opsForSet().members(TOKEN_BLACKLIST_KEY);
                 if (members != null && !members.isEmpty() && members.contains(token)) {
-                    ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, R.fail(AUTHLICATION_FAIL.getCode(), AUTHLICATION_FAIL.getMessage()));
+                    ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, R.fail(BLACKLIST_TOKEN.getCode(), BLACKLIST_TOKEN.getMessage()));
                     return;
                 }
 

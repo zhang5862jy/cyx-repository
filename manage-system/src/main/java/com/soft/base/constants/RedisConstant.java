@@ -21,4 +21,9 @@ public class RedisConstant {
      * 保存日志key
      */
     public final static String SYS_LOG_CACHE = "cyx:log:";
+
+    /**
+     * 用户信息
+     */
+    public final static String USER_INFO = "users::";
 }
