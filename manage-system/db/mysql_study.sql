@@ -11,7 +11,7 @@
  Target Server Version : 80039
  File Encoding         : 65001
 
- Date: 21/11/2024 14:46:13
+ Date: 21/11/2024 15:01:03
 */
 
 SET NAMES utf8mb4;
@@ -139,6 +139,35 @@ CREATE TABLE `sys_file`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文件表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of sys_file
+-- ----------------------------
+INSERT INTO `sys_file` VALUES (1, 'admin', '2024-11-17 15:17:09', 'admin', '2024-11-20 16:40:25', '1', 'node-v16.13.2-x64.msi', 'ab25ef876d794eafb0c536c49e1a6e41', '1', '20241117/ab25ef876d794eafb0c536c49e1a6e41.msi', '.msi', 28028928);
+INSERT INTO `sys_file` VALUES (2, 'admin', '2024-11-17 15:18:18', 'admin', '2024-11-17 15:18:18', '1', '吴彦祖.png', '17c2a345337e4e6bb81d3a6caacaa686', '1', '20241117/17c2a345337e4e6bb81d3a6caacaa686.png', '.png', 866889);
+INSERT INTO `sys_file` VALUES (3, 'admin', '2024-11-17 15:19:41', 'admin', '2024-11-17 15:19:41', '1', '刘亦菲.jpg', '06befab34b6c4470b4c85390e3261b2d', '1', '20241117/06befab34b6c4470b4c85390e3261b2d.jpg', '.jpg', 30852);
+INSERT INTO `sys_file` VALUES (4, 'admin', '2024-11-17 15:50:58', 'admin', '2024-11-17 15:50:58', '1', '20241027225153_0.mp4', '38caad66da854bdf8e5c212b1e492791', '1', '20241117/38caad66da854bdf8e5c212b1e492791.mp4', '.mp4', 8564078);
+INSERT INTO `sys_file` VALUES (5, 'admin', '2024-11-17 15:52:24', 'admin', '2024-11-17 15:52:24', '1', '20241027225153_1.mp4', 'e82e8407383a4517a10bc0a96a08fe35', '1', '20241117/e82e8407383a4517a10bc0a96a08fe35.mp4', '.mp4', 5188771);
+INSERT INTO `sys_file` VALUES (6, 'admin', '2024-11-17 15:52:30', 'admin', '2024-11-17 15:52:30', '1', '20241027225153_2.mp4', 'dcd32f843a14414b80c86ad9daf7d072', '1', '20241117/dcd32f843a14414b80c86ad9daf7d072.mp4', '.mp4', 3421283);
+INSERT INTO `sys_file` VALUES (7, 'admin', '2024-11-17 15:52:38', 'admin', '2024-11-17 15:52:38', '1', '20241028144453_0.mp4', '4e67a9db92614479a6f6de67f4ccb72a', '1', '20241117/4e67a9db92614479a6f6de67f4ccb72a.mp4', '.mp4', 11979336);
+INSERT INTO `sys_file` VALUES (8, 'admin', '2024-11-17 15:52:47', 'admin', '2024-11-17 15:52:47', '1', '20241028144453_1.mp4', '8a6f04e0656d4a6d9c5ac5744149dfa2', '1', '20241117/8a6f04e0656d4a6d9c5ac5744149dfa2.mp4', '.mp4', 5032779);
+INSERT INTO `sys_file` VALUES (9, 'admin', '2024-11-17 15:53:04', 'admin', '2024-11-17 15:53:04', '1', '20241028144453_2.mp4', '78a7fc7ea66d4ee6bf5221e6867c85fb', '1', '20241117/78a7fc7ea66d4ee6bf5221e6867c85fb.mp4', '.mp4', 4903671);
+INSERT INTO `sys_file` VALUES (10, 'admin', '2024-11-17 15:53:12', 'admin', '2024-11-17 15:53:12', '1', '20241028210748_0.mp4', '4d44065939794f79816826e2bb0f5482', '1', '20241117/4d44065939794f79816826e2bb0f5482.mp4', '.mp4', 4607459);
+INSERT INTO `sys_file` VALUES (11, 'admin', '2024-11-17 15:53:17', 'admin', '2024-11-17 15:53:17', '1', '20241028210748_1.mp4', '82c88283ccc04887b67f6bd110950d3f', '1', '20241117/82c88283ccc04887b67f6bd110950d3f.mp4', '.mp4', 5001021);
+INSERT INTO `sys_file` VALUES (12, 'admin', '2024-11-17 15:53:25', 'admin', '2024-11-17 15:53:25', '1', '20241028210748_2.mp4', 'f5c235d140414581b9d896fc3475bd7e', '1', '20241117/f5c235d140414581b9d896fc3475bd7e.mp4', '.mp4', 4487733);
+INSERT INTO `sys_file` VALUES (13, 'admin', '2024-11-17 15:53:31', 'admin', '2024-11-17 15:53:31', '1', '20241028210748_3.mp4', '6cbd6df018ad47169d10724dbfbcda84', '1', '20241117/6cbd6df018ad47169d10724dbfbcda84.mp4', '.mp4', 2061737);
+INSERT INTO `sys_file` VALUES (14, 'admin', '2024-11-17 15:53:37', 'admin', '2024-11-17 15:53:37', '1', '20241028225539_0.mp4', 'c6c4774699bf4b18bc4718022a25f7d9', '1', '20241117/c6c4774699bf4b18bc4718022a25f7d9.mp4', '.mp4', 7510481);
+INSERT INTO `sys_file` VALUES (15, 'admin', '2024-11-17 15:53:43', 'admin', '2024-11-17 15:53:43', '1', '20241028225539_2.mp4', '83e8a4da12164bfebf791252b48a3041', '1', '20241117/83e8a4da12164bfebf791252b48a3041.mp4', '.mp4', 11134114);
+INSERT INTO `sys_file` VALUES (16, 'admin', '2024-11-17 15:53:56', 'admin', '2024-11-17 15:53:56', '1', '20241029113512_0.mp4', '753ae59f222a45b7a38684cc59a8f67c', '1', '20241117/753ae59f222a45b7a38684cc59a8f67c.mp4', '.mp4', 3643941);
+INSERT INTO `sys_file` VALUES (17, 'admin', '2024-11-17 15:54:04', 'admin', '2024-11-17 15:54:04', '1', '20241101001404_0.mp4', '3b28bb0b8a0442749a100d5e03cb718f', '1', '20241117/3b28bb0b8a0442749a100d5e03cb718f.mp4', '.mp4', 4517158);
+INSERT INTO `sys_file` VALUES (18, 'admin', '2024-11-17 15:54:17', 'admin', '2024-11-17 15:54:17', '1', '20241112004405_0.mp4', 'd6eeeb9216b342c3a279582e877ff7cd', '1', '20241117/d6eeeb9216b342c3a279582e877ff7cd.mp4', '.mp4', 24958256);
+INSERT INTO `sys_file` VALUES (19, 'admin', '2024-11-17 15:54:25', 'admin', '2024-11-17 15:54:25', '1', '20241112232342_0.mp4', '3b63b169c1cd46fd9c4389425e5a1a67', '1', '20241117/3b63b169c1cd46fd9c4389425e5a1a67.mp4', '.mp4', 8460619);
+INSERT INTO `sys_file` VALUES (20, 'admin', '2024-11-17 15:54:48', 'admin', '2024-11-17 15:54:48', '1', '20241112232342_1.mp4', '6c23ea039b2f41f38033528e0c5f2091', '1', '20241117/6c23ea039b2f41f38033528e0c5f2091.mp4', '.mp4', 14620373);
+INSERT INTO `sys_file` VALUES (21, 'admin', '2024-11-17 15:54:56', 'admin', '2024-11-17 15:54:56', '1', '20241112235316_1.mp4', '8fb215d96b884f0da5cb574016f533bd', '1', '20241117/8fb215d96b884f0da5cb574016f533bd.mp4', '.mp4', 5058199);
+INSERT INTO `sys_file` VALUES (22, 'admin', '2024-11-17 15:55:24', 'admin', '2024-11-17 15:55:24', '1', 'video_20231218_152913.mp4', 'd3613d9399e84c70bebbd4780e3d1443', '1', '20241117/d3613d9399e84c70bebbd4780e3d1443.mp4', '.mp4', 38376510);
+INSERT INTO `sys_file` VALUES (23, 'admin', '2024-11-17 15:55:37', 'admin', '2024-11-17 15:55:37', '1', 'video_20231221_135012.mp4', '3176f46cfe304070a3e2da6f2f8e0e5e', '1', '20241117/3176f46cfe304070a3e2da6f2f8e0e5e.mp4', '.mp4', 56516716);
+INSERT INTO `sys_file` VALUES (24, 'admin', '2024-11-17 15:55:57', 'admin', '2024-11-17 15:55:57', '1', 'video_20231222_181432.mp4', '2990e7556fc74d29b9dc9852cb8494ba', '1', '20241117/2990e7556fc74d29b9dc9852cb8494ba.mp4', '.mp4', 85642712);
+INSERT INTO `sys_file` VALUES (25, 'admin', '2024-11-17 15:56:16', 'admin', '2024-11-17 15:56:16', '1', 'video_20231224_164742.mp4', '7d31a4d168c8468bac698b69b60fd987', '1', '20241117/7d31a4d168c8468bac698b69b60fd987.mp4', '.mp4', 32001662);
+
+-- ----------------------------
 -- Table structure for sys_log
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_log`;
@@ -164,26 +193,33 @@ CREATE TABLE `sys_log`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of sys_log
+-- ----------------------------
+INSERT INTO `sys_log` VALUES (1, NULL, '2024-11-21 12:01:57', '1', NULL, NULL, 'http://localhost:8081/cyx/auth/login', 'POST', NULL, 'R(code=2001, msg=成功, data=LoginVo(token=Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTczMjE2NTMxNiwiaWF0IjoxNzMyMTYxNzE2fQ.C7d3Ds15fu9AJk7ZkS0N4zfiZiGlKomMwXMkWjsKhn8, username=admin))', '用户登录', NULL, 265, '登录', NULL, NULL, 'Windows 10/Chrome 13');
+INSERT INTO `sys_log` VALUES (2, NULL, '2024-11-21 12:51:38', '1', NULL, '0:0:0:0:0:0:0:1', 'http://localhost:8081/cyx/auth/login', 'POST', 'org.apache.catalina.util.ParameterMap@8836060', 'R(code=2001, msg=成功, data=LoginVo(token=Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTczMjE2ODI5NywiaWF0IjoxNzMyMTY0Njk3fQ.q62nPau-DzIhZkAk_UUDHxmV73Fv5C9kBEIAnoVcyhQ, username=admin))', '用户登录', NULL, 244, '登录', NULL, NULL, 'Windows 10/Chrome 13');
+INSERT INTO `sys_log` VALUES (3, NULL, '2024-11-21 14:24:15', '1', NULL, '0:0:0:0:0:0:0:1', 'http://localhost:8081/cyx/auth/login', 'POST', '[{\"loginMethod\":\"email\",\"password\":\"305793\",\"username\":\"admin\"}]', 'R(code=2001, msg=成功, data=LoginVo(token=Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTczMjE3Mzg1NCwiaWF0IjoxNzMyMTcwMjU0fQ.BiFkAp0S6WVutMZxb_nweGdFDsY8HdlnTCkMJd2FFnc, username=admin))', '用户登录', NULL, 489, '登录', 2001, NULL, 'Windows 10/Chrome 13');
+
+-- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '菜单唯一标识符，主键',
   `parent_id` bigint NULL DEFAULT 0 COMMENT '父菜单ID，顶级菜单的父ID通常为0',
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '菜单名称',
-  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '前端路由路径',
-  `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '前端组件路径',
-  `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '菜单图标（如字体图标类名）',
-  `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '菜单类型：0-目录，1-菜单，2-按钮',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单名称',
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '前端路由路径',
+  `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '前端组件路径',
+  `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单图标（如字体图标类名）',
+  `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单类型：0-目录，1-菜单，2-按钮',
   `order_num` int NULL DEFAULT 0 COMMENT '排序号，数字越小，排序越靠前',
   `status` tinyint NULL DEFAULT 1 COMMENT '菜单状态：0-禁用，1-启用',
   `visible` tinyint NULL DEFAULT 1 COMMENT '是否显示：0-隐藏，1-显示',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注信息',
-  `create_by` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人',
-  `update_by` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '修改人',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '逻辑删除；1：存在；0：删除',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
+  `create_by` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '逻辑删除；1：存在；0：删除',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_parent_id`(`parent_id` ASC) USING BTREE,
   INDEX `idx_type`(`type` ASC) USING BTREE
@@ -382,7 +418,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '2024-10-24 07:25:34', 'admin', '2024-11-16 04:29:52', '1', 'admin', '$2a$10$7GBeWjeLbS1OUOFl18nvMeiww0cAtVQRCnNOQJBVgzoJX.KMaezSy', '程益祥', '1907452460@qq.com', NULL, 1, 1, 1, 1, 1);
+INSERT INTO `sys_user` VALUES (1, 'admin', '2024-10-24 07:25:34', 'admin', '2024-11-16 04:29:52', '1', 'admin', '$2a$10$7GBeWjeLbS1OUOFl18nvMeiww0cAtVQRCnNOQJBVgzoJX.KMaezSy', '程益祥', '1907452460@qq.com', '13235423290', 1, 1, 1, 1, 1);
 INSERT INTO `sys_user` VALUES (2, 'admin', '2024-11-09 23:31:22', 'admin', '2024-11-16 12:20:40', '1', 'zjy001', '$2a$10$toTWMK/I76kY2SwHPKX2k.EQqYcjG14PWjJ.H4dkGPIzE.joJ0x3a', '张佳耀', '3332951238@qq.com', NULL, 1, 1, 1, 1, 1);
 
 -- ----------------------------
