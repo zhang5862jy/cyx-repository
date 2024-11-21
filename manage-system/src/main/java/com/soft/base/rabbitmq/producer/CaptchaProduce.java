@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import static com.soft.base.constants.RabbitmqConstant.*;
 
 /**
- * @Author: 程益祥
+ * @Author: cyx
  * @Description: TODO
  * @DateTime: 2024/11/16 20:06
  **/

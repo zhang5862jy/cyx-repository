@@ -1,7 +1,7 @@
 package com.soft.base.exception;
 
 /**
- * @Author: 程益祥
+ * @Author: cyx
  * @Description: TODO
  * @DateTime: 2024/11/7 18:17
  **/

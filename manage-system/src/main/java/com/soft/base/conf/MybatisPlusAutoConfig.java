@@ -17,16 +17,21 @@ import static com.soft.base.constants.BaseConstant.DEL_FLAG_EXIST;
 public class MybatisPlusAutoConfig implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
-        // 自动填充创建时间
-        fillValIfNullByName("createTime", LocalDateTime.now(),metaObject);
-        // 自动填充创建人
-        fillValIfNullByName("createBy", getCurrentUsername(), metaObject);
-        // 自动填充更新时间
-        fillValIfNullByName("updateTime", LocalDateTime.now(), metaObject);
-        // 自动填充更新人
-        fillValIfNullByName("updateBy", getCurrentUsername(), metaObject);
-        // 自动填充逻辑删除
-        fillValIfNullByName("delFlag", DEL_FLAG_EXIST, metaObject);
+        if (metaObject.hasSetter("createTime"))
+            // 自动填充创建时间
+            fillValIfNullByName("createTime", LocalDateTime.now(),metaObject);
+        if (metaObject.hasSetter("createBy"))
+            // 自动填充创建人
+            fillValIfNullByName("createBy", getCurrentUsername(), metaObject);
+        if (metaObject.hasSetter("updateTime"))
+            // 自动填充更新时间
+            fillValIfNullByName("updateTime", LocalDateTime.now(), metaObject);
+        if (metaObject.hasSetter("updateBy"))
+            // 自动填充更新人
+            fillValIfNullByName("updateBy", getCurrentUsername(), metaObject);
+        if (metaObject.hasSetter("delFlag"))
+            // 自动填充逻辑删除
+            fillValIfNullByName("delFlag", DEL_FLAG_EXIST, metaObject);
     }
 
     @Override

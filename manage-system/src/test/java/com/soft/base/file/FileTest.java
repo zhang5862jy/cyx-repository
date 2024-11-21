@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import static com.soft.base.constants.BaseConstant.EMAIL_CONTENT_PATH;
 
 /**
- * @Author: 程益祥
+ * @Author: cyx
  * @Description: TODO
  * @DateTime: 2024/11/20 15:45
  **/

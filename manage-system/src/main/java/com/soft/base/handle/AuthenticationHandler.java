@@ -21,7 +21,6 @@ import static com.soft.base.enums.ResultEnum.AUTHLICATION_FAIL;
 public class AuthenticationHandler implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        int code = HttpConstant.UNAUTHORIZED;
-        ResponseUtil.writeErrMsg(response, code, R.fail(AUTHLICATION_FAIL.getCode(), AUTHLICATION_FAIL.getMessage()));
+        ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, R.fail(AUTHLICATION_FAIL.getCode(), AUTHLICATION_FAIL.getMessage()));
     }
 }

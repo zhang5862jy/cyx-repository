@@ -38,6 +38,11 @@ public class BaseConstant {
     public final static String LEFT_SLASH = "/";
 
     /**
+     * 请求头信息
+     */
+    public final static String HEADER_USER_AGENT = "User-Agent";
+
+    /**
      * 全通配符
      */
     public final static String ALL_WILDCARD_CHARACTER = "**";

@@ -19,7 +19,7 @@ import static com.soft.base.enums.ResultEnum.AUTHLICATION_FAIL;
 import static com.soft.base.enums.ResultEnum.SUCCESS;
 
 /**
- * @Author: 程益祥
+ * @Author: cyx
  * @Description: TODO
  * @DateTime: 2024/10/25 23:04
  **/

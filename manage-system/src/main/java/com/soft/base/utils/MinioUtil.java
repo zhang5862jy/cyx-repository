@@ -13,7 +13,7 @@ import java.util.UUID;
 import static com.soft.base.constants.BaseConstant.*;
 
 /**
- * @Author: 程益祥
+ * @Author: cyx
  * @Description: minio工具类
  * @DateTime: 2024/10/26 15:23
  **/

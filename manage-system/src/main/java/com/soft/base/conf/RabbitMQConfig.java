@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import static com.soft.base.constants.RabbitmqConstant.*;
 
 /**
- * @Author: 程益祥
+ * @Author: cyx
  * @Description: rabbitmq配置
  * @DateTime: 2024/11/15 11:19
  **/

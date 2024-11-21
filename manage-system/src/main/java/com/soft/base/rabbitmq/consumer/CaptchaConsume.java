@@ -29,7 +29,7 @@ import static com.soft.base.constants.RabbitmqConstant.TOPIC_QUEUE_SEND_REGIST_C
 import static com.soft.base.constants.RedisConstant.EMAIL_CAPTCHA_KEY;
 
 /**
- * @Author: 程益祥
+ * @Author: cyx
  * @Description: TODO
  * @DateTime: 2024/11/15 19:20
  **/

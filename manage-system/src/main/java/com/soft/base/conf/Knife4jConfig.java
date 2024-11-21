@@ -34,7 +34,7 @@ public class Knife4jConfig {
                         .title("接口文档") // 修改为你想要的标题
                         .version("1.0.0") // 版本
                         .description("API Description").contact(new Contact()
-                                .name("程益祥")
+                                .name("cyx")
                                 .email("1574641450@qq.com")))
                 .components(new Components().addSecuritySchemes(HttpHeaders.AUTHORIZATION,
                         new SecurityScheme()

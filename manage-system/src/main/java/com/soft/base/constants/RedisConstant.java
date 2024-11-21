@@ -1,7 +1,7 @@
 package com.soft.base.constants;
 
 /**
- * @Author: 程益祥
+ * @Author: cyx
  * @Description: redis常量类
  * @DateTime: 2024/10/25 17:32
  **/
@@ -16,4 +16,9 @@ public class RedisConstant {
      * 邮箱验证码
      */
     public final static String EMAIL_CAPTCHA_KEY = "cyx:email:captcha:";
+
+    /**
+     * 保存日志key
+     */
+    public final static String SYS_LOG_CACHE = "cyx:log:";
 }

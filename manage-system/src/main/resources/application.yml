@@ -14,14 +14,14 @@ spring:
   servlet:
     multipart:
       enabled: true
-      max-file-size: 10MB
-      max-request-size: 20MB
+      max-file-size: 50MB
+      max-request-size: 100MB
       file-size-threshold: 2MB
       location: E:/tmp
   datasource:
     username: root
     password: 123456
-    url: jdbc:mysql://192.168.1.107:3306/mysql_study?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.1.114:3306/mysql_study?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
@@ -31,7 +31,7 @@ spring:
       max-lifetime: 180000
   data:
     redis:
-      host: 192.168.1.107
+      host: 192.168.1.114
       port: 6379
       password: 123456
       database: 0
@@ -40,9 +40,9 @@ spring:
     host: smtp.qq.com
     port: 587
     #发送方邮箱
-    username: 
+    username: 1574641450@qq.com
     #授权码
-    password:
+    password: zrssjfnfyyoehgga
     properties:
       mail:
         smtp:
@@ -51,7 +51,7 @@ spring:
             enable: true
     default-encoding: UTF-8
   rabbitmq:
-    host: 192.168.1.107
+    host: 192.168.1.114
     port: 5672
     username: root
     password: 123456
@@ -101,7 +101,7 @@ aes:
 
 #minio对象存储
 minio:
-  url: http://192.168.1.107:9002
+  url: http://192.168.1.114:9002
   accessKey: admin
   secretKey: 123456789
   bucket: cyx
@@ -122,7 +122,10 @@ manage-system:
     #验证码过期时间（秒）
     expire-time: 300
 
-
 #临时文件存储路径
 tmp:
   path: E:/tmp
+
+#是否开启日志记录
+log:
+  enable: true

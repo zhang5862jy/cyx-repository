@@ -1,5 +1,6 @@
 package com.soft.base.controller;
 
+import com.soft.base.annotation.SysLog;
 import com.soft.base.entity.SysUser;
 import com.soft.base.exception.CaptChaErrorException;
 import com.soft.base.request.LoginRequest;
@@ -45,6 +46,7 @@ public class AuthController {
         this.redisTemplate = redisTemplate;
     }
 
+    @SysLog(value = "用户登录", module = "登录")
     @PostMapping("/login")
     @Operation(summary = "登录")
     public R<LoginVo> authenticate(@RequestBody LoginRequest request) {
@@ -74,6 +76,7 @@ public class AuthController {
         }
     }
 
+    @SysLog(value = "用户注册", module = "注册")
     @PostMapping(value = "/register")
     @Operation(summary = "注册")
     public R register(@RequestBody RegisterRequest request) {

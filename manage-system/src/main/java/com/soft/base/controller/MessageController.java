@@ -23,7 +23,7 @@ import static com.soft.base.constants.RedisConstant.EMAIL_CAPTCHA_KEY;
 import static com.soft.base.constants.RegexConstant.EMAIL;
 
 /**
- * @Author: 程益祥
+ * @Author: cyx
  * @Description: TODO
  * @DateTime: 2024/11/15 18:04
  **/
