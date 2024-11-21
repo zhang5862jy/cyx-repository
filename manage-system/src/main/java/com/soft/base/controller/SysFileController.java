@@ -1,5 +1,6 @@
 package com.soft.base.controller;
 
+import com.soft.base.annotation.SysLog;
 import com.soft.base.dto.FileDetailDto;
 import com.soft.base.request.FilesRequest;
 import com.soft.base.resultapi.R;
@@ -51,6 +52,7 @@ public class SysFileController {
         this.minioUtil = minioUtil;
     }
 
+    @SysLog(value = "上传文件", module = "文件")
     @PostMapping
     @Operation(summary = "上传文件")
     @Parameter(name = "multipartFile", description = "文件流", required = true, in = ParameterIn.QUERY)
@@ -67,6 +69,7 @@ public class SysFileController {
         }
     }
 
+    @SysLog(value = "下载文件", module = "文件")
     @GetMapping (value = "/downloadFile")
     @Operation(summary = "下载文件")
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.QUERY)
@@ -111,6 +114,7 @@ public class SysFileController {
         }
     }
 
+    @SysLog(value = "删除文件", module = "文件")
     @PreAuthorize(value = "@cps.hasPermission('sys_file_del')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除文件")

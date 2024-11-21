@@ -1,5 +1,6 @@
 package com.soft.base.controller;
 
+import com.soft.base.annotation.SysLog;
 import com.soft.base.request.DeleteRequest;
 import com.soft.base.request.EditDeptRequest;
 import com.soft.base.request.SaveDeptRequest;
@@ -51,6 +52,7 @@ public class SysDeptController {
         }
     }
 
+    @SysLog(value = "添加部门", module = "部门")
     @PreAuthorize(value = "@cps.hasPermission('sys_menu_del')")
     @PostMapping
     @Operation(summary = "添加部门")
@@ -79,6 +81,7 @@ public class SysDeptController {
         }
     }
 
+    @SysLog(value = "编辑部门", module = "部门")
     @PreAuthorize(value = "@cps.hasPermission('sys_dept_edit')")
     @PutMapping
     @Operation(summary = "编辑部门")
@@ -95,6 +98,7 @@ public class SysDeptController {
         }
     }
 
+    @SysLog(value = "删除部门", module = "部门")
     @PreAuthorize(value = "@cps.hasPermission('sys_dept_del')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除部门")
@@ -112,6 +116,7 @@ public class SysDeptController {
         }
     }
 
+    @SysLog(value = "批量删除部门", module = "部门")
     @PreAuthorize(value = "@cps.hasPermission('sys_dept_del')")
     @DeleteMapping(value = "/deleteRoleBatch")
     @Operation(summary = "批量删除部门")

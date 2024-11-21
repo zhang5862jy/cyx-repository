@@ -1,5 +1,6 @@
 package com.soft.base.controller;
 
+import com.soft.base.annotation.SysLog;
 import com.soft.base.dto.FixRolesDto;
 import com.soft.base.entity.SysRole;
 import com.soft.base.request.*;
@@ -38,6 +39,7 @@ public class SysRoleController {
         this.sysRoleService = sysRoleService;
     }
 
+    @SysLog(value = "添加角色", module = "角色")
     @PreAuthorize(value = "@cps.hasPermission('sys_role_add')")
     @PostMapping
     @Operation(summary = "新增角色")
@@ -66,6 +68,7 @@ public class SysRoleController {
         }
     }
 
+    @SysLog(value = "编辑角色", module = "角色")
     @PreAuthorize(value = "@cps.hasPermission('sys_role_edit')")
     @PutMapping
     @Operation(summary = "编辑角色")
@@ -84,6 +87,7 @@ public class SysRoleController {
         }
     }
 
+    @SysLog(value = "删除角色", module = "角色")
     @PreAuthorize(value = "@cps.hasPermission('sys_role_del')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除角色")
@@ -105,6 +109,7 @@ public class SysRoleController {
         }
     }
 
+    @SysLog(value = "批量删除角色", module = "角色")
     @PreAuthorize(value = "@cps.hasPermission('sys_role_del')")
     @DeleteMapping(value = "/deleteRoleBatch")
     @Operation(summary = "批量删除角色")
@@ -169,6 +174,7 @@ public class SysRoleController {
         }
     }
 
+    @SysLog(value = "启用", module = "角色")
     @PreAuthorize(value = "@cps.hasPermission('sys_role_enable')")
     @GetMapping(value = "/enableRole/{id}")
     @Operation(summary = "启用")
@@ -186,6 +192,7 @@ public class SysRoleController {
         }
     }
 
+    @SysLog(value = "禁用", module = "角色")
     @PreAuthorize(value = "@cps.hasPermission('sys_role_fbn')")
     @GetMapping(value = "/forbiddenRole/{id}")
     @Operation(summary = "禁用")
@@ -203,6 +210,7 @@ public class SysRoleController {
         }
     }
 
+    @SysLog(value = "设置默认角色", module = "角色")
     @PreAuthorize(value = "@cps.hasPermission('sys_role_set_def')")
     @GetMapping(value = "/setDefaultRole/{id}")
     @Operation(summary = "设置默认角色")
@@ -220,6 +228,7 @@ public class SysRoleController {
         }
     }
 
+    @SysLog(value = "赋予菜单", module = "角色")
     @PreAuthorize(value = "@cps.hasPermission('sys_role_set_menu')")
     @PostMapping(value = "/setMenus")
     @Operation(summary = "赋予菜单")
@@ -239,6 +248,7 @@ public class SysRoleController {
         }
     }
 
+    @SysLog(value = "赋予权限", module = "角色")
     @PreAuthorize(value = "@cps.hasPermission('sys_role_set_per')")
     @PostMapping(value = "/setPermissions")
     @Operation(summary = "赋予权限")

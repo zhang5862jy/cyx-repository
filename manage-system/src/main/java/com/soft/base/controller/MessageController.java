@@ -1,5 +1,6 @@
 package com.soft.base.controller;
 
+import com.soft.base.annotation.SysLog;
 import com.soft.base.exception.RepeatSendCaptChaException;
 import com.soft.base.rabbitmq.producer.CaptchaProduce;
 import com.soft.base.resultapi.R;
@@ -49,6 +50,7 @@ public class MessageController {
         this.sysUsersService = sysUsersService;
     }
 
+    @SysLog(value = "发送注册验证码", module = "消息队列")
     @GetMapping(value = "/sendRegistCaptcha")
     @Operation(summary = "发送注册验证码")
     @Parameter(name = "email", description = "邮箱地址", required = true, in = ParameterIn.QUERY)
@@ -71,6 +73,7 @@ public class MessageController {
         }
     }
 
+    @SysLog(value = "发送登录验证码", module = "消息队列")
     @GetMapping(value = "/sendLoginCaptcha")
     @Operation(summary = "发送登录验证码")
     @Parameter(name = "username", description = "用户名", required = true, in = ParameterIn.QUERY)
