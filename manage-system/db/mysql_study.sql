@@ -4,14 +4,14 @@
  Source Server         : 虚拟机mysql
  Source Server Type    : MySQL
  Source Server Version : 80039
- Source Host           : 192.168.1.108:3306
+ Source Host           : 192.168.1.114:3306
  Source Schema         : mysql_study
 
  Target Server Type    : MySQL
  Target Server Version : 80039
  File Encoding         : 65001
 
- Date: 20/11/2024 22:05:55
+ Date: 21/11/2024 14:46:13
 */
 
 SET NAMES utf8mb4;
@@ -35,7 +35,7 @@ CREATE TABLE `sys_dept`  (
   `level` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '层级',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `code_uk`(`code` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dept
@@ -86,8 +86,9 @@ CREATE TABLE `sys_dict_data`  (
   `is_default` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '是否默认；1：是 0：否',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '状态；1：启用；0：停用',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_sys_dict_data_code`(`code` ASC) USING BTREE COMMENT '字典编码索引'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict_data
@@ -109,8 +110,9 @@ CREATE TABLE `sys_dict_type`  (
   `dict_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '字典类型',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '状态；1：启用；0：停用',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_sys_dict_type`(`dict_type` ASC) USING BTREE COMMENT '字典类型索引'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict_type
@@ -134,7 +136,32 @@ CREATE TABLE `sys_file`  (
   `file_suffix` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件后缀；示例：.txt、.jpg',
   `file_size` bigint NULL DEFAULT NULL COMMENT '文件大小；单位：B',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文件表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for sys_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_log`;
+CREATE TABLE `sys_log`  (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `create_by` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '逻辑删除',
+  `log_level` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '日志级别',
+  `ip_address` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请求ip',
+  `request_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '访问路径',
+  `request_method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请求方法',
+  `request_params` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '请求参数',
+  `response_result` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '响应结果',
+  `operation_desc` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '操作描述',
+  `source` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '日志来源',
+  `execution_time` bigint NULL DEFAULT NULL COMMENT '耗时',
+  `module_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模块名称',
+  `status_code` int NULL DEFAULT NULL COMMENT '状态码',
+  `exception_info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '异常信息',
+  `os_browser_info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '操作系统/浏览器信息',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -160,7 +187,7 @@ CREATE TABLE `sys_menu`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_parent_id`(`parent_id` ASC) USING BTREE,
   INDEX `idx_type`(`type` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '菜单信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -195,7 +222,7 @@ CREATE TABLE `sys_permission`  (
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_sys_permission_code`(`code` ASC) USING BTREE COMMENT '权限编码索引'
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_permission
@@ -268,7 +295,7 @@ CREATE TABLE `sys_role_menu`  (
   `role_id` bigint NOT NULL COMMENT '角色id',
   `menu_id` bigint NOT NULL COMMENT '菜单id',
   UNIQUE INDEX `uk_sys_role_menu`(`role_id` ASC, `menu_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色菜单表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role_menu
@@ -293,7 +320,7 @@ CREATE TABLE `sys_role_permission`  (
   `role_id` bigint NOT NULL COMMENT '角色主键',
   `permission_id` bigint NOT NULL COMMENT '权限主键',
   UNIQUE INDEX `uk_sys_role_permission`(`role_id` ASC, `permission_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role_permission
@@ -366,7 +393,7 @@ CREATE TABLE `sys_user_role`  (
   `role_id` bigint NOT NULL COMMENT '角色主键',
   `user_id` bigint NOT NULL COMMENT '用户主键',
   UNIQUE INDEX `uk_role_user`(`role_id` ASC, `user_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户角色表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user_role
