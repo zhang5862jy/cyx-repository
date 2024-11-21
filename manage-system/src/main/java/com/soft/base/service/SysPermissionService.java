@@ -1,7 +1,7 @@
 package com.soft.base.service;
 
-import com.soft.base.entity.SysPermission;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.soft.base.entity.SysPermission;
 import com.soft.base.request.PermissionsRequest;
 import com.soft.base.request.SavePermissionRequest;
 import com.soft.base.vo.PageVo;

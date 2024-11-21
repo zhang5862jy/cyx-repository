@@ -1,14 +1,12 @@
 package com.soft.base.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.soft.base.dto.FileDetailDto;
 import com.soft.base.entity.SysFile;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.soft.base.request.FilesRequest;
 import com.soft.base.vo.FilesVo;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.Map;
 
 /**
 * @author cyq

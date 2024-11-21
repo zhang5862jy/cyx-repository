@@ -4,8 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
-import java.util.List;
-
 /**
  * @Author: cyx
  * @Description: TODO

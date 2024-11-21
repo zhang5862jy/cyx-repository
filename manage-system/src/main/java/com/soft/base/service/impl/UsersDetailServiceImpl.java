@@ -2,9 +2,6 @@ package com.soft.base.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.soft.base.entity.SysUser;
-import com.soft.base.exception.ServiceException;
-import com.soft.base.mapper.SysPermissionMapper;
-import com.soft.base.mapper.SysRoleMapper;
 import com.soft.base.mapper.SysUsersMapper;
 import com.soft.base.service.SysPermissionService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.soft.base.constants.BaseConstant.*;
 
 /**
 * @author cyq

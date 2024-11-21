@@ -10,6 +10,4 @@ public interface AuthService {
     void register(SysUser sysUser) throws GlobelException;
 
     LoginVo authenticate(LoginRequest request) throws RuntimeException;
-
-    void sendCaptCha(String username) throws RuntimeException;
 }

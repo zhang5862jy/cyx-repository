@@ -1,8 +1,8 @@
 package com.soft.base.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.soft.base.entity.SysLog;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.soft.base.request.LogsRequest;
 import com.soft.base.vo.LogsVo;
 import org.apache.ibatis.annotations.Param;

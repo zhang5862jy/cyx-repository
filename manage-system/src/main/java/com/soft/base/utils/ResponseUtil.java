@@ -1,8 +1,6 @@
 package com.soft.base.utils;
 
 import cn.hutool.json.JSONUtil;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
 import com.soft.base.resultapi.R;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +9,6 @@ import org.springframework.http.MediaType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-
-import static com.soft.base.enums.ResultEnum.AUTHLICATION_FAIL;
 
 @Slf4j
 public class ResponseUtil {

@@ -1,11 +1,8 @@
 package com.soft.base.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
-
-import java.time.LocalDateTime;
 
 /**
  * @Author: cyx

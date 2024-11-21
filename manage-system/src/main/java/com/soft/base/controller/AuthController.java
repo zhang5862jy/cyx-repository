@@ -7,27 +7,24 @@ import com.soft.base.request.LoginRequest;
 import com.soft.base.request.RegisterRequest;
 import com.soft.base.resultapi.R;
 import com.soft.base.service.AuthService;
-import com.soft.base.utils.AESUtil;
-import com.soft.base.utils.JwtUtil;
-import com.soft.base.utils.SecurityUtil;
 import com.soft.base.vo.LoginVo;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.*;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.regex.Pattern;
 
 import static com.soft.base.constants.RedisConstant.EMAIL_CAPTCHA_KEY;
 import static com.soft.base.constants.RegexConstant.EMAIL;
 import static com.soft.base.constants.RegexConstant.USERNAME_PATTERN;
-import static com.soft.base.constants.TokenConstant.TOKEN_PREFIX;
 
 @RestController
 @Tag(name = "鉴权")

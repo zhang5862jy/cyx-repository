@@ -2,10 +2,10 @@ package com.soft.base.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.soft.base.entity.SysDictType;
+import com.soft.base.mapper.SysDictTypeMapper;
 import com.soft.base.request.EditDictTypeRequest;
 import com.soft.base.request.SaveDictTypeRequest;
 import com.soft.base.service.SysDictTypeService;
-import com.soft.base.mapper.SysDictTypeMapper;
 import com.soft.base.vo.DictTypeVo;
 import com.soft.base.vo.DictTypesVo;
 import org.springframework.beans.BeanUtils;

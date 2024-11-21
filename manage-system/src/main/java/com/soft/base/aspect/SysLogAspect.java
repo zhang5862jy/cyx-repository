@@ -5,7 +5,6 @@ import com.soft.base.annotation.SysLog;
 import com.soft.base.dto.LogDto;
 import com.soft.base.rabbitmq.producer.SysLogProduce;
 import com.soft.base.resultapi.R;
-import com.soft.base.service.SysLogService;
 import eu.bitwalker.useragentutils.UserAgent;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

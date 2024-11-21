@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 import static com.soft.base.constants.RedisConstant.TOKEN_BLACKLIST_KEY;
-import static com.soft.base.enums.ResultEnum.AUTHLICATION_FAIL;
 import static com.soft.base.enums.ResultEnum.SUCCESS;
 
 /**

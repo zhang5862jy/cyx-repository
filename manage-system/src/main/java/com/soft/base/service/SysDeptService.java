@@ -1,7 +1,7 @@
 package com.soft.base.service;
 
-import com.soft.base.entity.SysDept;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.soft.base.entity.SysDept;
 import com.soft.base.request.DeleteRequest;
 import com.soft.base.request.EditDeptRequest;
 import com.soft.base.request.SaveDeptRequest;

@@ -1,7 +1,7 @@
 package com.soft.base.service;
 
-import com.soft.base.entity.SysDictType;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.soft.base.entity.SysDictType;
 import com.soft.base.request.EditDictTypeRequest;
 import com.soft.base.request.SaveDictTypeRequest;
 import com.soft.base.vo.DictTypeVo;

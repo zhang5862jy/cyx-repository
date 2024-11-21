@@ -1,14 +1,12 @@
 package com.soft.base.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.soft.base.entity.SysDictData;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.soft.base.request.DeleteRequest;
 import com.soft.base.request.DictDatasRequest;
-import com.soft.base.request.PermissionsRequest;
 import com.soft.base.vo.DictDataVo;
 import com.soft.base.vo.DictDatasVo;
-import com.soft.base.vo.PermissionsVo;
 import org.apache.ibatis.annotations.Param;
 
 /**

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import static com.soft.base.constants.BaseConstant.BLANK_CHARACTER;
 import static com.soft.base.constants.RabbitmqConstant.DIRECT_EXCHANGE;
 import static com.soft.base.constants.RabbitmqConstant.DIRECT_ROUTEKEY_ONE;
 import static com.soft.base.constants.RedisConstant.SYS_LOG_CACHE;

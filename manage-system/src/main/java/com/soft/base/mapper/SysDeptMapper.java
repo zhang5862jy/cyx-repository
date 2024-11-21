@@ -1,7 +1,7 @@
 package com.soft.base.mapper;
 
-import com.soft.base.entity.SysDept;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.soft.base.entity.SysDept;
 import com.soft.base.request.DeleteRequest;
 import com.soft.base.vo.DeptTreeVo;
 import com.soft.base.vo.DeptVo;

@@ -2,7 +2,6 @@ package com.soft.base.permission;
 
 import com.soft.base.utils.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
