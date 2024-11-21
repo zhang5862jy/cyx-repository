@@ -94,10 +94,6 @@ public class SecurityConfig {
                     auth.requestMatchers(universalUtil.toArray(jwtIgnoreProperty.getUrls(), String[].class)).permitAll()
                             .anyRequest().authenticated();
                 })
-                // 权限不足处理类
-                .exceptionHandling(item -> {
-                    item.accessDeniedHandler(customAccessDeniedHandler);
-                })
                 .logout(item -> item.logoutUrl("/logout")
                         .logoutSuccessHandler(logoutAfterSuccessHandler))
                 // 认证失败处理类
@@ -105,8 +101,8 @@ public class SecurityConfig {
                                 exc
                                         // 用于处理未认证的请求（如未登录用户访问受保护的资源）
                                         .authenticationEntryPoint(authenticationHandler)
-                        // 用于处理已认证但没有权限访问资源的请求
-                        //.accessDeniedHandler()
+                                        // 用于处理已认证但没有权限访问资源的请求
+                                        .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .addFilterBefore(getJwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
