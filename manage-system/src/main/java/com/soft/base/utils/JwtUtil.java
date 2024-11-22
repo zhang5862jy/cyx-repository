@@ -1,8 +1,10 @@
 package com.soft.base.utils;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class JwtUtil {
 
     @Value(value = "${jwt.secret-key}")
@@ -56,7 +59,13 @@ public class JwtUtil {
 
     // 检查 Token 是否过期
     private boolean isTokenExpired(String token) {
-        return extractAllClaims(token).getExpiration().before(new Date());
+        boolean flag = true;
+        try {
+            flag = extractAllClaims(token).getExpiration().before(new Date());
+        } catch (ExpiredJwtException e) {
+            log.error(e.getMessage(), e);
+        }
+        return flag;
     }
 
     // 提取所有声明

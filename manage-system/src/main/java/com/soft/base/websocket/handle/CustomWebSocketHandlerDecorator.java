@@ -3,6 +3,7 @@ package com.soft.base.websocket.handle;
 import com.soft.base.dto.UserDto;
 import com.soft.base.websocket.WebSocketSessionManager;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
@@ -17,8 +18,12 @@ import static com.soft.base.constants.WebSocketConstant.WEBSOCKET_USER;
  **/
 @Slf4j
 public class CustomWebSocketHandlerDecorator extends WebSocketHandlerDecorator {
-    public CustomWebSocketHandlerDecorator(WebSocketHandler delegate) {
+
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    public CustomWebSocketHandlerDecorator(WebSocketHandler delegate, RedisTemplate<String, Object> redisTemplate) {
         super(delegate);
+        this.redisTemplate = redisTemplate;
     }
 
     @Override

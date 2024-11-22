@@ -10,20 +10,30 @@ public class RedisConstant {
     /**
      * 黑名单
      */
-    public final static String TOKEN_BLACKLIST_KEY = "cyx:token:blacklist";
+    public final static String TOKEN_BLACKLIST_KEY = "cyx::token::blacklist";
 
     /**
      * 邮箱验证码
      */
-    public final static String EMAIL_CAPTCHA_KEY = "cyx:email:captcha:";
+    public final static String EMAIL_CAPTCHA_KEY = "cyx::email::captcha::";
 
     /**
      * 保存日志key
      */
-    public final static String SYS_LOG_CACHE = "cyx:log:";
+    public final static String SYS_LOG_CACHE = "cyx::log::";
 
     /**
      * 用户信息
      */
     public final static String USER_INFO = "users::";
+
+    /**
+     * websocket中的用户会话
+     */
+    public final static String WS_USER_SESSION = "ws::user::session::";
+
+    /**
+     * websocket的用户会话保存过期时间；单位：秒；比心跳间隔长5秒
+     */
+    public final static Long WS_USER_SESSION_EXPIRE = 35L;
 }

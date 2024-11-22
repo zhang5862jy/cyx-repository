@@ -18,7 +18,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
  **/
 @Slf4j
 public class WebSocketHandler extends TextWebSocketHandler {
-
     private final ObjectMapper msgBody = new ObjectMapper();
 
     @Override
