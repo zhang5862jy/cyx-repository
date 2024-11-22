@@ -2,6 +2,7 @@ package com.soft.base.websocket.handle;
 
 import com.soft.base.dto.UserDto;
 import com.soft.base.websocket.WebSocketSessionManager;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
@@ -14,6 +15,7 @@ import static com.soft.base.constants.WebSocketConstant.WEBSOCKET_USER;
  * @Description: websocket装饰器，用于处理连接和断开操作
  * @DateTime: 2024/11/21 23:12
  **/
+@Slf4j
 public class CustomWebSocketHandlerDecorator extends WebSocketHandlerDecorator {
     public CustomWebSocketHandlerDecorator(WebSocketHandler delegate) {
         super(delegate);
@@ -21,21 +23,15 @@ public class CustomWebSocketHandlerDecorator extends WebSocketHandlerDecorator {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        WebSocketSessionManager.addSession(generateKey(session), session);
+        UserDto userDto = (UserDto) session.getAttributes().get(WEBSOCKET_USER);
+        WebSocketSessionManager.addSession(userDto.getId(), session);
+        log.info("{} connect...", userDto.getUsername());
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-        WebSocketSessionManager.removeSession(generateKey(session));
-    }
-
-    /**
-     * 生成session唯一标识
-     * @param session
-     * @return
-     */
-    private Long generateKey(WebSocketSession session) {
         UserDto userDto = (UserDto) session.getAttributes().get(WEBSOCKET_USER);
-        return userDto.getId();
+        WebSocketSessionManager.removeSession(userDto.getId());
+        log.info("{} connect closed...", userDto.getUsername());
     }
 }

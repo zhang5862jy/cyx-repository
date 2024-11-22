@@ -3,21 +3,18 @@ package com.soft.base.websocket.handleservice.impl;
 import com.soft.base.dto.WebSocketMsgDto;
 import com.soft.base.enums.WebSocketOrderEnum;
 import com.soft.base.websocket.handleservice.WebSocketConcreteHandler;
-import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
 
-import static com.soft.base.enums.WebSocketOrderEnum.PUSH_MESSAGE;
+import static com.soft.base.enums.WebSocketOrderEnum.HEART_BEAT;
 
 /**
  * @Author: cyx
- * @Description: 推送消息处理器
- * @DateTime: 2024/11/22 10:01
+ * @Description: 心跳检测处理类
+ * @DateTime: 2024/11/22 17:17
  **/
-
-@Component
-public class PushMessageHandlerImpl implements WebSocketConcreteHandler {
+public class HeartbeatHandlerImpl implements WebSocketConcreteHandler {
     @Override
     public void handle(WebSocketSession session, WebSocketMsgDto webSocketMsg) throws IOException {
 
@@ -25,6 +22,6 @@ public class PushMessageHandlerImpl implements WebSocketConcreteHandler {
 
     @Override
     public WebSocketOrderEnum getOrder() {
-        return PUSH_MESSAGE;
+        return HEART_BEAT;
     }
 }

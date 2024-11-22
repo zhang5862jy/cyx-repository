@@ -11,6 +11,7 @@ import com.soft.base.utils.AESUtil;
 import com.soft.base.utils.JwtUtil;
 import com.soft.base.utils.UniversalUtil;
 import com.soft.base.vo.LoginVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -25,6 +26,7 @@ import static com.soft.base.constants.RedisConstant.EMAIL_CAPTCHA_KEY;
 import static com.soft.base.constants.TokenConstant.TOKEN_PREFIX;
 
 @Service
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
     private final PasswordEncoder passwordEncoder;

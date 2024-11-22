@@ -51,4 +51,7 @@ public class LogDto {
 
     @Schema(description = "操作系统/浏览器信息")
     private String osBrowserInfo;
+
+    @Schema(description = "创建者")
+    private String createBy;
 }

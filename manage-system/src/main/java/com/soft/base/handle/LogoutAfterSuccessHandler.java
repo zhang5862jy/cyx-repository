@@ -4,7 +4,6 @@ import com.soft.base.constants.HttpConstant;
 import com.soft.base.resultapi.R;
 import com.soft.base.utils.JwtUtil;
 import com.soft.base.utils.ResponseUtil;
-import com.soft.base.utils.SecurityUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

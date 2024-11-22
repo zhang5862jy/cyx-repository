@@ -10,20 +10,14 @@ public enum WebSocketOrderEnum {
     /**
      * 下线指令
      */
-    FORCE_OFFLINE("force_offline"),
+    FORCE_OFFLINE,
     /**
      * 推送消息
      */
-    PUSH_MESSAGE("push_message"),
-    ;
+    PUSH_MESSAGE,
 
-    private final String code;
-
-    WebSocketOrderEnum(String code) {
-        this.code = code;
-    }
-
-    public String getCode() {
-        return code;
-    }
+    /**
+     * 心跳检测
+     */
+    HEART_BEAT,
 }

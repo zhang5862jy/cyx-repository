@@ -2,6 +2,7 @@ package com.soft.base.websocket.handleservice.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.soft.base.dto.WebSocketMsgDto;
+import com.soft.base.enums.WebSocketOrderEnum;
 import com.soft.base.websocket.handleservice.WebSocketConcreteHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
@@ -26,7 +27,7 @@ public class ForceOfflineHandlerImpl implements WebSocketConcreteHandler {
     }
 
     @Override
-    public String getOrder() {
-        return FORCE_OFFLINE.getCode();
+    public WebSocketOrderEnum getOrder() {
+        return FORCE_OFFLINE;
     }
 }

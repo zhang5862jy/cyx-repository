@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.soft.base.websocket.WebSocketConcreteHolder.CONCRETE_HANDLER_MAP;
-
 /**
  * @Author: cyx
  * @Description: 用于将配置的具体逻辑处理器注册到缓存中
@@ -31,7 +29,7 @@ public class WebSocketConcreteRegistry {
     @PostConstruct
     public void init() {
         for (WebSocketConcreteHandler c : webSocketConcreteHandlers) {
-            CONCRETE_HANDLER_MAP.put(c.getOrder(), c);
+            WebSocketConcreteHolder.addConcreteHandler(c.getOrder().toString(), c);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.soft.base.websocket.handle;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soft.base.dto.WebSocketMsgDto;
+import com.soft.base.websocket.WebSocketConcreteHolder;
 import com.soft.base.websocket.WebSocketSessionManager;
 import com.soft.base.websocket.handleservice.WebSocketConcreteHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -9,8 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-
-import static com.soft.base.websocket.WebSocketConcreteHolder.CONCRETE_HANDLER_MAP;
 
 /**
  * @Author: cyx
@@ -31,7 +30,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
             log.error("websocket异常，指令为空");
             return;
         }
-        WebSocketConcreteHandler webSocketConcreteHandler = CONCRETE_HANDLER_MAP.get(order);
+        WebSocketConcreteHandler webSocketConcreteHandler = WebSocketConcreteHolder.getConcreteHandler(order);
         WebSocketSession receiveSession = WebSocketSessionManager.getSession(websocketMsg.getReceiver());
         if (receiveSession == null) {
             log.error("接收方未连接websocket...");

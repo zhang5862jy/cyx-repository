@@ -1,6 +1,7 @@
 package com.soft.base.websocket.handleservice;
 
 import com.soft.base.dto.WebSocketMsgDto;
+import com.soft.base.enums.WebSocketOrderEnum;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
@@ -14,5 +15,5 @@ public interface WebSocketConcreteHandler {
 
     void handle(WebSocketSession session, WebSocketMsgDto webSocketMsg) throws IOException;
 
-    String getOrder();
+    WebSocketOrderEnum getOrder();
 }
