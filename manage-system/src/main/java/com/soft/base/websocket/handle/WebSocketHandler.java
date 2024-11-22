@@ -2,6 +2,7 @@ package com.soft.base.websocket.handle;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soft.base.dto.WebSocketMsgDto;
+import com.soft.base.websocket.WebSocketSessionManager;
 import com.soft.base.websocket.handleservice.WebSocketConcreteHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +32,11 @@ public class WebSocketHandler extends TextWebSocketHandler {
             return;
         }
         WebSocketConcreteHandler webSocketConcreteHandler = CONCRETE_HANDLER_MAP.get(order);
-        webSocketConcreteHandler.handle(session, websocketMsg);
+        WebSocketSession receiveSession = WebSocketSessionManager.getSession(websocketMsg.getReceiver());
+        if (receiveSession == null) {
+            log.error("接收方未连接websocket...");
+            return;
+        }
+        webSocketConcreteHandler.handle(receiveSession, websocketMsg);
     }
 }
