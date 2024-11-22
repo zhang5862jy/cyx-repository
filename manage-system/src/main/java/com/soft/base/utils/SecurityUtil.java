@@ -1,5 +1,6 @@
 package com.soft.base.utils;
 
+import com.soft.base.dto.UserDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -20,8 +21,8 @@ public class SecurityUtil {
      * 从上下文获取用户信息
      * @return
      */
-    public User getUserInfo() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public UserDto getUserInfo() {
+        return (UserDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     /**

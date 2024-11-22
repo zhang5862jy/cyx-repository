@@ -1,6 +1,7 @@
 package com.soft.base.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.soft.base.dto.UserDto;
 import com.soft.base.entity.SysUser;
 import com.soft.base.mapper.SysUsersMapper;
 import com.soft.base.service.SysPermissionService;
@@ -48,13 +49,9 @@ public class UsersDetailServiceImpl implements UserDetailsService{
         // 权限集合
         List<String> permissions = sysPermissionService.getPermissionsByUserId(sysUser.getId());
 
-        return new User(
-                sysUser.getUsername(),
-                sysUser.getPassword(),
-                sysUser.getEnabled(),
-                sysUser.getAccountNonExpired(),
-                sysUser.getCredentialsNonExpired(),
-                sysUser.getAccountNonLocked(),
+        return new UserDto(sysUser.getId(), sysUser.getUsername(), sysUser.getDeptId(), sysUser.getPhone(),
+                sysUser.getNickname(), sysUser.getEmail(), sysUser.getPassword(), sysUser.getEnabled(),
+                sysUser.getAccountNonExpired(), sysUser.getCredentialsNonExpired(), sysUser.getAccountNonLocked(),
                 permissions.stream()
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList()));

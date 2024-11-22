@@ -1,0 +1,42 @@
+package com.soft.base.websocket;
+
+import org.springframework.web.socket.WebSocketSession;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * @Author: cyx
+ * @Description: websocket连接会话管理
+ * @DateTime: 2024/11/21 23:26
+ **/
+public class WebSocketSessionManager {
+
+    private static final Map<String, WebSocketSession> USER_SESSION_MAP = new ConcurrentHashMap<>();
+
+    /**
+     * 添加用户session
+     * @param sessionKey
+     * @param session
+     */
+    public static void addSession(Long sessionKey, WebSocketSession session) {
+        USER_SESSION_MAP.put(String.valueOf(sessionKey), session);
+    }
+
+    /**
+     * 删除用户session
+     * @param sessionKey
+     */
+    public static void removeSession(Long sessionKey) {
+        USER_SESSION_MAP.remove(String.valueOf(sessionKey));
+    }
+
+    /**
+     * 获取用户session
+     * @param sessionKey
+     * @return
+     */
+    public static WebSocketSession getSession(Long sessionKey) {
+        return USER_SESSION_MAP.get(String.valueOf(sessionKey));
+    }
+}
