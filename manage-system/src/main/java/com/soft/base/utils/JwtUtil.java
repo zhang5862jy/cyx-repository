@@ -12,8 +12,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @deprecated 已经由redis代替
+ */
 @Component
 @Slf4j
+@Deprecated
 public class JwtUtil {
 
     @Value(value = "${jwt.secret-key}")
