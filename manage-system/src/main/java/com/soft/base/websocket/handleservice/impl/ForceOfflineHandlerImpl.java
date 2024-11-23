@@ -2,10 +2,12 @@ package com.soft.base.websocket.handleservice.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.soft.base.dto.UserDto;
-import com.soft.base.dto.WebSocketMsgDto;
 import com.soft.base.enums.WebSocketOrderEnum;
 import com.soft.base.websocket.WebSocketSessionManager;
 import com.soft.base.websocket.handleservice.WebSocketConcreteHandler;
+import com.soft.base.websocket.receive.ForceOfflineRecParams;
+import com.soft.base.websocket.send.ForceOfflineSendParams;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -30,16 +32,27 @@ import static com.soft.base.enums.WebSocketOrderEnum.FORCE_OFFLINE;
 public class ForceOfflineHandlerImpl implements WebSocketConcreteHandler {
 
     private final RedisTemplate<String, Object> redisTemplate;
+
     @Autowired
     public ForceOfflineHandlerImpl(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
     @Override
-    public void handle(WebSocketSession session, WebSocketMsgDto webSocketMsg) throws IOException {
-        session.sendMessage(new TextMessage(JSON.toJSONString(webSocketMsg)));
+    public void handle(WebSocketSession session, TextMessage message) throws IOException {
+        ForceOfflineRecParams forceOfflineRecParams = JSON.parseObject(message.getPayload(), ForceOfflineRecParams.class);
+        WebSocketSession receiveSession = WebSocketSessionManager.getSession(forceOfflineRecParams.getReceiver());
+        if (receiveSession == null) {
+            log.error("接收方未连接websocket...");
+            return;
+        }
 
-        UserDto userDto = (UserDto) session.getAttributes().get(WEBSOCKET_USER);
+        ForceOfflineSendParams forceOfflineSendParams = new ForceOfflineSendParams();
+        forceOfflineSendParams.setOrder(forceOfflineRecParams.getOrder());
+
+        receiveSession.sendMessage(new TextMessage(forceOfflineSendParams.toJsonString()));
+
+        UserDto userDto = (UserDto) receiveSession.getAttributes().get(WEBSOCKET_USER);
         WebSocketSessionManager.removeSession(userDto.getId());
         log.info("remove {} session...", userDto.getUsername());
         redisTemplate.delete(WS_USER_SESSION + userDto.getId());
@@ -47,7 +60,7 @@ public class ForceOfflineHandlerImpl implements WebSocketConcreteHandler {
     }
 
     @Override
-    public WebSocketOrderEnum getOrder() {
+    public @NotNull WebSocketOrderEnum getOrder() {
         return FORCE_OFFLINE;
     }
 }

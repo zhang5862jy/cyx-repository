@@ -1,6 +1,8 @@
 package com.soft.base.websocket;
 
 import com.soft.base.websocket.handleservice.WebSocketConcreteHandler;
+import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,7 +30,7 @@ public class WebSocketConcreteHolder {
      * @param key
      * @param webSocketConcreteHandler
      */
-    public static void addConcreteHandler(String key, WebSocketConcreteHandler webSocketConcreteHandler) {
+    public static void addConcreteHandler(@Valid String key, WebSocketConcreteHandler webSocketConcreteHandler) {
         CONCRETE_HANDLER_MAP.put(key, webSocketConcreteHandler);
     }
 }

@@ -1,12 +1,12 @@
 package com.soft.base.websocket.handle;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.soft.base.dto.WebSocketMsgDto;
+import com.alibaba.fastjson2.JSON;
 import com.soft.base.websocket.WebSocketConcreteHolder;
-import com.soft.base.websocket.WebSocketSessionManager;
 import com.soft.base.websocket.handleservice.WebSocketConcreteHandler;
+import com.soft.base.websocket.receive.OrderReceiveParams;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -18,23 +18,23 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
  **/
 @Slf4j
 public class WebSocketHandler extends TextWebSocketHandler {
-    private final ObjectMapper msgBody = new ObjectMapper();
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         // 获取消息体
-        WebSocketMsgDto websocketMsg = msgBody.readValue(message.getPayload(), WebSocketMsgDto.class);
-        String order = websocketMsg.getOrder();
+        String payload = message.getPayload();
+        OrderReceiveParams orderReceiveParams = JSON.parseObject(payload, OrderReceiveParams.class);
+        String order = orderReceiveParams.getOrder();
         if (StringUtils.isBlank(order)) {
             log.error("websocket异常，指令为空");
             return;
         }
         WebSocketConcreteHandler webSocketConcreteHandler = WebSocketConcreteHolder.getConcreteHandler(order);
-        WebSocketSession receiveSession = WebSocketSessionManager.getSession(websocketMsg.getReceiver());
-        if (receiveSession == null) {
-            log.error("接收方未连接websocket...");
-            return;
-        }
-        webSocketConcreteHandler.handle(receiveSession, websocketMsg);
+        webSocketConcreteHandler.handle(session, message);
+    }
+
+    @Override
+    protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) {
+
     }
 }

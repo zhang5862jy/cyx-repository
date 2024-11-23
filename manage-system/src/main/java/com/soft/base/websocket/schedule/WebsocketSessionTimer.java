@@ -14,7 +14,7 @@ import static com.soft.base.constants.RedisConstant.WS_USER_SESSION;
 
 /**
  * @Author: cyx
- * @Description: TODO
+ * @Description: websocket会话定时器
  * @DateTime: 2024/11/23 17:31
  **/
 
