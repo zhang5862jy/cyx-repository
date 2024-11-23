@@ -34,11 +34,11 @@ public class AuthController {
 
     private final AuthService authService;
 
-    private final RedisTemplate<String,String> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
     public AuthController(AuthService authService,
-                          RedisTemplate<String,String> redisTemplate) {
+                          RedisTemplate<String, Object> redisTemplate) {
         this.authService = authService;
         this.redisTemplate = redisTemplate;
     }
@@ -97,7 +97,7 @@ public class AuthController {
         }
 
         try {
-            String captchaCache = redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + request.getEmail());
+            String captchaCache = (String) redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + request.getEmail());
             if (!request.getCaptcha().equals(captchaCache)) {
                 return R.fail("验证码错误，请检查您的邮箱是否更改或者验证码是否过期");
             }

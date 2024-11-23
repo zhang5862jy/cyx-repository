@@ -31,14 +31,14 @@ import static com.soft.base.enums.ResultEnum.SUCCESS;
 @Slf4j
 public class LogoutAfterSuccessHandler implements LogoutSuccessHandler {
 
-    private final RedisTemplate<String,String> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     private final JwtUtil jwtUtil;
 
     @Value(value = "${jwt.expire}")
     private Long jwtExpireTime;
 
-    public LogoutAfterSuccessHandler(RedisTemplate<String,String> redisTemplate, JwtUtil jwtUtil) {
+    public LogoutAfterSuccessHandler(RedisTemplate<String, Object> redisTemplate, JwtUtil jwtUtil) {
         this.redisTemplate = redisTemplate;
         this.jwtUtil = jwtUtil;
     }

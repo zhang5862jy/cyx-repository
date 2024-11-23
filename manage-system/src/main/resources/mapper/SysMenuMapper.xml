@@ -51,7 +51,7 @@
         SELECT
         su.id
         FROM
-        sys_user
+        sys_user su
         WHERE
         su.del_flag = '1'
         AND su.username = #{username})

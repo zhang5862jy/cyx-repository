@@ -38,7 +38,7 @@ import static com.soft.base.constants.RedisConstant.EMAIL_CAPTCHA_KEY;
 @Component
 public class CaptchaConsume {
 
-    private final RedisTemplate<String,String> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     private final UniversalUtil universalUtil;
 
@@ -56,7 +56,7 @@ public class CaptchaConsume {
     private Long expireTime;
 
     @Autowired
-    public CaptchaConsume(RedisTemplate<String,String> redisTemplate,
+    public CaptchaConsume(RedisTemplate<String, Object> redisTemplate,
                           UniversalUtil universalUtil,
                           JavaMailSender javaMailSender,
                           SysUsersService sysUsersService) {

@@ -41,7 +41,7 @@ public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
 
-    private final RedisTemplate<String,String> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     private final UniversalUtil universalUtil;
 
@@ -52,7 +52,7 @@ public class SecurityConfig {
                           LogoutAfterSuccessHandler logoutAfterSuccessHandler,
                           UserDetailsService userDetailsService,
                           JwtUtil jwtUtil,
-                          RedisTemplate<String,String> redisTemplate,
+                          RedisTemplate<String, Object> redisTemplate,
                           UniversalUtil universalUtil,
                           CustomAccessDeniedHandler customAccessDeniedHandler) {
         this.authenticationHandler = authenticationHandler;

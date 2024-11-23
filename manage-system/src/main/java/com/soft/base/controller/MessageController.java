@@ -37,13 +37,13 @@ public class MessageController {
 
     private final CaptchaProduce captchaProduce;
 
-    private final RedisTemplate<String,String> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     private final SysUsersService sysUsersService;
 
     @Autowired
     public MessageController(CaptchaProduce captchaProduce,
-                             RedisTemplate<String,String> redisTemplate,
+                             RedisTemplate<String, Object> redisTemplate,
                              SysUsersService sysUsersService) {
         this.captchaProduce = captchaProduce;
         this.redisTemplate = redisTemplate;
@@ -62,7 +62,7 @@ public class MessageController {
             return R.fail("非法邮箱");
         }
         try {
-            if (StringUtils.isNotBlank(redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + email))) {
+            if (StringUtils.isNotBlank((String) redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + email))) {
                 throw new RepeatSendCaptChaException("请勿重复发送验证码");
             }
             captchaProduce.sendRegistCaptcha(email);
@@ -82,7 +82,7 @@ public class MessageController {
             return R.fail("用户名不能为空");
         }
         try {
-            if (StringUtils.isNotBlank(redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + username))) {
+            if (StringUtils.isNotBlank((String) redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + username))) {
                 throw new RepeatSendCaptChaException("请勿重复发送验证码");
             }
             boolean flag = sysUsersService.checkUsernameExist(username);

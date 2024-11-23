@@ -21,8 +21,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
 import static com.soft.base.constants.BaseConstant.*;
-import static com.soft.base.constants.RedisConstant.EMAIL_CAPTCHA_KEY;
+import static com.soft.base.constants.RedisConstant.*;
 import static com.soft.base.constants.TokenConstant.TOKEN_PREFIX;
 
 @Service
@@ -41,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final JavaMailSender javaMailSender;
 
-    private final RedisTemplate<String,String> redisTemplate;
+    private final RedisTemplate<String,Object> redisTemplate;
 
     private final UniversalUtil universalUtil;
 
@@ -61,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
                            AuthenticationManager authenticationManager,
                            JwtUtil jwtUtil,
                            JavaMailSender javaMailSender,
-                           RedisTemplate<String,String> redisTemplate,
+                           RedisTemplate<String,Object> redisTemplate,
                            UniversalUtil universalUtil) {
         this.passwordEncoder = passwordEncoder;
         this.aesUtil = aesUtil;
@@ -103,14 +106,16 @@ public class AuthServiceImpl implements AuthService {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername()
                         , aesUtil.decrypt(request.getPassword())));
             } else if (LOGIN_METHOD_EMAIL.equals(request.getLoginMethod())) {
-                String captCha = redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + request.getUsername());
+                String captCha = (String) redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + request.getUsername());
                 if (!request.getPassword().equals(captCha)) {
                     throw new CaptChaErrorException("验证码错误");
                 }
                 redisTemplate.delete(EMAIL_CAPTCHA_KEY + request.getUsername());
             }
             LoginVo loginVo = new LoginVo();
-            loginVo.setToken(TOKEN_PREFIX + jwtUtil.generateToken(request.getUsername()));
+            String token = UUID.randomUUID().toString();
+            redisTemplate.opsForValue().set(AUTHORIZATION_USERNAME + token, request.getUsername(), AUTHORIZATION_EXPIRE, TimeUnit.SECONDS);
+            loginVo.setToken(TOKEN_PREFIX + token);
             loginVo.setUsername(request.getUsername());
             return loginVo;
         } catch (Exception e) {
