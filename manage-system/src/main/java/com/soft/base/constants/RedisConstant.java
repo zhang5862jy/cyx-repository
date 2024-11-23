@@ -18,7 +18,7 @@ public class RedisConstant {
     public final static String AUTHORIZATION_USERNAME = "cyx:token:";
 
     /**
-     * 用户鉴权过期时间
+     * 用户鉴权过期时间；单位：秒
      */
     public final static Long AUTHORIZATION_EXPIRE = 3600L;
 
@@ -43,7 +43,12 @@ public class RedisConstant {
     public final static String WS_USER_SESSION = "ws:user:session:";
 
     /**
-     * websocket的用户会话保存过期时间；单位：秒；比心跳间隔长5秒
+     * websocket的用户会话保存过期时间；比心跳间隔长5秒；单位：秒
      */
     public final static Long WS_USER_SESSION_EXPIRE = 35L;
+
+    /**
+     * 通配符
+     */
+    public final static String WILDCARD_CHARACTER = "*";
 }

@@ -34,16 +34,12 @@ import static com.soft.base.enums.ResultEnum.AUTHLICATION_FAIL;
 @Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private final JwtUtil jwtUtil;
-
     private final UserDetailsService userDetailsService;
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public JwtRequestFilter(JwtUtil jwtUtil,
-                            UserDetailsService userDetailsService,
+    public JwtRequestFilter(UserDetailsService userDetailsService,
                             RedisTemplate<String, Object> redisTemplate) {
-        this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
         this.redisTemplate = redisTemplate;
     }

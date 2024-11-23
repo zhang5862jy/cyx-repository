@@ -40,9 +40,9 @@ spring:
     host: smtp.qq.com
     port: 587
     #发送方邮箱
-    username: 
+    username:
     #授权码
-    password:
+    password: 
     properties:
       mail:
         smtp:
@@ -88,10 +88,10 @@ knife4j:
     swagger-model-name: 实体列表
 
 
-#jwt
+#jwt，已弃用
 jwt:
   #密钥
-  secret-key: abcdefghijklmnopq1907452460
+  secret-key: abcdefghijklmnopq123456789
   #单位秒；1小时过期
   expire: 3600000
 
@@ -113,6 +113,7 @@ permit:
     - /doc.html
     - /message/sendRegistCaptCha
     - /message/sendLoginCaptcha
+    - /ws/**
 
 #登录验证码
 manage-system:

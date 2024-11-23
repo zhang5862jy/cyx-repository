@@ -9,6 +9,10 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
 
+import java.util.concurrent.TimeUnit;
+
+import static com.soft.base.constants.RedisConstant.WS_USER_SESSION;
+import static com.soft.base.constants.RedisConstant.WS_USER_SESSION_EXPIRE;
 import static com.soft.base.constants.WebSocketConstant.WEBSOCKET_USER;
 
 /**
@@ -29,14 +33,22 @@ public class CustomWebSocketHandlerDecorator extends WebSocketHandlerDecorator {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         UserDto userDto = (UserDto) session.getAttributes().get(WEBSOCKET_USER);
-        WebSocketSessionManager.addSession(userDto.getId(), session);
+        // 添加用户会话
+        if (WebSocketSessionManager.getSession(userDto.getId()) == null) {
+            WebSocketSessionManager.addSession(userDto.getId(), session);
+        }
+        // 添加用户缓存
+        redisTemplate.opsForValue().set(WS_USER_SESSION + userDto.getId(), userDto.getUsername(), WS_USER_SESSION_EXPIRE, TimeUnit.SECONDS);
         log.info("{} connect...", userDto.getUsername());
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
         UserDto userDto = (UserDto) session.getAttributes().get(WEBSOCKET_USER);
+        // 移除用户会话
         WebSocketSessionManager.removeSession(userDto.getId());
+        // 移除用户缓存
+        redisTemplate.delete(WS_USER_SESSION + userDto.getId());
         log.info("{} connect closed...", userDto.getUsername());
     }
 }

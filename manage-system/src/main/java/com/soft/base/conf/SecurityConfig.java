@@ -39,8 +39,6 @@ public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
 
-    private final JwtUtil jwtUtil;
-
     private final RedisTemplate<String, Object> redisTemplate;
 
     private final UniversalUtil universalUtil;
@@ -51,14 +49,12 @@ public class SecurityConfig {
     public SecurityConfig(AuthenticationHandler authenticationHandler,
                           LogoutAfterSuccessHandler logoutAfterSuccessHandler,
                           UserDetailsService userDetailsService,
-                          JwtUtil jwtUtil,
                           RedisTemplate<String, Object> redisTemplate,
                           UniversalUtil universalUtil,
                           CustomAccessDeniedHandler customAccessDeniedHandler) {
         this.authenticationHandler = authenticationHandler;
         this.logoutAfterSuccessHandler = logoutAfterSuccessHandler;
         this.userDetailsService = userDetailsService;
-        this.jwtUtil = jwtUtil;
         this.redisTemplate = redisTemplate;
         this.universalUtil = universalUtil;
         this.customAccessDeniedHandler = customAccessDeniedHandler;
@@ -70,7 +66,7 @@ public class SecurityConfig {
     }
 
     private JwtRequestFilter getJwtRequestFilter() {
-        return new JwtRequestFilter(jwtUtil,userDetailsService,redisTemplate);
+        return new JwtRequestFilter(userDetailsService,redisTemplate);
     }
 
     @Bean

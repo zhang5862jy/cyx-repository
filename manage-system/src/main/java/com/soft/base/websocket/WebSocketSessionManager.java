@@ -2,8 +2,11 @@ package com.soft.base.websocket;
 
 import org.springframework.web.socket.WebSocketSession;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * @Author: cyx
@@ -38,5 +41,20 @@ public class WebSocketSessionManager {
      */
     public static WebSocketSession getSession(Long sessionKey) {
         return USER_SESSION_MAP.get(String.valueOf(sessionKey));
+    }
+
+    /**
+     * 获取所有的key
+     * @return
+     */
+    public static Set<String> getKeys() {
+        return new HashSet<>(USER_SESSION_MAP.keySet());
+    }
+
+    /**
+     * 清空用户会话
+     */
+    public static void clear() {
+        USER_SESSION_MAP.clear();
     }
 }

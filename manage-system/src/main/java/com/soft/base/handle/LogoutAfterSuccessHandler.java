@@ -16,8 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static com.soft.base.constants.RedisConstant.TOKEN_BLACKLIST_KEY;
-import static com.soft.base.constants.RedisConstant.USER_INFO;
+import static com.soft.base.constants.RedisConstant.*;
 import static com.soft.base.constants.TokenConstant.TOKEN_PREFIX_LENGTH;
 import static com.soft.base.enums.ResultEnum.SUCCESS;
 
@@ -33,24 +32,18 @@ public class LogoutAfterSuccessHandler implements LogoutSuccessHandler {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private final JwtUtil jwtUtil;
-
-    @Value(value = "${jwt.expire}")
-    private Long jwtExpireTime;
-
-    public LogoutAfterSuccessHandler(RedisTemplate<String, Object> redisTemplate, JwtUtil jwtUtil) {
+    public LogoutAfterSuccessHandler(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
-        this.jwtUtil = jwtUtil;
     }
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String authorization = request.getHeader("Authorization");
-        redisTemplate.opsForSet().add(TOKEN_BLACKLIST_KEY,authorization);
-        log.info("token already join blacklist...");
-        String username = jwtUtil.extractUsername(authorization.substring(TOKEN_PREFIX_LENGTH));
+        String username = (String) redisTemplate.opsForValue().get(AUTHORIZATION_USERNAME + authorization);
         redisTemplate.delete(USER_INFO + username);
         log.info("{} already remove in redis", username);
+        redisTemplate.delete(AUTHORIZATION_USERNAME + authorization);
+        log.info("token \"{}\" already remove in redis", authorization);
         ResponseUtil.writeErrMsg(response, HttpConstant.SUCCESS, R.ok(SUCCESS.getCode(), "注销成功"));
     }
 }

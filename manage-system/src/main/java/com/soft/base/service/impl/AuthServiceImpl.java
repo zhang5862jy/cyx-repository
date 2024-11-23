@@ -40,13 +40,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
 
-    private final JwtUtil jwtUtil;
-
-    private final JavaMailSender javaMailSender;
-
     private final RedisTemplate<String,Object> redisTemplate;
-
-    private final UniversalUtil universalUtil;
 
     @Value(value = "${spring.mail.username}")
     private String fromEmail;
@@ -62,18 +56,12 @@ public class AuthServiceImpl implements AuthService {
                            AESUtil aesUtil,
                            SysUsersMapper sysUsersMapper,
                            AuthenticationManager authenticationManager,
-                           JwtUtil jwtUtil,
-                           JavaMailSender javaMailSender,
-                           RedisTemplate<String,Object> redisTemplate,
-                           UniversalUtil universalUtil) {
+                           RedisTemplate<String,Object> redisTemplate) {
         this.passwordEncoder = passwordEncoder;
         this.aesUtil = aesUtil;
         this.sysUsersMapper = sysUsersMapper;
         this.authenticationManager = authenticationManager;
-        this.jwtUtil = jwtUtil;
-        this.javaMailSender = javaMailSender;
         this.redisTemplate = redisTemplate;
-        this.universalUtil = universalUtil;
     }
 
     @Override
