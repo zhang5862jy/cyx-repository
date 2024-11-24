@@ -3,6 +3,7 @@ package com.soft.base.aspect;
 import com.alibaba.fastjson2.JSON;
 import com.soft.base.annotation.SysLog;
 import com.soft.base.dto.LogDto;
+import com.soft.base.enums.LogLevelEnum;
 import com.soft.base.rabbitmq.producer.SysLogProduce;
 import com.soft.base.resultapi.R;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -58,6 +59,7 @@ public class SysLogAspect {
             logDto.setRequestUrl(servletRequest.getRequestURL().toString());
             logDto.setIpAddress(servletRequest.getRemoteAddr());
             logDto.setRequestParams(JSON.toJSONString(joinPoint.getArgs()));
+            logDto.setLogLevel(LogLevelEnum.INFO.getCode());
 
             try {
                 result = joinPoint.proceed();
@@ -72,6 +74,7 @@ public class SysLogAspect {
                 logDto.setOsBrowserInfo(osName + LEFT_SLASH + browserName);
             } catch (Throwable throwable) {
                 logDto.setExceptionInfo(throwable.getMessage());
+                logDto.setLogLevel(LogLevelEnum.INFO.getCode());
                 throw throwable;
             } finally {
                 logDto.setExecutionTime(System.currentTimeMillis() - start);
