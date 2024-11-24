@@ -1,10 +1,9 @@
 package com.soft.base.rabbitmq.producer;
 
+import com.soft.base.constants.RabbitmqConstant;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import static com.soft.base.constants.RabbitmqConstant.*;
 
 /**
  * @Author: cyx
@@ -27,7 +26,7 @@ public class CaptchaProduce {
      * @param username
      */
     public void sendLoginCaptcha(String username) {
-        rabbitTemplate.convertAndSend(TOPIC_EXCHANGE, TOPIC_ROUTE_KEY_LOGIN, username);
+        rabbitTemplate.convertAndSend(RabbitmqConstant.TOPIC_EXCHANGE, RabbitmqConstant.TOPIC_ROUTE_KEY_LOGIN, username);
     }
 
     /**
@@ -35,6 +34,6 @@ public class CaptchaProduce {
      * @param email
      */
     public void sendRegistCaptcha(String email) {
-        rabbitTemplate.convertAndSend(TOPIC_EXCHANGE, TOPIC_ROUTE_KEY_REGIST, email);
+        rabbitTemplate.convertAndSend(RabbitmqConstant.TOPIC_EXCHANGE, RabbitmqConstant.TOPIC_ROUTE_KEY_REGIST, email);
     }
 }

@@ -1,5 +1,6 @@
 package com.soft.base.utils;
 
+import com.soft.base.constants.BaseConstant;
 import com.soft.base.exception.GlobelException;
 import io.minio.*;
 import lombok.extern.slf4j.Slf4j;
@@ -9,8 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 import java.util.UUID;
-
-import static com.soft.base.constants.BaseConstant.*;
 
 /**
  * @Author: cyx
@@ -42,7 +41,7 @@ public class MinioUtil {
      * @return
      */
     private String getObjectKey(String fileKey, String fileSuffix) {
-        return dateUtil.date8Number() + LEFT_SLASH + fileKey + fileSuffix;
+        return dateUtil.date8Number() + BaseConstant.LEFT_SLASH + fileKey + fileSuffix;
     }
 
     /**
@@ -63,7 +62,7 @@ public class MinioUtil {
             minioClient.putObject(PutObjectArgs.builder()
                     .bucket(bucket)
                     .object(objectKey)
-                    .stream(is, fileSize, compareFirst(BURST_SIZE, fileSize) ? BURST_FALSE : BURST_SIZE).build());
+                    .stream(is, fileSize, compareFirst(BaseConstant.BURST_SIZE, fileSize) ? BaseConstant.BURST_FALSE : BaseConstant.BURST_SIZE).build());
             return objectKey;
         } catch (Exception e) {
             throw new GlobelException(e.getMessage());

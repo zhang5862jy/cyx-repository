@@ -5,7 +5,6 @@ import com.soft.base.handle.AuthenticationHandler;
 import com.soft.base.handle.CustomAccessDeniedHandler;
 import com.soft.base.handle.LogoutAfterSuccessHandler;
 import com.soft.base.properties.JwtIgnoreProperty;
-import com.soft.base.utils.JwtUtil;
 import com.soft.base.utils.UniversalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

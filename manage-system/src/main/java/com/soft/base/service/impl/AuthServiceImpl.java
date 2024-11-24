@@ -1,6 +1,8 @@
 package com.soft.base.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.soft.base.constants.BaseConstant;
+import com.soft.base.constants.RedisConstant;
 import com.soft.base.entity.SysUser;
 import com.soft.base.exception.CaptChaErrorException;
 import com.soft.base.exception.GlobelException;
@@ -8,14 +10,10 @@ import com.soft.base.mapper.SysUsersMapper;
 import com.soft.base.request.LoginRequest;
 import com.soft.base.service.AuthService;
 import com.soft.base.utils.AESUtil;
-import com.soft.base.utils.JwtUtil;
-import com.soft.base.utils.UniversalUtil;
 import com.soft.base.vo.LoginVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,8 +22,6 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static com.soft.base.constants.BaseConstant.*;
-import static com.soft.base.constants.RedisConstant.*;
 import static com.soft.base.constants.TokenConstant.TOKEN_PREFIX;
 
 @Service
@@ -41,15 +37,6 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 
     private final RedisTemplate<String,Object> redisTemplate;
-
-    @Value(value = "${spring.mail.username}")
-    private String fromEmail;
-
-    @Value(value = "${manage-system.captcha.topic}")
-    private String topic;
-
-    @Value(value = "${manage-system.captcha.expire-time}")
-    private Long expireTime;
 
     @Autowired
     public AuthServiceImpl(PasswordEncoder passwordEncoder,
@@ -71,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
                 throw new GlobelException("用户已存在");
             }
 
-            String username = sysUsersMapper.getManager(MANAGER_ROLE_CODE);
+            String username = sysUsersMapper.getManager(BaseConstant.MANAGER_ROLE_CODE);
             sysUser.setCreateBy(username);
             sysUser.setUpdateBy(username);
             // 解密密码
@@ -90,19 +77,19 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginVo authenticate(LoginRequest request) throws RuntimeException{
         try {
-            if (LOGIN_METHOD_PASSWORD.equals(request.getLoginMethod())) {
+            if (BaseConstant.LOGIN_METHOD_PASSWORD.equals(request.getLoginMethod())) {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername()
                         , aesUtil.decrypt(request.getPassword())));
-            } else if (LOGIN_METHOD_EMAIL.equals(request.getLoginMethod())) {
-                String captCha = (String) redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + request.getUsername());
+            } else if (BaseConstant.LOGIN_METHOD_EMAIL.equals(request.getLoginMethod())) {
+                String captCha = (String) redisTemplate.opsForValue().get(RedisConstant.EMAIL_CAPTCHA_KEY + request.getUsername());
                 if (!request.getPassword().equals(captCha)) {
                     throw new CaptChaErrorException("验证码错误");
                 }
-                redisTemplate.delete(EMAIL_CAPTCHA_KEY + request.getUsername());
+                redisTemplate.delete(RedisConstant.EMAIL_CAPTCHA_KEY + request.getUsername());
             }
             LoginVo loginVo = new LoginVo();
             String token = UUID.randomUUID().toString();
-            redisTemplate.opsForValue().set(AUTHORIZATION_USERNAME + token, request.getUsername(), AUTHORIZATION_EXPIRE, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(RedisConstant.AUTHORIZATION_USERNAME + token, request.getUsername(), RedisConstant.AUTHORIZATION_EXPIRE, TimeUnit.SECONDS);
             loginVo.setToken(TOKEN_PREFIX + token);
             loginVo.setUsername(request.getUsername());
             return loginVo;

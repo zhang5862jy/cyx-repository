@@ -22,6 +22,7 @@
             <result property="statusCode" column="status_code" jdbcType="INTEGER"/>
             <result property="exceptionInfo" column="exception_info" jdbcType="VARCHAR"/>
             <result property="osBrowserInfo" column="os_browser_info" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -30,7 +31,7 @@
         request_url,request_method,request_params,
         response_result,operation_desc,source,
         execution_time,module_name,status_code,
-        exception_info,os_browser_info
+        exception_info,os_browser_info,type
     </sql>
 
     <select id="getLogs" parameterType="LogsRequest" resultType="LogsVo">

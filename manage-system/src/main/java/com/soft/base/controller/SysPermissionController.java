@@ -1,5 +1,7 @@
 package com.soft.base.controller;
 
+import com.soft.base.annotation.SysLog;
+import com.soft.base.enums.LogModuleEnum;
 import com.soft.base.request.PermissionsRequest;
 import com.soft.base.request.SavePermissionRequest;
 import com.soft.base.resultapi.R;
@@ -35,6 +37,7 @@ public class SysPermissionController {
         this.sysPermissionService = sysPermissionService;
     }
 
+    @SysLog(value = "获取权限（复）", module = LogModuleEnum.PERMISSION)
     @PostMapping(value = "/getPermissions")
     @Operation(summary = "获取权限（复）")
     public R<PageVo<PermissionsVo>> getPermissions(@RequestBody PermissionsRequest request) {
@@ -47,6 +50,7 @@ public class SysPermissionController {
         }
     }
 
+    @SysLog(value = "添加权限", module = LogModuleEnum.PERMISSION)
     @PreAuthorize(value = "@cps.hasPermission('sys_per_add')")
     @PostMapping
     @Operation(summary = "添加权限")

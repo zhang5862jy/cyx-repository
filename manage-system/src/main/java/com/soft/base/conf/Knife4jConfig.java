@@ -1,5 +1,6 @@
 package com.soft.base.conf;
 
+import com.soft.base.constants.BaseConstant;
 import com.soft.base.properties.JwtIgnoreProperty;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -14,8 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 
 import java.util.List;
-
-import static com.soft.base.constants.BaseConstant.*;
 
 @Configuration
 public class Knife4jConfig {
@@ -76,10 +75,10 @@ public class Knife4jConfig {
     private boolean checkPermitUrl(String uri) {
         List<String> notPermitUrl = jwtIgnoreProperty.getUrls();
         for (String c : notPermitUrl) {
-            if (ALL_WILDCARD_CHARACTER.equals(c.substring(c.length() - 2)) &&
+            if (BaseConstant.ALL_WILDCARD_CHARACTER.equals(c.substring(c.length() - 2)) &&
                     uri.length() > c.length() &&
                     uri.substring(0, c.length() - 2)
-                            .equals(c.replaceAll(ESCAPE_CHARACTER + ALL_WILDCARD_CHARACTER, BLANK_CHARACTER))) {
+                            .equals(c.replaceAll(BaseConstant.ESCAPE_CHARACTER + BaseConstant.ALL_WILDCARD_CHARACTER, BaseConstant.BLANK_CHARACTER))) {
                 return true;
             } else if (uri.equals(c)) {
                 return true;

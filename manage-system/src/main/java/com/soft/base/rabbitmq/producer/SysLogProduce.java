@@ -1,14 +1,12 @@
 package com.soft.base.rabbitmq.producer;
 
+import com.soft.base.constants.RabbitmqConstant;
+import com.soft.base.constants.RedisConstant;
 import com.soft.base.dto.LogDto;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-
-import static com.soft.base.constants.RabbitmqConstant.DIRECT_EXCHANGE;
-import static com.soft.base.constants.RabbitmqConstant.DIRECT_ROUTEKEY_ONE;
-import static com.soft.base.constants.RedisConstant.SYS_LOG_CACHE;
 
 /**
  * @Author: cyx
@@ -34,8 +32,8 @@ public class SysLogProduce {
      * @param logDto
      */
     public void sendSysLog(LogDto logDto) {
-        String key = SYS_LOG_CACHE + System.currentTimeMillis();
+        String key = RedisConstant.SYS_LOG_CACHE + System.currentTimeMillis();
         redisTemplate.opsForValue().set(key, logDto);
-        rabbitTemplate.convertAndSend(DIRECT_EXCHANGE, DIRECT_ROUTEKEY_ONE, key);
+        rabbitTemplate.convertAndSend(RabbitmqConstant.DIRECT_EXCHANGE, RabbitmqConstant.DIRECT_ROUTEKEY_ONE, key);
     }
 }

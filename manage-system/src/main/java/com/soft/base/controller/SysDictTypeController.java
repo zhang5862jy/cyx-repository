@@ -1,5 +1,7 @@
 package com.soft.base.controller;
 
+import com.soft.base.annotation.SysLog;
+import com.soft.base.enums.LogModuleEnum;
 import com.soft.base.request.DeleteRequest;
 import com.soft.base.request.EditDictTypeRequest;
 import com.soft.base.request.SaveDictTypeRequest;
@@ -37,6 +39,7 @@ public class SysDictTypeController {
         this.sysDictTypeService = sysDictTypeService;
     }
 
+    @SysLog(value = "获取字典类型", module = LogModuleEnum.DICT_TYPE)
     @GetMapping
     @Operation(summary = "获取字典类型")
     public R<List<DictTypesVo>> getDictTypes() {
@@ -49,6 +52,7 @@ public class SysDictTypeController {
         }
     }
 
+    @SysLog(value = "添加字典类型", module = LogModuleEnum.DICT_TYPE)
     @PreAuthorize(value = "@cps.hasPermission('sys_dict_type_add')")
     @PostMapping
     @Operation(summary = "添加字典类型")
@@ -68,6 +72,7 @@ public class SysDictTypeController {
         }
     }
 
+    @SysLog(value = "编辑字典类型", module = LogModuleEnum.DICT_TYPE)
     @PreAuthorize(value = "@cps.hasPermission('sys_dict_type_edit')")
     @PutMapping
     @Operation(summary = "编辑字典类型")
@@ -84,6 +89,7 @@ public class SysDictTypeController {
         }
     }
 
+    @SysLog(value = "获取字典类型（单）", module = LogModuleEnum.DICT_TYPE)
     @GetMapping(value = "/{id}")
     @Operation(summary = "获取字典类型（单）")
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
@@ -100,6 +106,7 @@ public class SysDictTypeController {
         }
     }
 
+    @SysLog(value = "删除字典类型", module = LogModuleEnum.DICT_TYPE)
     @PreAuthorize(value = "@cps.hasPermission('sys_dict_type_del')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除字典类型")
@@ -117,6 +124,7 @@ public class SysDictTypeController {
         }
     }
 
+    @SysLog(value = "批量删除字典类型", module = LogModuleEnum.DICT_TYPE)
     @PreAuthorize(value = "@cps.hasPermission('sys_dict_type_del')")
     @DeleteMapping(value = "/deleteDictTypeBatch")
     @Operation(summary = "批量删除字典类型")

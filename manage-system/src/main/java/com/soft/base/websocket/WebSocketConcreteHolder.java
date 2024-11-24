@@ -1,8 +1,7 @@
 package com.soft.base.websocket;
 
-import com.soft.base.websocket.handleservice.WebSocketConcreteHandler;
+import com.soft.base.websocket.handle.message.WebSocketConcreteHandler;
 import jakarta.validation.Valid;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

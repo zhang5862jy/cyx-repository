@@ -3,6 +3,7 @@ package com.soft.base.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.soft.base.constants.BaseConstant;
 import com.soft.base.dto.FileDetailDto;
 import com.soft.base.entity.SysFile;
 import com.soft.base.exception.GlobelException;
@@ -16,9 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import static com.soft.base.constants.BaseConstant.DEFAULT_STORAGE_LOCATION;
-import static com.soft.base.constants.BaseConstant.FILE_POINT_SUFFIX;
 
 /**
 * @author cyq
@@ -45,13 +43,13 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile>
         try {
             String fileKey = minioUtil.fileKeyGen();
             String originalFilename = multipartFile.getOriginalFilename();
-            String fileSuffix = originalFilename.substring(originalFilename.lastIndexOf(FILE_POINT_SUFFIX));
+            String fileSuffix = originalFilename.substring(originalFilename.lastIndexOf(BaseConstant.FILE_POINT_SUFFIX));
             Long fileSize = multipartFile.getSize();
             String objectKey = minioUtil.upload(multipartFile.getInputStream(), fileKey, fileSuffix, fileSize);
             SysFile sysFile = new SysFile();
             sysFile.setFileKey(fileKey);
             sysFile.setFileSuffix(fileSuffix);
-            sysFile.setLocation(DEFAULT_STORAGE_LOCATION);
+            sysFile.setLocation(BaseConstant.DEFAULT_STORAGE_LOCATION);
             sysFile.setObjectKey(objectKey);
             sysFile.setOriginalName(originalFilename);
             sysFile.setFileSize(fileSize);

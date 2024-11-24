@@ -1,6 +1,7 @@
 package com.soft.base.controller;
 
 import com.soft.base.annotation.SysLog;
+import com.soft.base.enums.LogModuleEnum;
 import com.soft.base.request.DeleteRequest;
 import com.soft.base.request.EditDeptRequest;
 import com.soft.base.request.SaveDeptRequest;
@@ -39,6 +40,7 @@ public class SysDeptController {
         this.sysDeptService = sysDeptService;
     }
 
+    @SysLog(value = "获取组织架构", module = LogModuleEnum.DEPT)
     @GetMapping(value = "/getDeptTree")
     @Operation(summary = "获取组织架构")
     public R<List<DeptTreeVo>> getDeptTree() {
@@ -51,7 +53,7 @@ public class SysDeptController {
         }
     }
 
-    @SysLog(value = "添加部门", module = "部门")
+    @SysLog(value = "添加部门", module = LogModuleEnum.DEPT)
     @PreAuthorize(value = "@cps.hasPermission('sys_menu_del')")
     @PostMapping
     @Operation(summary = "添加部门")
@@ -80,7 +82,7 @@ public class SysDeptController {
         }
     }
 
-    @SysLog(value = "编辑部门", module = "部门")
+    @SysLog(value = "编辑部门", module = LogModuleEnum.DEPT)
     @PreAuthorize(value = "@cps.hasPermission('sys_dept_edit')")
     @PutMapping
     @Operation(summary = "编辑部门")
@@ -97,7 +99,7 @@ public class SysDeptController {
         }
     }
 
-    @SysLog(value = "删除部门", module = "部门")
+    @SysLog(value = "删除部门", module = LogModuleEnum.DEPT)
     @PreAuthorize(value = "@cps.hasPermission('sys_dept_del')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除部门")
@@ -115,7 +117,7 @@ public class SysDeptController {
         }
     }
 
-    @SysLog(value = "批量删除部门", module = "部门")
+    @SysLog(value = "批量删除部门", module = LogModuleEnum.DEPT)
     @PreAuthorize(value = "@cps.hasPermission('sys_dept_del')")
     @DeleteMapping(value = "/deleteRoleBatch")
     @Operation(summary = "批量删除部门")
@@ -132,6 +134,7 @@ public class SysDeptController {
         }
     }
 
+    @SysLog(value = "获取部门（单）", module = LogModuleEnum.DEPT)
     @GetMapping(value = "/{id}")
     @Operation(summary = "获取部门（单）")
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)

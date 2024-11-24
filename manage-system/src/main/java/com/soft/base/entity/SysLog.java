@@ -115,6 +115,12 @@ public class SysLog implements Serializable {
     @TableField(value = "os_browser_info")
     private String osBrowserInfo;
 
+    /**
+     * 日志类型
+     */
+    @TableField(value = "type")
+    private String type;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

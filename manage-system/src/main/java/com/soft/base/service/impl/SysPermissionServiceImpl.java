@@ -3,6 +3,7 @@ package com.soft.base.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.soft.base.constants.BaseConstant;
 import com.soft.base.entity.SysPermission;
 import com.soft.base.mapper.SysPermissionMapper;
 import com.soft.base.request.PermissionsRequest;
@@ -14,8 +15,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static com.soft.base.constants.BaseConstant.PERMISSION_ENABLE;
 
 /**
 * @author cyq
@@ -52,7 +51,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     public void savePermission(SavePermissionRequest request) {
         SysPermission sysPermission = new SysPermission();
         BeanUtils.copyProperties(request, sysPermission);
-        sysPermission.setStatus(PERMISSION_ENABLE);
+        sysPermission.setStatus(BaseConstant.PERMISSION_ENABLE);
         sysPermissionMapper.insert(sysPermission);
     }
 }

@@ -54,4 +54,7 @@ public class LogDto {
 
     @Schema(description = "创建者")
     private String createBy;
+
+    @Schema(description = "日志类型")
+    private String type;
 }

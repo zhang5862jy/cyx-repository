@@ -6,9 +6,9 @@ package com.soft.base.constants;
 public class RegexConstant {
 
     /**
-     * 不包含中文正则
+     * 只包含英文字母和数字的正则
      */
-    public final static String USERNAME_PATTERN = "^[\\x00-\\x7F]+$";
+    public final static String USERNAME_PATTERN = "^[a-zA-Z0-9]+$";
 
     /**
      * 角色编码以ROLE_开头正则

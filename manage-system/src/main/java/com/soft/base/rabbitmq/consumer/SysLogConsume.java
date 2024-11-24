@@ -1,6 +1,7 @@
 package com.soft.base.rabbitmq.consumer;
 
 import com.rabbitmq.client.Channel;
+import com.soft.base.constants.RabbitmqConstant;
 import com.soft.base.dto.LogDto;
 import com.soft.base.service.SysLogService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +12,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-
-import static com.soft.base.constants.RabbitmqConstant.DIRECT_QUEUE_ONE;
 
 /**
  * @Author: cyx
@@ -39,7 +38,7 @@ public class SysLogConsume {
      * @param message
      * @param channel
      */
-    @RabbitListener(queues = DIRECT_QUEUE_ONE, ackMode = "MANUAL")
+    @RabbitListener(queues = RabbitmqConstant.DIRECT_QUEUE_ONE, ackMode = "MANUAL")
     public void saveSysLog(Message message, Channel channel) {
         String key = null;
         long deliveryTag = message.getMessageProperties().getDeliveryTag();

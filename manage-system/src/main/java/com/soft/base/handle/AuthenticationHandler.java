@@ -1,6 +1,7 @@
 package com.soft.base.handle;
 
 import com.soft.base.constants.HttpConstant;
+import com.soft.base.enums.ResultEnum;
 import com.soft.base.resultapi.R;
 import com.soft.base.utils.ResponseUtil;
 import jakarta.servlet.ServletException;
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static com.soft.base.enums.ResultEnum.NOT_AUTHLICATION;
-
 /**
  * 认证失败处理器
  */
@@ -21,6 +20,6 @@ import static com.soft.base.enums.ResultEnum.NOT_AUTHLICATION;
 public class AuthenticationHandler implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, R.fail(NOT_AUTHLICATION.getCode(), NOT_AUTHLICATION.getMessage()));
+        ResponseUtil.writeErrMsg(response, HttpConstant.UNAUTHORIZED, R.fail(ResultEnum.NOT_AUTHENTICATION.getCode(), ResultEnum.NOT_AUTHENTICATION.getMessage()));
     }
 }

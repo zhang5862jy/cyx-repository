@@ -1,5 +1,6 @@
 package com.soft.base.websocket.schedule;
 
+import com.soft.base.constants.RedisConstant;
 import com.soft.base.websocket.WebSocketSessionManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -8,9 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.soft.base.constants.RedisConstant.WILDCARD_CHARACTER;
-import static com.soft.base.constants.RedisConstant.WS_USER_SESSION;
 
 /**
  * @Author: cyx
@@ -33,7 +31,8 @@ public class WebsocketSessionTimer {
      */
     @Scheduled(cron = "0 0 0 * * ?")
     public void cleanUserSession() {
-        Set<String> keys = redisTemplate.keys(WS_USER_SESSION + WILDCARD_CHARACTER);
+        log.info("session clear...");
+        Set<String> keys = redisTemplate.keys(RedisConstant.WS_USER_SESSION + RedisConstant.WILDCARD_CHARACTER);
         if (keys == null || keys.isEmpty()) {
             WebSocketSessionManager.clear();
         } else {

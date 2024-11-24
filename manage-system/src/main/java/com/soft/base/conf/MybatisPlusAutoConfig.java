@@ -2,6 +2,7 @@ package com.soft.base.conf;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.soft.base.constants.BaseConstant;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
@@ -10,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
-
-import static com.soft.base.constants.BaseConstant.DEL_FLAG_EXIST;
 
 @Configuration
 public class MybatisPlusAutoConfig implements MetaObjectHandler {
@@ -31,7 +30,7 @@ public class MybatisPlusAutoConfig implements MetaObjectHandler {
             fillValIfNullByName("updateBy", getCurrentUsername(), metaObject);
         if (metaObject.hasSetter("delFlag"))
             // 自动填充逻辑删除
-            fillValIfNullByName("delFlag", DEL_FLAG_EXIST, metaObject);
+            fillValIfNullByName("delFlag", BaseConstant.DEL_FLAG_EXIST, metaObject);
     }
 
     @Override

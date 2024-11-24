@@ -1,6 +1,7 @@
 package com.soft.base.controller;
 
 import com.soft.base.annotation.SysLog;
+import com.soft.base.enums.LogModuleEnum;
 import com.soft.base.request.EditMenuRequest;
 import com.soft.base.request.SaveMenuRequest;
 import com.soft.base.resultapi.R;
@@ -37,6 +38,7 @@ public class SysMenuController {
     }
 
 
+    @SysLog(value = "获取菜单", module = LogModuleEnum.MENU)
     @GetMapping(value = "/getMenus")
     @Operation(summary = "获取菜单")
     public R<List<MenusVo>> getMenus() {
@@ -49,7 +51,7 @@ public class SysMenuController {
         }
     }
 
-    @SysLog(value = "添加菜单", module = "菜单")
+    @SysLog(value = "添加菜单", module = LogModuleEnum.MENU)
     @PreAuthorize(value = "@cps.hasPermission('sys_menu_add')")
     @PostMapping
     @Operation(summary = "添加菜单")
@@ -63,7 +65,7 @@ public class SysMenuController {
         }
     }
 
-    @SysLog(value = "编辑菜单", module = "菜单")
+    @SysLog(value = "编辑菜单", module = LogModuleEnum.MENU)
     @PreAuthorize(value = "@cps.hasPermission('sys_menu_edit')")
     @PutMapping
     @Operation(summary = "编辑菜单")
@@ -80,7 +82,7 @@ public class SysMenuController {
         }
     }
 
-    @SysLog(value = "删除菜单", module = "菜单")
+    @SysLog(value = "删除菜单", module = LogModuleEnum.MENU)
     @PreAuthorize(value = "@cps.hasPermission('sys_menu_del')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除菜单")

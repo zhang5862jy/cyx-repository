@@ -1,6 +1,7 @@
 package com.soft.base.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.soft.base.constants.BaseConstant;
 import com.soft.base.entity.SysDictType;
 import com.soft.base.mapper.SysDictTypeMapper;
 import com.soft.base.request.EditDictTypeRequest;
@@ -12,8 +13,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static com.soft.base.constants.BaseConstant.DICT_TYPE_STATUS_ENABLE;
 
 /**
 * @author cyq
@@ -37,7 +36,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
 
     @Override
     public void saveDictType(SaveDictTypeRequest request) {
-        request.setStatus(DICT_TYPE_STATUS_ENABLE);
+        request.setStatus(BaseConstant.DICT_TYPE_STATUS_ENABLE);
         SysDictType sysDictType = new SysDictType();
         BeanUtils.copyProperties(request, sysDictType);
         sysDictTypeMapper.insert(sysDictType);

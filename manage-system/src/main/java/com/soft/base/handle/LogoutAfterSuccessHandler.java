@@ -1,24 +1,20 @@
 package com.soft.base.handle;
 
 import com.soft.base.constants.HttpConstant;
+import com.soft.base.constants.RedisConstant;
+import com.soft.base.enums.ResultEnum;
 import com.soft.base.resultapi.R;
-import com.soft.base.utils.JwtUtil;
 import com.soft.base.utils.ResponseUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-
-import static com.soft.base.constants.RedisConstant.*;
-import static com.soft.base.constants.TokenConstant.TOKEN_PREFIX_LENGTH;
-import static com.soft.base.enums.ResultEnum.SUCCESS;
 
 /**
  * @Author: cyx
@@ -39,11 +35,11 @@ public class LogoutAfterSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String authorization = request.getHeader("Authorization");
-        String username = (String) redisTemplate.opsForValue().get(AUTHORIZATION_USERNAME + authorization);
-        redisTemplate.delete(USER_INFO + username);
+        String username = (String) redisTemplate.opsForValue().get(RedisConstant.AUTHORIZATION_USERNAME + authorization);
+        redisTemplate.delete(RedisConstant.USER_INFO + username);
         log.info("{} already remove in redis", username);
-        redisTemplate.delete(AUTHORIZATION_USERNAME + authorization);
+        redisTemplate.delete(RedisConstant.AUTHORIZATION_USERNAME + authorization);
         log.info("token \"{}\" already remove in redis", authorization);
-        ResponseUtil.writeErrMsg(response, HttpConstant.SUCCESS, R.ok(SUCCESS.getCode(), "注销成功"));
+        ResponseUtil.writeErrMsg(response, HttpConstant.SUCCESS, R.ok(ResultEnum.SUCCESS.getCode(), "注销成功"));
     }
 }

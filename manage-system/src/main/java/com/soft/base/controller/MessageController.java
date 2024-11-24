@@ -1,6 +1,10 @@
 package com.soft.base.controller;
 
 import com.soft.base.annotation.SysLog;
+import com.soft.base.constants.RedisConstant;
+import com.soft.base.constants.RegexConstant;
+import com.soft.base.enums.LogModuleEnum;
+import com.soft.base.enums.LogTypeEnum;
 import com.soft.base.exception.RepeatSendCaptChaException;
 import com.soft.base.rabbitmq.producer.CaptchaProduce;
 import com.soft.base.resultapi.R;
@@ -19,9 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.regex.Pattern;
-
-import static com.soft.base.constants.RedisConstant.EMAIL_CAPTCHA_KEY;
-import static com.soft.base.constants.RegexConstant.EMAIL;
 
 /**
  * @Author: cyx
@@ -50,7 +51,7 @@ public class MessageController {
         this.sysUsersService = sysUsersService;
     }
 
-    @SysLog(value = "发送注册验证码", module = "消息队列")
+    @SysLog(value = "发送注册验证码", module = LogModuleEnum.MESSAGE_QUEUE)
     @GetMapping(value = "/sendRegistCaptcha")
     @Operation(summary = "发送注册验证码")
     @Parameter(name = "email", description = "邮箱地址", required = true, in = ParameterIn.QUERY)
@@ -58,11 +59,11 @@ public class MessageController {
         if (StringUtils.isBlank(email)) {
             return R.fail("邮箱不能为空");
         }
-        if (!Pattern.matches(EMAIL, email)) {
+        if (!Pattern.matches(RegexConstant.EMAIL, email)) {
             return R.fail("非法邮箱");
         }
         try {
-            if (StringUtils.isNotBlank((String) redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + email))) {
+            if (StringUtils.isNotBlank((String) redisTemplate.opsForValue().get(RedisConstant.EMAIL_CAPTCHA_KEY + email))) {
                 throw new RepeatSendCaptChaException("请勿重复发送验证码");
             }
             captchaProduce.sendRegistCaptcha(email);
@@ -73,7 +74,7 @@ public class MessageController {
         }
     }
 
-    @SysLog(value = "发送登录验证码", module = "消息队列")
+    @SysLog(value = "发送登录验证码", module = LogModuleEnum.MESSAGE_QUEUE)
     @GetMapping(value = "/sendLoginCaptcha")
     @Operation(summary = "发送登录验证码")
     @Parameter(name = "username", description = "用户名", required = true, in = ParameterIn.QUERY)
@@ -82,7 +83,7 @@ public class MessageController {
             return R.fail("用户名不能为空");
         }
         try {
-            if (StringUtils.isNotBlank((String) redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + username))) {
+            if (StringUtils.isNotBlank((String) redisTemplate.opsForValue().get(RedisConstant.EMAIL_CAPTCHA_KEY + username))) {
                 throw new RepeatSendCaptChaException("请勿重复发送验证码");
             }
             boolean flag = sysUsersService.checkUsernameExist(username);

@@ -1,7 +1,9 @@
 package com.soft.base.controller;
 
 import com.soft.base.annotation.SysLog;
+import com.soft.base.constants.HttpConstant;
 import com.soft.base.dto.FileDetailDto;
+import com.soft.base.enums.LogModuleEnum;
 import com.soft.base.request.FilesRequest;
 import com.soft.base.resultapi.R;
 import com.soft.base.service.SysFileService;
@@ -26,9 +28,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import static com.soft.base.constants.HttpConstant.CONTENT_TYPE;
-import static com.soft.base.constants.HttpConstant.HEADERS;
-
 /**
  * @Author: cyx
  * @Description: TODO
@@ -51,7 +50,7 @@ public class SysFileController {
         this.minioUtil = minioUtil;
     }
 
-    @SysLog(value = "上传文件", module = "文件")
+    @SysLog(value = "上传文件", module = LogModuleEnum.FILE)
     @PostMapping
     @Operation(summary = "上传文件")
     @Parameter(name = "multipartFile", description = "文件流", required = true, in = ParameterIn.QUERY)
@@ -68,11 +67,11 @@ public class SysFileController {
         }
     }
 
-    @SysLog(value = "下载文件", module = "文件")
+    @SysLog(value = "下载文件", module = LogModuleEnum.FILE)
     @GetMapping (value = "/downloadFile")
     @Operation(summary = "下载文件")
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.QUERY)
-    public ResponseEntity downloadFile(@RequestParam(value = "id", required = false) Long id,
+    public ResponseEntity<R<Object>> downloadFile(@RequestParam(value = "id", required = false) Long id,
                                        HttpServletResponse response) {
         if (id == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(R.fail("主键不能为空"));
@@ -94,9 +93,9 @@ public class SysFileController {
             }
             os.flush();
             // 设置响应头
-            response.setContentType(CONTENT_TYPE);
+            response.setContentType(HttpConstant.CONTENT_TYPE);
             response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-                    HEADERS[0] + fileDetail.getOriginalName() + HEADERS[1]); // 设置文件名
+                    HttpConstant.HEADERS[0] + fileDetail.getOriginalName() + HttpConstant.HEADERS[1]); // 设置文件名
             response.setContentLength(-1); // 可以设置为 -1 以让 Servlet 自动计算长度
             return ResponseEntity.ok().build();
         } catch (Exception e) {
@@ -113,7 +112,7 @@ public class SysFileController {
         }
     }
 
-    @SysLog(value = "删除文件", module = "文件")
+    @SysLog(value = "删除文件", module = LogModuleEnum.FILE)
     @PreAuthorize(value = "@cps.hasPermission('sys_file_del')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除文件")
@@ -131,6 +130,7 @@ public class SysFileController {
         }
     }
 
+    @SysLog(value = "获取文件（复）", module = LogModuleEnum.FILE)
     @PostMapping(value = "/getFiles")
     @Operation(summary = "获取文件（复）")
     public R<PageVo<FilesVo>> getFiles(@RequestBody FilesRequest request) {

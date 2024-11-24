@@ -1,4 +1,4 @@
-package com.soft.base.websocket.handleservice;
+package com.soft.base.websocket.handle.message;
 
 import com.soft.base.enums.WebSocketOrderEnum;
 import jakarta.validation.constraints.NotNull;

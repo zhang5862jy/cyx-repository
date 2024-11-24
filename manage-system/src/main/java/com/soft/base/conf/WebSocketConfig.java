@@ -21,22 +21,19 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
-    private final JwtUtil jwtUtil;
-
     private final UserDetailsService userDetailsService;
 
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
-    public WebSocketConfig(JwtUtil jwtUtil, UserDetailsService userDetailsService, RedisTemplate<String, Object> redisTemplate) {
-        this.jwtUtil = jwtUtil;
+    public WebSocketConfig(UserDetailsService userDetailsService, RedisTemplate<String, Object> redisTemplate) {
         this.userDetailsService = userDetailsService;
         this.redisTemplate = redisTemplate;
     }
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(new CustomWebSocketHandlerDecorator(new WebSocketHandler(), redisTemplate), "/ws")
-                .addInterceptors(new WebSocketInterceptor(jwtUtil, userDetailsService, redisTemplate))
+                .addInterceptors(new WebSocketInterceptor(userDetailsService, redisTemplate))
                 .setAllowedOrigins("*");
     }
 }

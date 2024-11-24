@@ -1,7 +1,11 @@
 package com.soft.base.controller;
 
 import com.soft.base.annotation.SysLog;
+import com.soft.base.constants.RedisConstant;
+import com.soft.base.constants.RegexConstant;
 import com.soft.base.entity.SysUser;
+import com.soft.base.enums.LogModuleEnum;
+import com.soft.base.enums.LogTypeEnum;
 import com.soft.base.exception.CaptChaErrorException;
 import com.soft.base.request.LoginRequest;
 import com.soft.base.request.RegisterRequest;
@@ -22,10 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.regex.Pattern;
 
-import static com.soft.base.constants.RedisConstant.EMAIL_CAPTCHA_KEY;
-import static com.soft.base.constants.RegexConstant.EMAIL;
-import static com.soft.base.constants.RegexConstant.USERNAME_PATTERN;
-
 @RestController
 @Tag(name = "鉴权")
 @RequestMapping(value = "/auth")
@@ -43,7 +43,7 @@ public class AuthController {
         this.redisTemplate = redisTemplate;
     }
 
-    @SysLog(value = "用户登录", module = "鉴权")
+    @SysLog(value = "用户登录", module = LogModuleEnum.AUTHORIZATION, type = LogTypeEnum.LOGIN)
     @PostMapping("/login")
     @Operation(summary = "登录")
     public R<LoginVo> authenticate(@RequestBody LoginRequest request) {
@@ -73,14 +73,14 @@ public class AuthController {
         }
     }
 
-    @SysLog(value = "用户注册", module = "鉴权")
+    @SysLog(value = "用户注册", module = LogModuleEnum.AUTHORIZATION, type = LogTypeEnum.REGISTER)
     @PostMapping(value = "/register")
     @Operation(summary = "注册")
     public R register(@RequestBody RegisterRequest request) {
         if (StringUtils.isBlank(request.getUsername())) {
             return R.fail("用户名不能为空");
         }
-        if (!Pattern.matches(USERNAME_PATTERN, request.getUsername())) {
+        if (!Pattern.matches(RegexConstant.USERNAME_PATTERN, request.getUsername())) {
             return R.fail("用户名不能使用中文");
         }
         if (StringUtils.isBlank(request.getPassword())) {
@@ -89,7 +89,7 @@ public class AuthController {
         if (StringUtils.isBlank(request.getEmail())) {
             return R.fail("邮箱不能为空");
         }
-        if (!Pattern.matches(EMAIL, request.getEmail())) {
+        if (!Pattern.matches(RegexConstant.EMAIL, request.getEmail())) {
             return R.fail("非法邮箱");
         }
         if (StringUtils.isBlank(request.getCaptcha())) {
@@ -97,7 +97,7 @@ public class AuthController {
         }
 
         try {
-            String captchaCache = (String) redisTemplate.opsForValue().get(EMAIL_CAPTCHA_KEY + request.getEmail());
+            String captchaCache = (String) redisTemplate.opsForValue().get(RedisConstant.EMAIL_CAPTCHA_KEY + request.getEmail());
             if (!request.getCaptcha().equals(captchaCache)) {
                 return R.fail("验证码错误，请检查您的邮箱是否更改或者验证码是否过期");
             }
@@ -107,7 +107,7 @@ public class AuthController {
             sysUser.setNickname(request.getNickname());
             sysUser.setEmail(request.getEmail());
             authService.register(sysUser);
-            redisTemplate.delete(EMAIL_CAPTCHA_KEY + request.getEmail());
+            redisTemplate.delete(RedisConstant.EMAIL_CAPTCHA_KEY + request.getEmail());
             return R.ok("注册成功", null);
         } catch (Exception e) {
             log.error(e.getMessage(), e);

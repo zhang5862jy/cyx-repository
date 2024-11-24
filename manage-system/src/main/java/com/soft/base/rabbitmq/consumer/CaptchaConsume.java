@@ -1,6 +1,9 @@
 package com.soft.base.rabbitmq.consumer;
 
 import com.rabbitmq.client.Channel;
+import com.soft.base.constants.BaseConstant;
+import com.soft.base.constants.RabbitmqConstant;
+import com.soft.base.constants.RedisConstant;
 import com.soft.base.service.SysUsersService;
 import com.soft.base.utils.UniversalUtil;
 import jakarta.mail.MessagingException;
@@ -21,12 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
-
-import static com.soft.base.constants.BaseConstant.EMAIL_CONTENT_PATH;
-import static com.soft.base.constants.BaseConstant.LOGIN_CAPTCHA_LENGTH;
-import static com.soft.base.constants.RabbitmqConstant.TOPIC_QUEUE_SEND_LOGIN_CAPTCHA;
-import static com.soft.base.constants.RabbitmqConstant.TOPIC_QUEUE_SEND_REGIST_CAPTCHA;
-import static com.soft.base.constants.RedisConstant.EMAIL_CAPTCHA_KEY;
 
 /**
  * @Author: cyx
@@ -66,7 +63,7 @@ public class CaptchaConsume {
         this.sysUsersService = sysUsersService;
     }
 
-    @RabbitListener(queues = TOPIC_QUEUE_SEND_LOGIN_CAPTCHA, ackMode = "MANUAL")
+    @RabbitListener(queues = RabbitmqConstant.TOPIC_QUEUE_SEND_LOGIN_CAPTCHA, ackMode = "MANUAL")
     public void sendLoginCaptcha(Message message, Channel channel) {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         try {
@@ -74,8 +71,8 @@ public class CaptchaConsume {
             String username = new String(message.getBody());
 
             String email = sysUsersService.getEmail(username);
-            String captChat = universalUtil.generate(LOGIN_CAPTCHA_LENGTH);
-            redisTemplate.opsForValue().set(EMAIL_CAPTCHA_KEY + username, captChat, expireTime, TimeUnit.SECONDS);
+            String captChat = universalUtil.generate(BaseConstant.LOGIN_CAPTCHA_LENGTH);
+            redisTemplate.opsForValue().set(RedisConstant.EMAIL_CAPTCHA_KEY + username, captChat, expireTime, TimeUnit.SECONDS);
 
             sendEmail(email, captChat);
             channel.basicAck(deliveryTag, false);
@@ -91,14 +88,14 @@ public class CaptchaConsume {
         }
     }
 
-    @RabbitListener(queues = TOPIC_QUEUE_SEND_REGIST_CAPTCHA, ackMode = "MANUAL")
+    @RabbitListener(queues = RabbitmqConstant.TOPIC_QUEUE_SEND_REGIST_CAPTCHA, ackMode = "MANUAL")
     public void sendRegistCaptcha(Message message, Channel channel) {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         try {
             log.info("start consume message...");
             String email = new String(message.getBody());
-            String captChat = universalUtil.generate(LOGIN_CAPTCHA_LENGTH);
-            redisTemplate.opsForValue().set(EMAIL_CAPTCHA_KEY + email, captChat, expireTime, TimeUnit.SECONDS);
+            String captChat = universalUtil.generate(BaseConstant.LOGIN_CAPTCHA_LENGTH);
+            redisTemplate.opsForValue().set(RedisConstant.EMAIL_CAPTCHA_KEY + email, captChat, expireTime, TimeUnit.SECONDS);
 
             sendEmail(email, captChat);
             channel.basicAck(deliveryTag, false);
@@ -121,7 +118,7 @@ public class CaptchaConsume {
      */
     private void sendEmail(String email, String captChat) throws MessagingException, IOException {
         StringBuilder captchaInfo = new StringBuilder();
-        ClassPathResource resource = new ClassPathResource(EMAIL_CONTENT_PATH);
+        ClassPathResource resource = new ClassPathResource(BaseConstant.EMAIL_CONTENT_PATH);
         try (InputStream inputStream = resource.getInputStream();
              BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             captchaInfo.append(reader.readLine());

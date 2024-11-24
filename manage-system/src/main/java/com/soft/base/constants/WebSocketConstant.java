@@ -13,7 +13,7 @@ public class WebSocketConstant {
     public final static String WEBSOCKET_USER = "ws_user";
 
     /**
-     * 请求头鉴权
+     * websocket鉴权
      */
-    public final static String HEADER_AUTHORIZATION = "Sec-WebSocket-Protocol";
+    public final static String AUTHORIZATION = "Authorization";
 }

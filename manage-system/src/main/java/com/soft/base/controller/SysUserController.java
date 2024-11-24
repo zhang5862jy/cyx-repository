@@ -1,6 +1,7 @@
 package com.soft.base.controller;
 
 import com.soft.base.annotation.SysLog;
+import com.soft.base.enums.LogModuleEnum;
 import com.soft.base.request.*;
 import com.soft.base.resultapi.R;
 import com.soft.base.service.SysUsersService;
@@ -42,6 +43,7 @@ public class SysUserController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @SysLog(value = "获取所有用户", module = LogModuleEnum.USER)
     @PostMapping(value = "/getAllUsers")
     @Operation(summary = "获取所有用户")
     public R<PageVo<AllUserVo>> getAllUsers(@RequestBody PageRequest request) {
@@ -55,7 +57,7 @@ public class SysUserController {
 
     }
 
-    @SysLog(value = "修改密码", module = "用户")
+    @SysLog(value = "修改密码", module = LogModuleEnum.USER)
     @PutMapping(value = "/editPassword")
     @Operation(summary = "修改密码")
     public R editPassword(@RequestBody EditPasswordRequest request) {
@@ -80,7 +82,7 @@ public class SysUserController {
         }
     }
 
-    @SysLog(value = "重置密码", module = "用户")
+    @SysLog(value = "重置密码", module = LogModuleEnum.USER)
     @PreAuthorize(value = "@cps.hasPermission('sys_user_reset')")
     @PutMapping(value = "/resetPassword")
     @Operation(summary = "重置密码")
@@ -97,7 +99,7 @@ public class SysUserController {
         }
     }
 
-    @SysLog(value = "添加用户", module = "用户")
+    @SysLog(value = "添加用户", module = LogModuleEnum.USER)
     @PreAuthorize(value = "@cps.hasPermission('sys_user_add')")
     @PostMapping
     @Operation(summary = "添加用户")
@@ -123,7 +125,7 @@ public class SysUserController {
         }
     }
 
-    @SysLog(value = "编辑用户", module = "用户")
+    @SysLog(value = "编辑用户", module = LogModuleEnum.USER)
     @PreAuthorize(value = "@cps.hasPermission('sys_user_edit')")
     @PutMapping
     @Operation(summary = "编辑用户")

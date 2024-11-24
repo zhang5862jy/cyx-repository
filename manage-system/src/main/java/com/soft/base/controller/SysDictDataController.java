@@ -1,5 +1,7 @@
 package com.soft.base.controller;
 
+import com.soft.base.annotation.SysLog;
+import com.soft.base.enums.LogModuleEnum;
 import com.soft.base.request.DeleteRequest;
 import com.soft.base.request.DictDatasRequest;
 import com.soft.base.request.EditDictDataRequest;
@@ -37,6 +39,7 @@ public class SysDictDataController {
         this.sysDictDataService = sysDictDataService;
     }
 
+    @SysLog(value = "获取字典数据（复）", module = LogModuleEnum.DICT_DATA)
     @PostMapping(value = "/getDictDatas")
     @Operation(summary = "获取字典数据（复）")
     public R<PageVo<DictDatasVo>> getDictDatas(@RequestBody DictDatasRequest request) {
@@ -52,6 +55,7 @@ public class SysDictDataController {
         }
     }
 
+    @SysLog(value = "获取字典数据（单）", module = LogModuleEnum.DICT_DATA)
     @GetMapping(value = "/{id}")
     @Operation(summary = "获取字典数据（单）")
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
@@ -68,6 +72,7 @@ public class SysDictDataController {
         }
     }
 
+    @SysLog(value = "添加字典数据", module = LogModuleEnum.DICT_DATA)
     @PreAuthorize(value = "@cps.hasPermission('sys_dict_data_add')")
     @PostMapping
     @Operation(summary = "添加字典数据")
@@ -84,6 +89,7 @@ public class SysDictDataController {
         }
     }
 
+    @SysLog(value = "编辑字典数据", module = LogModuleEnum.DICT_DATA)
     @PreAuthorize(value = "@cps.hasPermission('sys_dict_data_edit')")
     @PutMapping
     @Operation(summary = "编辑字典数据")
@@ -103,6 +109,7 @@ public class SysDictDataController {
         }
     }
 
+    @SysLog(value = "删除字典数据", module = LogModuleEnum.DICT_DATA)
     @PreAuthorize(value = "@cps.hasPermission('sys_dict_data_del')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除字典数据")
@@ -120,6 +127,7 @@ public class SysDictDataController {
         }
     }
 
+    @SysLog(value = "批量删除字典数据", module = LogModuleEnum.DICT_DATA)
     @PreAuthorize(value = "@cps.hasPermission('sys_dict_data_del')")
     @DeleteMapping(value = "/deleteDictDataBatch")
     @Operation(summary = "批量删除字典数据")

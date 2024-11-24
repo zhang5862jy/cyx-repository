@@ -1,10 +1,10 @@
-package com.soft.base.websocket.handleservice.impl;
+package com.soft.base.websocket.handle.message.concrete;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.soft.base.enums.WebSocketOrderEnum;
 import com.soft.base.websocket.WebSocketSessionManager;
-import com.soft.base.websocket.handleservice.WebSocketConcreteHandler;
+import com.soft.base.websocket.handle.message.WebSocketConcreteHandler;
 import com.soft.base.websocket.receive.PushMessageRecParams;
 import com.soft.base.websocket.send.PushMessageSendParams;
 import jakarta.validation.constraints.NotNull;
@@ -14,8 +14,6 @@ import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
 
-import static com.soft.base.enums.WebSocketOrderEnum.PUSH_MESSAGE;
-
 /**
  * @Author: cyx
  * @Description: 推送消息处理器
@@ -23,7 +21,7 @@ import static com.soft.base.enums.WebSocketOrderEnum.PUSH_MESSAGE;
  **/
 
 @Component
-public class PushMessageHandlerImpl implements WebSocketConcreteHandler {
+public class PushMessageHandler implements WebSocketConcreteHandler {
     @Override
     public void handle(WebSocketSession session, TextMessage message) throws IOException {
         PushMessageRecParams pushMessageRecParams = JSON.parseObject(message.getPayload(), PushMessageRecParams.class);
@@ -41,6 +39,6 @@ public class PushMessageHandlerImpl implements WebSocketConcreteHandler {
 
     @Override
     public @NotNull WebSocketOrderEnum getOrder() {
-        return PUSH_MESSAGE;
+        return WebSocketOrderEnum.PUSH_MESSAGE;
     }
 }

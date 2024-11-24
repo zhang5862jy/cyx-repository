@@ -2,7 +2,7 @@ package com.soft.base.websocket.handle;
 
 import com.alibaba.fastjson2.JSON;
 import com.soft.base.websocket.WebSocketConcreteHolder;
-import com.soft.base.websocket.handleservice.WebSocketConcreteHandler;
+import com.soft.base.websocket.handle.message.WebSocketConcreteHandler;
 import com.soft.base.websocket.receive.OrderReceiveParams;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

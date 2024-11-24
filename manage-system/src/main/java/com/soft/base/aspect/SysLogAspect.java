@@ -50,8 +50,9 @@ public class SysLogAspect {
         if (logEnable) {
             long start = System.currentTimeMillis();
             LogDto logDto = new LogDto();
-            logDto.setModuleName(sysLog.module());
+            logDto.setModuleName(sysLog.module().getName());
             logDto.setOperationDesc(sysLog.value());
+            logDto.setType(sysLog.type().getCode());
             //joinPoint.getSignature().toShortString()
             logDto.setRequestMethod(servletRequest.getMethod());
             logDto.setRequestUrl(servletRequest.getRequestURL().toString());

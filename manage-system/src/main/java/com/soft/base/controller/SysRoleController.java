@@ -1,8 +1,11 @@
 package com.soft.base.controller;
 
 import com.soft.base.annotation.SysLog;
+import com.soft.base.constants.BaseConstant;
+import com.soft.base.constants.RegexConstant;
 import com.soft.base.dto.FixRolesDto;
 import com.soft.base.entity.SysRole;
+import com.soft.base.enums.LogModuleEnum;
 import com.soft.base.request.*;
 import com.soft.base.resultapi.R;
 import com.soft.base.service.SysRoleService;
@@ -23,9 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static com.soft.base.constants.BaseConstant.*;
-import static com.soft.base.constants.RegexConstant.ROLE_CODE_HEADER;
-
 @RestController
 @RequestMapping(value = "/role")
 @Tag(name = "角色接口")
@@ -39,19 +39,19 @@ public class SysRoleController {
         this.sysRoleService = sysRoleService;
     }
 
-    @SysLog(value = "添加角色", module = "角色")
+    @SysLog(value = "添加角色", module = LogModuleEnum.ROLE)
     @PreAuthorize(value = "@cps.hasPermission('sys_role_add')")
     @PostMapping
-    @Operation(summary = "新增角色")
+    @Operation(summary = "添加角色")
     public R saveRole(@RequestBody SaveRoleRequest request) {
         if (StringUtils.isBlank(request.getCode())) {
             return R.fail("角色编码不能为空");
         }
-        if (!Pattern.matches(ROLE_CODE_HEADER, request.getCode())) {
+        if (!Pattern.matches(RegexConstant.ROLE_CODE_HEADER, request.getCode())) {
             return R.fail("无效的角色编码");
         }
         if (request.getStatus() == null) {
-            request.setStatus(DEF_STATUS);
+            request.setStatus(BaseConstant.DEF_STATUS);
         }
         try {
             Boolean existCode = sysRoleService.existCode(request.getCode());
@@ -68,7 +68,7 @@ public class SysRoleController {
         }
     }
 
-    @SysLog(value = "编辑角色", module = "角色")
+    @SysLog(value = "编辑角色", module = LogModuleEnum.ROLE)
     @PreAuthorize(value = "@cps.hasPermission('sys_role_edit')")
     @PutMapping
     @Operation(summary = "编辑角色")
@@ -87,7 +87,7 @@ public class SysRoleController {
         }
     }
 
-    @SysLog(value = "删除角色", module = "角色")
+    @SysLog(value = "删除角色", module = LogModuleEnum.ROLE)
     @PreAuthorize(value = "@cps.hasPermission('sys_role_del')")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "删除角色")
@@ -109,7 +109,7 @@ public class SysRoleController {
         }
     }
 
-    @SysLog(value = "批量删除角色", module = "角色")
+    @SysLog(value = "批量删除角色", module = LogModuleEnum.ROLE)
     @PreAuthorize(value = "@cps.hasPermission('sys_role_del')")
     @DeleteMapping(value = "/deleteRoleBatch")
     @Operation(summary = "批量删除角色")
@@ -121,19 +121,19 @@ public class SysRoleController {
             List<FixRolesDto> fixRolesFlag = sysRoleService.fixRolesFlag(request.getIds());
             if (!fixRolesFlag.isEmpty()) {
                 StringBuilder message = new StringBuilder();
-                message.append(LEFT_SQUARE_BRACKET);
+                message.append(BaseConstant.LEFT_SQUARE_BRACKET);
                 Iterator<FixRolesDto> iterator = fixRolesFlag.iterator();
                 while (iterator.hasNext()) {
                     FixRolesDto next = iterator.next();
-                    if (next.getFixRole().equals(FIX_ROLE_FLAG)
-                            || next.getIsDefault().equals(DEFAULT_ROLE_FLAG)) {
+                    if (next.getFixRole().equals(BaseConstant.FIX_ROLE_FLAG)
+                            || next.getIsDefault().equals(BaseConstant.DEFAULT_ROLE_FLAG)) {
                         message.append(next.getName());
                     }
                     if (iterator.hasNext()) {
                         message.append(",");
                     }
                 }
-                message.append(RIGHT_SQUARE_BRACKET);
+                message.append(BaseConstant.RIGHT_SQUARE_BRACKET);
                 message.append("不可被删除");
                 return R.fail(message.toString());
             }
@@ -146,6 +146,7 @@ public class SysRoleController {
         }
     }
 
+    @SysLog(value = "获取角色（单）", module = LogModuleEnum.ROLE)
     @GetMapping(value = "/{id}")
     @Operation(summary = "获取角色（单）")
     @Parameter(name = "id", description = "主键", required = true, in = ParameterIn.PATH)
@@ -162,6 +163,7 @@ public class SysRoleController {
         }
     }
 
+    @SysLog(value = "获取角色（复）", module = LogModuleEnum.ROLE)
     @PostMapping(value = "/getRoles")
     @Operation(summary = "获取角色（复）")
     public R<PageVo<SysRoleVo>> getRoles(@RequestBody GetRolesRequest request) {
@@ -174,7 +176,7 @@ public class SysRoleController {
         }
     }
 
-    @SysLog(value = "启用", module = "角色")
+    @SysLog(value = "启用", module = LogModuleEnum.ROLE)
     @PreAuthorize(value = "@cps.hasPermission('sys_role_enable')")
     @GetMapping(value = "/enableRole/{id}")
     @Operation(summary = "启用")
@@ -192,7 +194,7 @@ public class SysRoleController {
         }
     }
 
-    @SysLog(value = "禁用", module = "角色")
+    @SysLog(value = "禁用", module = LogModuleEnum.ROLE)
     @PreAuthorize(value = "@cps.hasPermission('sys_role_fbn')")
     @GetMapping(value = "/forbiddenRole/{id}")
     @Operation(summary = "禁用")
@@ -210,7 +212,7 @@ public class SysRoleController {
         }
     }
 
-    @SysLog(value = "设置默认角色", module = "角色")
+    @SysLog(value = "设置默认角色", module = LogModuleEnum.ROLE)
     @PreAuthorize(value = "@cps.hasPermission('sys_role_set_def')")
     @GetMapping(value = "/setDefaultRole/{id}")
     @Operation(summary = "设置默认角色")
@@ -228,7 +230,7 @@ public class SysRoleController {
         }
     }
 
-    @SysLog(value = "赋予菜单", module = "角色")
+    @SysLog(value = "赋予菜单", module = LogModuleEnum.ROLE)
     @PreAuthorize(value = "@cps.hasPermission('sys_role_set_menu')")
     @PostMapping(value = "/setMenus")
     @Operation(summary = "赋予菜单")
@@ -248,7 +250,7 @@ public class SysRoleController {
         }
     }
 
-    @SysLog(value = "赋予权限", module = "角色")
+    @SysLog(value = "赋予权限", module = LogModuleEnum.ROLE)
     @PreAuthorize(value = "@cps.hasPermission('sys_role_set_per')")
     @PostMapping(value = "/setPermissions")
     @Operation(summary = "赋予权限")

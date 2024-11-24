@@ -1,6 +1,6 @@
 package com.soft.base.websocket;
 
-import com.soft.base.websocket.handleservice.WebSocketConcreteHandler;
+import com.soft.base.websocket.handle.message.WebSocketConcreteHandler;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

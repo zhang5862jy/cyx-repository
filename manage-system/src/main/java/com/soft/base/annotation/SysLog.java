@@ -1,5 +1,8 @@
 package com.soft.base.annotation;
 
+import com.soft.base.enums.LogModuleEnum;
+import com.soft.base.enums.LogTypeEnum;
+
 import java.lang.annotation.*;
 
 /**
@@ -13,9 +16,21 @@ import java.lang.annotation.*;
 @Documented
 public @interface SysLog {
 
-    // 日志描述
+    /**
+     * 日志描述
+     * @return
+     */
     String value() default "";
 
-    // 日志模块名称
-    String module() default "";
+    /**
+     * 日志模块名称
+     * @return
+     */
+    LogModuleEnum module() default LogModuleEnum.DEFAULT;
+
+    /**
+     * 日志类型
+     * @return
+     */
+    LogTypeEnum type() default LogTypeEnum.OPERATION;
 }

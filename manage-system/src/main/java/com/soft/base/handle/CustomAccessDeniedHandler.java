@@ -1,5 +1,7 @@
 package com.soft.base.handle;
 
+import com.soft.base.constants.HttpConstant;
+import com.soft.base.enums.ResultEnum;
 import com.soft.base.resultapi.R;
 import com.soft.base.utils.ResponseUtil;
 import jakarta.servlet.ServletException;
@@ -11,9 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static com.soft.base.constants.HttpConstant.FORBIDDEN;
-import static com.soft.base.enums.ResultEnum.PERMISSION_NOT_ENOUGH;
-
 /**
  * @Author: cyx
  * @Description: TODO
@@ -24,6 +23,6 @@ import static com.soft.base.enums.ResultEnum.PERMISSION_NOT_ENOUGH;
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        ResponseUtil.writeErrMsg(response, FORBIDDEN, R.fail(PERMISSION_NOT_ENOUGH.getCode(), PERMISSION_NOT_ENOUGH.getMessage()));
+        ResponseUtil.writeErrMsg(response, HttpConstant.FORBIDDEN, R.fail(ResultEnum.PERMISSION_NOT_ENOUGH.getCode(), ResultEnum.PERMISSION_NOT_ENOUGH.getMessage()));
     }
 }
