@@ -18,7 +18,7 @@ public enum LogModuleEnum {
     DICT_TYPE("字典类型"),
     FILE("文件"),
     LOG("日志"),
-    MENU("枚举"),
+    MENU("菜单"),
     PERMISSION("权限"),
     ROLE("角色"),
     USER("用户")

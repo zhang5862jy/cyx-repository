@@ -43,7 +43,7 @@ public class AuthController {
         this.redisTemplate = redisTemplate;
     }
 
-    @SysLog(value = "用户登录", module = LogModuleEnum.AUTHORIZATION, type = LogTypeEnum.LOGIN)
+    @SysLog(value = "用户登录", module = LogModuleEnum.AUTHORIZATION, type = LogTypeEnum.LOGIN, name = "#request.username")
     @PostMapping("/login")
     @Operation(summary = "登录")
     public R<LoginVo> authenticate(@RequestBody LoginRequest request) {
@@ -73,7 +73,7 @@ public class AuthController {
         }
     }
 
-    @SysLog(value = "用户注册", module = LogModuleEnum.AUTHORIZATION, type = LogTypeEnum.REGISTER)
+    @SysLog(value = "用户注册", module = LogModuleEnum.AUTHORIZATION, type = LogTypeEnum.REGISTER, name = "#request.username")
     @PostMapping(value = "/register")
     @Operation(summary = "注册")
     public R register(@RequestBody RegisterRequest request) {
