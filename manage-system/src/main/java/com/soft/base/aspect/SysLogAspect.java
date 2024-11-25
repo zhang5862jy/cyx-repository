@@ -72,6 +72,7 @@ public class SysLogAspect {
                 logDto.setIpAddress(servletRequest.getRemoteAddr());
                 logDto.setRequestParams(JSON.toJSONString(joinPoint.getArgs()));
                 logDto.setLogLevel(LogLevelEnum.INFO.getCode());
+
                 result = joinPoint.proceed();
                 logDto.setResponseResult(result != null ? result.toString() : null);
                 logDto.setStatusCode(result != null ? ((R)result).getCode() : null);
