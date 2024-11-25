@@ -22,6 +22,12 @@ import org.springframework.expression.Expression;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 import static com.soft.base.constants.BaseConstant.HEADER_USER_AGENT;
 import static com.soft.base.constants.BaseConstant.LEFT_SLASH;
@@ -48,6 +54,8 @@ public class SysLogAspect {
     @Value(value = "${log.enable}")
     private boolean logEnable;
 
+    private final SpelExpressionParser parser = new SpelExpressionParser();
+
     @Autowired
     public SysLogAspect(SysLogProduce sysLogProduce, HttpServletRequest servletRequest, SecurityUtil securityUtil) {
         this.sysLogProduce = sysLogProduce;
@@ -62,7 +70,6 @@ public class SysLogAspect {
             long start = System.currentTimeMillis();
             LogDto logDto = new LogDto();
             try {
-                SpelExpressionParser parser = new SpelExpressionParser();
                 logDto.setModuleName(sysLog.module().getName());
                 logDto.setOperationDesc(sysLog.value());
                 logDto.setType(sysLog.type().getCode());
@@ -70,12 +77,13 @@ public class SysLogAspect {
                 logDto.setRequestMethod(servletRequest.getMethod());
                 logDto.setRequestUrl(servletRequest.getRequestURL().toString());
                 logDto.setIpAddress(servletRequest.getRemoteAddr());
-                logDto.setRequestParams(JSON.toJSONString(joinPoint.getArgs()));
+
+                logDto.setRequestParams(JSON.toJSONString(exclude(joinPoint)));
                 logDto.setLogLevel(LogLevelEnum.INFO.getCode());
 
                 result = joinPoint.proceed();
                 logDto.setResponseResult(result != null ? result.toString() : null);
-                logDto.setStatusCode(result != null ? ((R)result).getCode() : null);
+                logDto.setStatusCode(result != null ? ((R) result).getCode() : null);
 
                 // 获取 User-Agent
                 String userAgentString = servletRequest.getHeader(HEADER_USER_AGENT);
@@ -84,11 +92,10 @@ public class SysLogAspect {
                 String browserName = userAgent.getBrowser().getName();
                 logDto.setOsBrowserInfo(osName + LEFT_SLASH + browserName);
 
-                StandardEvaluationContext context = getStandardEvaluationContext(joinPoint, sysLog);
                 // 解析 SpEL 表达式
-                String spelExpression = sysLog.name();
-                Expression expression = parser.parseExpression(spelExpression);
-                logDto.setCreateBy(expression.getValue(context) == null ? securityUtil.getUserInfo().getUsername() : String.valueOf(expression.getValue(context)));
+                Object value = getValue(joinPoint, sysLog, parser);
+
+                logDto.setCreateBy(value == null ? securityUtil.getUserInfo().getUsername() : String.valueOf(value));
             } catch (Throwable throwable) {
                 logDto.setExceptionInfo(throwable.getMessage());
                 logDto.setLogLevel(LogLevelEnum.ERROR.getCode());
@@ -101,8 +108,7 @@ public class SysLogAspect {
         return result;
     }
 
-    @NotNull
-    private StandardEvaluationContext getStandardEvaluationContext(ProceedingJoinPoint joinPoint, SysLog sysLog) {
+    private Object getValue(ProceedingJoinPoint joinPoint, SysLog sysLog, SpelExpressionParser parser) {
         Object[] args = joinPoint.getArgs();
         String[] paramNames = ((MethodSignature) joinPoint.getSignature()).getParameterNames();
 
@@ -124,6 +130,29 @@ public class SysLogAspect {
                 }
             }
         }
-        return context;
+
+        String spelExpression = sysLog.name();
+        if (StringUtils.isNotBlank(spelExpression)) {
+            Expression expression = parser.parseExpression(spelExpression);
+            return expression.getValue(context);
+        }
+        return null;
+    }
+
+    /**
+     * 排除
+     * @param joinPoint
+     * @return
+     */
+    private List<Object> exclude(ProceedingJoinPoint joinPoint) {
+        List<Object> args = new ArrayList<>(Arrays.asList(joinPoint.getArgs()));
+        for (int i = 0; i < args.size(); ) {
+            if (args.get(i) instanceof MultipartFile) {
+                args.remove(i);
+                continue;
+            }
+            i++;
+        }
+        return args;
     }
 }
