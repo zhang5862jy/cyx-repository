@@ -108,6 +108,13 @@ public class SysLogAspect {
         return result;
     }
 
+    /**
+     * 获取value值
+     * @param joinPoint
+     * @param sysLog
+     * @param parser
+     * @return
+     */
     private Object getValue(ProceedingJoinPoint joinPoint, SysLog sysLog, SpelExpressionParser parser) {
         Object[] args = joinPoint.getArgs();
         String[] paramNames = ((MethodSignature) joinPoint.getSignature()).getParameterNames();
