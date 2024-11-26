@@ -1,11 +1,15 @@
 package com.soft.base.controller;
 
 import com.soft.base.annotation.SysLog;
+import com.soft.base.constants.RedisConstant;
 import com.soft.base.enums.LogModuleEnum;
+import com.soft.base.enums.SecretKeyEnum;
 import com.soft.base.request.*;
 import com.soft.base.resultapi.R;
+import com.soft.base.service.SecretKeyService;
 import com.soft.base.service.SysUsersService;
 import com.soft.base.utils.AESUtil;
+import com.soft.base.utils.RSAUtil;
 import com.soft.base.utils.SecurityUtil;
 import com.soft.base.vo.AllUserVo;
 import com.soft.base.vo.PageVo;
@@ -14,6 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -26,21 +31,25 @@ public class SysUserController {
 
     private final SysUsersService sysUsersService;
 
-    private final AESUtil aesUtil;
+    private final RSAUtil rsaUtil;
 
     private final SecurityUtil securityUtil;
 
     private final PasswordEncoder passwordEncoder;
 
+    private final SecretKeyService secretKeyService;
+
     @Autowired
     public SysUserController(SysUsersService sysUsersService,
-                             AESUtil aesUtil,
+                             RSAUtil rsaUtil,
                              SecurityUtil securityUtil,
-                             PasswordEncoder passwordEncoder) {
+                             PasswordEncoder passwordEncoder,
+                             SecretKeyService secretKeyService) {
         this.sysUsersService = sysUsersService;
-        this.aesUtil = aesUtil;
+        this.rsaUtil = rsaUtil;
         this.securityUtil = securityUtil;
         this.passwordEncoder = passwordEncoder;
+        this.secretKeyService = secretKeyService;
     }
 
     @SysLog(value = "获取所有用户", module = LogModuleEnum.USER)
@@ -68,7 +77,8 @@ public class SysUserController {
             return R.fail("新密码不能为空");
         }
         try {
-            String originalDecrypt = aesUtil.decrypt(request.getOriginalPass());
+            String privateKey = secretKeyService.getPrivateKey(SecretKeyEnum.USER_PASSWORD_KEY.getType());
+            String originalDecrypt = rsaUtil.decrypt(request.getOriginalPass(), privateKey);
             String password = securityUtil.getUserInfo().getPassword();
             if (!passwordEncoder.matches(originalDecrypt, password)) {
                 return R.fail("原密码不正确");

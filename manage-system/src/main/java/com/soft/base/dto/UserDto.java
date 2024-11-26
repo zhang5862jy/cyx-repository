@@ -6,6 +6,8 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
@@ -13,37 +15,35 @@ import java.util.Collection;
  * @Description: TODO
  * @DateTime: 2024/11/21 22:15
  **/
-public class UserDto extends User {
+@Getter
+public class UserDto extends User implements Serializable {
 
     /**
      * 用户id
      */
-    @Getter
-    private Long id;
+    private final Long id;
 
     /**
      * 部门id
      */
-    @Getter
-    private Long deptId;
+    private final Long deptId;
 
     /**
      * 昵称
      */
-    @Getter
-    private String nickname;
+    private final String nickname;
 
     /**
      * 手机号码
      */
-    @Getter
-    private String phone;
+    private final String phone;
 
     /**
      * 邮箱
      */
-    @Getter
-    private String email;
+    private final String email;
+
+    private static final long serialVersionUID = 1L;
 
     @JsonCreator
     public UserDto(@JsonProperty("id") Long id, @JsonProperty("username") String username,

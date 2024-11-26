@@ -21,7 +21,8 @@ public enum LogModuleEnum {
     MENU("菜单"),
     PERMISSION("权限"),
     ROLE("角色"),
-    USER("用户")
+    USER("用户"),
+    SECRET_KEY("密钥"),
     ;
 
     private final String name;

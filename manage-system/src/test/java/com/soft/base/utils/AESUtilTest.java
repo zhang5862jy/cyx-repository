@@ -47,7 +47,7 @@ public class AESUtilTest {
     @Test
     public void encode() {
         try {
-            log.info("加密后的密码为：{}", aesUtil.encrypt("123456"));
+//            log.info("加密后的密码为：{}", aesUtil.encrypt("123456"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }

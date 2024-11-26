@@ -5,13 +5,16 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.soft.base.entity.SysUser;
+import com.soft.base.enums.SecretKeyEnum;
 import com.soft.base.mapper.SysUsersMapper;
 import com.soft.base.request.EditUserRequest;
 import com.soft.base.request.PageRequest;
 import com.soft.base.request.ResetPasswordRequest;
 import com.soft.base.request.SaveUserRequest;
+import com.soft.base.service.SecretKeyService;
 import com.soft.base.service.SysUsersService;
 import com.soft.base.utils.AESUtil;
+import com.soft.base.utils.RSAUtil;
 import com.soft.base.vo.AllUserVo;
 import com.soft.base.vo.PageVo;
 import org.springframework.beans.BeanUtils;
@@ -34,15 +37,19 @@ public class SysUsersServiceImpl extends ServiceImpl<SysUsersMapper, SysUser> im
 
     private final PasswordEncoder passwordEncoder;
 
-    private final AESUtil aesUtil;
+    private final RSAUtil rsaUtil;
+
+    private final SecretKeyService secretKeyService;
 
     @Autowired
     public SysUsersServiceImpl(SysUsersMapper sysUsersMapper,
                                PasswordEncoder passwordEncoder,
-                               AESUtil aesUtil) {
+                               RSAUtil rsaUtil,
+                               SecretKeyService secretKeyService) {
         this.sysUsersMapper = sysUsersMapper;
         this.passwordEncoder = passwordEncoder;
-        this.aesUtil = aesUtil;
+        this.rsaUtil = rsaUtil;
+        this.secretKeyService = secretKeyService;
     }
 
     @Override
@@ -57,15 +64,17 @@ public class SysUsersServiceImpl extends ServiceImpl<SysUsersMapper, SysUser> im
 
     @Override
     @CacheEvict(key = "#username")
-    public void editPassword(String targetPass, String username) throws Exception{
-        String encode = passwordEncoder.encode(aesUtil.decrypt(targetPass));
+    public void editPassword(String targetPass, String username) throws Exception {
+        String privateKey = secretKeyService.getPrivateKey(SecretKeyEnum.USER_PASSWORD_KEY.getType());
+        String encode = passwordEncoder.encode(rsaUtil.decrypt(targetPass, privateKey));
         sysUsersMapper.editPassword(username, encode);
     }
 
     @Override
     @CacheEvict(key = "#request.username")
-    public void resetPassword(ResetPasswordRequest request) throws Exception{
-        String encode = passwordEncoder.encode(aesUtil.decrypt(request.getPassword()));
+    public void resetPassword(ResetPasswordRequest request) throws Exception {
+        String privateKey = secretKeyService.getPrivateKey(SecretKeyEnum.USER_PASSWORD_KEY.getType());
+        String encode = passwordEncoder.encode(rsaUtil.decrypt(request.getPassword(), privateKey));
         sysUsersMapper.editPassword(request.getUsername(), encode);
     }
 
@@ -81,7 +90,8 @@ public class SysUsersServiceImpl extends ServiceImpl<SysUsersMapper, SysUser> im
 
     @Override
     public void saveUser(SaveUserRequest request) throws Exception{
-        request.setPassword(passwordEncoder.encode(aesUtil.decrypt(request.getPassword())));
+        String privateKey = secretKeyService.getPrivateKey(SecretKeyEnum.USER_PASSWORD_KEY.getType());
+        request.setPassword(passwordEncoder.encode(rsaUtil.decrypt(request.getPassword(), privateKey)));
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(request, sysUser);
         sysUser.setDefault();

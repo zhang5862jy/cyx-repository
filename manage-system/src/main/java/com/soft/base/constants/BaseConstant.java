@@ -78,6 +78,11 @@ public class BaseConstant {
     public final static String DEFAULT_STORAGE_LOCATION = "1";
 
     /**
+     * aes偏移量
+     */
+    public final static String AES_OFFSET = "0000000001000001";
+
+    /**
      * 默认管理员角色
      */
     public final static String MANAGER_ROLE_CODE = "ROLE_ADMIN";

@@ -51,7 +51,7 @@ public class SysPermissionController {
     }
 
     @SysLog(value = "添加权限", module = LogModuleEnum.PERMISSION)
-    @PreAuthorize(value = "@cps.hasPermission('sys_per_add')")
+    @PreAuthorize(value = "@cps.hasPermission('sys_pms_add')")
     @PostMapping
     @Operation(summary = "添加权限")
     public R savePermission(@RequestBody SavePermissionRequest request) {

@@ -21,7 +21,7 @@ spring:
   datasource:
     username: root
     password: 123456
-    url: jdbc:mysql://192.168.1.114:3306/mysql_study?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.226.129:3306/mysql_study?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
@@ -31,7 +31,7 @@ spring:
       max-lifetime: 180000
   data:
     redis:
-      host: 192.168.1.114
+      host: 192.168.226.129
       port: 6379
       password: 123456
       database: 0
@@ -42,7 +42,7 @@ spring:
     #发送方邮箱
     username:
     #授权码
-    password: 
+    password:
     properties:
       mail:
         smtp:
@@ -51,7 +51,7 @@ spring:
             enable: true
     default-encoding: UTF-8
   rabbitmq:
-    host: 192.168.1.114
+    host: 192.168.226.129
     port: 5672
     username: root
     password: 123456
@@ -95,13 +95,9 @@ jwt:
   #单位秒；1小时过期
   expire: 3600000
 
-#AES密钥
-aes:
-  secret-factor: T8MjuJQtXJ0rT8KLZQRnUw==
-
 #minio对象存储
 minio:
-  url: http://192.168.1.114:9002
+  url: http://192.168.226.129:9002
   accessKey: admin
   secretKey: 123456789
   bucket: cyx
@@ -114,6 +110,7 @@ permit:
     - /message/sendRegistCaptCha
     - /message/sendLoginCaptcha
     - /ws/**
+    - /secretKey/getPublicKey
 
 #登录验证码
 manage-system:

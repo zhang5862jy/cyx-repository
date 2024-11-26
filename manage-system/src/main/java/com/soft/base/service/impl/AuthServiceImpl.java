@@ -1,16 +1,21 @@
 package com.soft.base.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.soft.base.constants.BaseConstant;
 import com.soft.base.constants.RedisConstant;
 import com.soft.base.entity.SysUser;
+import com.soft.base.enums.SecretKeyEnum;
 import com.soft.base.exception.CaptChaErrorException;
 import com.soft.base.exception.GlobelException;
 import com.soft.base.mapper.SysUsersMapper;
 import com.soft.base.request.LoginRequest;
 import com.soft.base.service.AuthService;
+import com.soft.base.service.SecretKeyService;
 import com.soft.base.utils.AESUtil;
+import com.soft.base.utils.RSAUtil;
 import com.soft.base.vo.LoginVo;
+import com.soft.base.vo.PublicKeyVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,6 +24,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -30,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final AESUtil aesUtil;
+    private final RSAUtil rsaUtil;
 
     private final SysUsersMapper sysUsersMapper;
 
@@ -38,17 +45,21 @@ public class AuthServiceImpl implements AuthService {
 
     private final RedisTemplate<String,Object> redisTemplate;
 
+    private final SecretKeyService secretKeyService;
+
     @Autowired
     public AuthServiceImpl(PasswordEncoder passwordEncoder,
-                           AESUtil aesUtil,
+                           RSAUtil rsaUtil,
                            SysUsersMapper sysUsersMapper,
                            AuthenticationManager authenticationManager,
-                           RedisTemplate<String,Object> redisTemplate) {
+                           RedisTemplate<String,Object> redisTemplate,
+                           SecretKeyService secretKeyService) {
         this.passwordEncoder = passwordEncoder;
-        this.aesUtil = aesUtil;
+        this.rsaUtil = rsaUtil;
         this.sysUsersMapper = sysUsersMapper;
         this.authenticationManager = authenticationManager;
         this.redisTemplate = redisTemplate;
+        this.secretKeyService = secretKeyService;
     }
 
     @Override
@@ -62,7 +73,8 @@ public class AuthServiceImpl implements AuthService {
             sysUser.setCreateBy(username);
             sysUser.setUpdateBy(username);
             // 解密密码
-            String decrypt = aesUtil.decrypt(sysUser.getPassword());
+            String privateKey = secretKeyService.getPrivateKey(SecretKeyEnum.USER_PASSWORD_KEY.getType());
+            String decrypt = rsaUtil.decrypt(sysUser.getPassword(), privateKey);
             // 使用BCrypt 算法加密密码
             String encode = passwordEncoder.encode(decrypt);
             sysUser.setPassword(encode);
@@ -78,8 +90,9 @@ public class AuthServiceImpl implements AuthService {
     public LoginVo authenticate(LoginRequest request) throws RuntimeException{
         try {
             if (BaseConstant.LOGIN_METHOD_PASSWORD.equals(request.getLoginMethod())) {
+                String privateKey = secretKeyService.getPrivateKey(SecretKeyEnum.USER_PASSWORD_KEY.getType());
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername()
-                        , aesUtil.decrypt(request.getPassword())));
+                        , rsaUtil.decrypt(request.getPassword(), privateKey)));
             } else if (BaseConstant.LOGIN_METHOD_EMAIL.equals(request.getLoginMethod())) {
                 String captCha = (String) redisTemplate.opsForValue().get(RedisConstant.EMAIL_CAPTCHA_KEY + request.getUsername());
                 if (!request.getPassword().equals(captCha)) {

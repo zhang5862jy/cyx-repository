@@ -51,4 +51,14 @@ public class RedisConstant {
      * 通配符
      */
     public final static String WILDCARD_CHARACTER = "*";
+
+    /**
+     * 公钥
+     */
+    public final static String RSA_PUBLIC_KEY = "cyx:rsa:public:";
+
+    /**
+     * 私钥
+     */
+    public final static String RSA_PRIVATE_KEY = "cyx:rsa:private:";
 }
