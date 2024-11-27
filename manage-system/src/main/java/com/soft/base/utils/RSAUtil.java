@@ -66,7 +66,7 @@ public class RSAUtil {
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKey));
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         // 使用私钥解密
-        Cipher cipher = Cipher.getInstance("RSA");
+        Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
         cipher.init(Cipher.DECRYPT_MODE, keyFactory.generatePrivate(keySpec));
         byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedData));
 

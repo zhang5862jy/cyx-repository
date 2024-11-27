@@ -1,6 +1,7 @@
 package com.soft.base.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.soft.base.constants.RedisConstant;
 import com.soft.base.dto.UserDto;
 import com.soft.base.entity.SysUser;
 import com.soft.base.mapper.SysUsersMapper;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 */
 @Service
 @Slf4j
-@CacheConfig(cacheNames = "users")
+@CacheConfig(cacheNames = "cyx::users")
 public class UsersDetailServiceImpl implements UserDetailsService{
 
     private final SysUsersMapper sysUsersMapper;

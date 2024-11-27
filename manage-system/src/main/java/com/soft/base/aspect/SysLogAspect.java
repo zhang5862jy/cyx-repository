@@ -75,7 +75,7 @@ public class SysLogAspect {
                 logDto.setType(sysLog.type().getCode());
                 //joinPoint.getSignature().toShortString()
                 logDto.setRequestMethod(servletRequest.getMethod());
-                logDto.setRequestUrl(servletRequest.getRequestURL().toString());
+                logDto.setRequestUrl(servletRequest.getRequestURI());
                 logDto.setIpAddress(servletRequest.getRemoteAddr());
 
                 logDto.setRequestParams(JSON.toJSONString(exclude(joinPoint)));

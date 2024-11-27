@@ -35,7 +35,7 @@ public class RedisConstant {
     /**
      * 用户信息
      */
-    public final static String USER_INFO = "users:";
+    public final static String USER_INFO = "cyx::users::";
 
     /**
      * websocket中的用户会话

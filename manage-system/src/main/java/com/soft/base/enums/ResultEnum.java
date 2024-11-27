@@ -10,7 +10,7 @@ public enum ResultEnum {
     AUTHENTICATION_FAIL(5002, "认证过期，请重新登录"),
     PERMISSION_NOT_ENOUGH(5003, "权限不足"),
     BLACKLIST_TOKEN(5004, "认证失败，请重新登录"),
-    NOT_AUTHENTICATION(5005, "未认证，请重新登录")
+    NOT_AUTHENTICATION(5005, "未认证，请重新登录"),
     ;
 
     private final Integer code;
