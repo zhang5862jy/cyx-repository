@@ -20,4 +20,9 @@ public enum WebSocketOrderEnum {
      * 心跳检测
      */
     HEART_BEAT,
+
+    /**
+     * 聊天
+     **/
+    CHAT,
 }

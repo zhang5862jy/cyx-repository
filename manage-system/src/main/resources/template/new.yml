@@ -1,0 +1,132 @@
+server:
+  port: 8022
+  servlet:
+    context-path: /zjy
+  tomcat:
+    connection-timeout: 10000
+
+spring:
+  mvc:
+    async:
+      request-timeout: 15000
+  application:
+    name: zjy
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 100MB
+      file-size-threshold: 2MB
+      location: E:/tmp
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/gis_db?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 20000
+      max-lifetime: 180000
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 123456
+      database: 0
+      connect-timeout: 2000
+  mail:
+    host: smtp.qq.com
+    port: 587
+    #发送方邮箱
+    username: 3332951238@qq.com
+    #授权码
+    password: qzcpfpbdkpmqcheh
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    default-encoding: UTF-8
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: admin
+    password: 123456
+    virtual-host: tosthost
+
+#mybatis配置
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      logic-delete-field: delFlag
+  type-aliases-package: com.soft.base.entity, com.soft.base.request, com.soft.base.vo, com.soft.base.dto
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/develop.log
+
+knife4j:
+  production: false
+  enable: true
+  setting:
+    language: zh_cn
+    swagger-model-name: 实体列表
+
+
+#jwt，已弃用
+jwt:
+  #密钥
+  secret-key: abcdefghijklmnopq123456789
+  #单位秒；1小时过期
+  expire: 3600000
+
+#AES密钥
+aes:
+  secret-factor: T8MjuJQtXJ0rT8KLZQRnUw==
+
+#minio对象存储
+minio:
+  url: http://127.0.0.1:8023
+  accessKey: admin
+  secretKey: 123456789
+  bucket: zjy
+
+#不鉴权url
+permit:
+  urls:
+    - /auth/**
+    - /doc.html
+    - /message/sendRegistCaptCha
+    - /message/sendLoginCaptcha
+    - /ws/**
+
+#登录验证码
+manage-system:
+  captcha:
+    #主题
+    topic: 管理系统登录验证码
+    #验证码过期时间（秒）
+    expire-time: 300
+
+#临时文件存储路径
+tmp:
+  path: E:/tmp
+
+#是否开启日志记录
+log:
+  enable: true
