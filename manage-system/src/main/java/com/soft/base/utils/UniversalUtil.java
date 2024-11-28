@@ -36,7 +36,7 @@ public class UniversalUtil {
      * @return
      * @param <T>
      */
-    public <T> T toArray(List list, java.lang.Class<T> valueType) throws NotArrayException {
+    public <T> T toArray(List list, Class<T> valueType) throws NotArrayException {
         if (!valueType.isArray()) {
             throw new NotArrayException("valueType必须是数组类型");
         }
