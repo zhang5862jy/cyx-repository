@@ -1,15 +1,12 @@
 package com.soft.base.controller;
 
 import com.soft.base.annotation.SysLog;
-import com.soft.base.constants.RedisConstant;
-import com.soft.base.dto.UserDto;
 import com.soft.base.enums.LogModuleEnum;
 import com.soft.base.enums.SecretKeyEnum;
 import com.soft.base.request.*;
 import com.soft.base.resultapi.R;
 import com.soft.base.service.SecretKeyService;
 import com.soft.base.service.SysUsersService;
-import com.soft.base.utils.AESUtil;
 import com.soft.base.utils.RSAUtil;
 import com.soft.base.utils.SecurityUtil;
 import com.soft.base.vo.AllUserVo;
@@ -23,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
