@@ -36,7 +36,7 @@ public class LogoutAfterSuccessHandler implements LogoutSuccessHandler {
     public LogoutAfterSuccessHandler(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
-    
+
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String authorization = request.getHeader("Authorization").replaceFirst(TokenConstant.TOKEN_PREFIX, BaseConstant.BLANK_CHARACTER);

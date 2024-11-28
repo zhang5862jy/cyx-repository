@@ -2,6 +2,7 @@ package com.soft.base.controller;
 
 import com.soft.base.annotation.SysLog;
 import com.soft.base.constants.RedisConstant;
+import com.soft.base.dto.UserDto;
 import com.soft.base.enums.LogModuleEnum;
 import com.soft.base.enums.SecretKeyEnum;
 import com.soft.base.request.*;
@@ -13,10 +14,14 @@ import com.soft.base.utils.RSAUtil;
 import com.soft.base.utils.SecurityUtil;
 import com.soft.base.vo.AllUserVo;
 import com.soft.base.vo.PageVo;
+import com.soft.base.vo.UserInfoVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -155,6 +160,24 @@ public class SysUserController {
         try {
             sysUsersService.editUser(request);
             return R.ok();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return R.fail();
+        }
+    }
+
+    @SysLog(value = "获取用户信息", module = LogModuleEnum.USER)
+    @GetMapping(value = "/getUserInfo")
+    @Operation(summary = "获取用户信息")
+    @Parameter(name = "username", description = "用户名", required = true, in = ParameterIn.PATH)
+    public R<UserInfoVo> getUserInfo(@RequestParam(value = "username", required = false) String username) {
+        if (StringUtils.isBlank(username)) {
+            return R.fail("用户名不能为空");
+        }
+        try {
+            UserInfoVo userInfoVo = new UserInfoVo();
+            BeanUtils.copyProperties(securityUtil.getUserInfo(), userInfoVo);
+            return R.ok(userInfoVo);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return R.fail();
