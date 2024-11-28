@@ -61,4 +61,9 @@ public class RedisConstant {
      * 私钥
      */
     public final static String RSA_PRIVATE_KEY = "cyx:rsa:private:";
+
+    /**
+     * 限流
+     */
+    public final static String RATE_LIMIT_KEY = "cyx:rate:limit:";
 }
