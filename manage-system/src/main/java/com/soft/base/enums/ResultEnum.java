@@ -11,6 +11,7 @@ public enum ResultEnum {
     PERMISSION_NOT_ENOUGH(5003, "权限不足"),
     BLACKLIST_TOKEN(5004, "认证失败，请重新登录"),
     NOT_AUTHENTICATION(5005, "未认证，请重新登录"),
+    RATE_LIMIT(5006, "已限流，请稍后访问"),
     ;
 
     private final Integer code;

@@ -1,4 +1,4 @@
-package com.soft.base.websocket.schedule;
+package com.soft.base.schedule;
 
 import com.soft.base.constants.RedisConstant;
 import com.soft.base.websocket.WebSocketSessionManager;

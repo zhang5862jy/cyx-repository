@@ -1,6 +1,5 @@
 package com.soft.base.conf;
 
-import com.soft.base.utils.JwtUtil;
 import com.soft.base.websocket.WebSocketInterceptor;
 import com.soft.base.websocket.handle.CustomWebSocketHandlerDecorator;
 import com.soft.base.websocket.handle.WebSocketHandler;
